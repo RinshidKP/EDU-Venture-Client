@@ -1,0 +1,10 @@
+/* Footer.css */
+.footer_background {
+    height: 200px;
+    background: url('../../assets/building-silhouette-png-20.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    background-color: #5c7062;
+  }
+  
