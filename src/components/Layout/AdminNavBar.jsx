@@ -15,11 +15,14 @@ function AdminNavBar() {
   return (
     <nav className="z-10  bg-gradient-to-bl from-gray-400 to-slate-600 cursor-pointer sticky top-0 shadow dark:bg-gray-800">
       <div className="container flex flex-wrap items-center justify-evenly p-6 mx-auto text-gray-600 capitalize dark:text-gray-300">
+        <a onClick={() => navigate('/')} className={`w-full sm:w-auto ${pathname === '/' ? highlight : normal}`}>
+          Home
+        </a>
         <a onClick={() => navigate('/dashboard')} className={`w-full sm:w-auto ${pathname === '/dashboard' ? highlight : normal}`}>
           Dashboard
         </a>
-        <a onClick={() => navigate('/')} className={`w-full sm:w-auto ${pathname === '/' ? highlight : normal}`}>
-          Home
+        <a onClick={() => navigate('/dashboard_consultencies')} className={`w-full sm:w-auto ${pathname === '/dashboard_consultencies' ? highlight : normal}`}>
+          Consultencies
         </a>
         <a onClick={() => navigate('/dashboard_courses')} className={`w-full sm:w-auto ${pathname === '/dashboard_courses' ? highlight : normal}`}>
           Courses

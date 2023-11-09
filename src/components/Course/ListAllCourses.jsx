@@ -50,7 +50,7 @@ const ListAllCourses = () => {
         <div>
             <div className="w-full flex flex-wrap justify-center mb-10">
                 {courses.map((course) => (
-                    <div key={course._id} className="m-5 w-full max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+                    <div key={course._id} className="m-5 sm:w-1/2 md:w-1/3 lg:w-1/4 p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
                         <a>
                             <h5 className={`mb-2 text-2xl ${!course.is_active ? 'text-red-600' : 'text-gray-900'} font-bold tracking-tight dark:text-white`}>
                                 {course.header}
@@ -91,7 +91,7 @@ const ListAllCourses = () => {
             </div>
 
             {/* Pagination controls */}
-            <div className="flex justify-center my-10">
+            <div className="flex justify-center my-15">
                 <ul className="flex list-none">
                     {Array.from(
                         { length: Math.ceil(totalCoursesCount / coursesPerPage) },

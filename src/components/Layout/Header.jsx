@@ -14,8 +14,6 @@ const pathname = location.pathname;
 const highlited = 'text-green-300 dark:text-geen-200 border-b-2 border-blue-500 mx-1.5 sm:mx-6';
 const normal = 'border-b-2 border-transparent hover:text-green-300 dark:hover-text-gray-200 hover-border-blue-500 mx-1.5 sm:mx-6';
 
-
-
 return (
 <nav style={{backgroundColor:'#5c7062'}} className=" cursor-pointer sticky top-0 shadow dark:bg-gray-800">
   <div className="container mx-auto">
