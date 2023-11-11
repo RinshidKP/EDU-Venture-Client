@@ -8,7 +8,7 @@ console.log(Token,Role);
 return Token && (Role =='student'||Role =='admin') ? (
     children
     ) : (
-        <Navigate to="/" state={{ from: location.pathname }} replace />
+        <Navigate to="/" state={{ from: location.pathname }} replace:true />
 )
 }
 

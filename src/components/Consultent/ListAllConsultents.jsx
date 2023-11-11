@@ -31,6 +31,7 @@ const ListAllConsultents = () => {
                 },
             })
             .then((response) => {
+                console.log(response);
                 setConsultencies(response.data.consultants);
                 setTotalConsultenciesCount(response.data.totalConsultantsCount);
             })

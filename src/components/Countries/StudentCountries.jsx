@@ -58,7 +58,7 @@ const StudentCountries = () => {
     };
 
     return (
-        <div>
+        <div className=' w-full font-sans '>
             {countries.map((country, index) => (
                 <div
                 key={index}
@@ -68,7 +68,7 @@ const StudentCountries = () => {
                 <CountryCourses key={index} onClose={()=>handleCloseCountry(index)} countryID={country._id} />
             ) : (                 <div
                 key={index}
-                className='p-6 shadow-lg md:w-auto md:m-5 bg-white rounded-lg border border-gray-400 flex flex-col md:flex-row items-center'
+                className='p-6 mt-10 w-full md:m-5 bg-white rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-center mx-auto'
                 >
                     <div className="mr-4 bg-gray-400 max-w-20 h-20 w-20 rounded-full overflow-hidden">
                         <img
@@ -89,7 +89,7 @@ const StudentCountries = () => {
                         
                             <button
                                 onClick={() => handleViewCountry(index)}
-                                className='bg-green-500 text-white py-2 px-4 rounded-full'
+                                className='bg-green-500 text-white py-2 px-4 rounded-full transform hover:scale-110 transition-transform duration-300'
                             >
                                 View
                             </button>
@@ -100,7 +100,8 @@ const StudentCountries = () => {
                 ))}
 
             {/* Pagination controls */}
-            <div className='flex justify-center my-10'>
+            <div className='flex justify-center '>
+                <div className='mb-10 flex justify-center bg-pink-50 '>
                 <ul className='flex list-none'>
                     {Array.from(
                         { length: Math.ceil(totalCountries / countriesPerPage) },
@@ -110,7 +111,7 @@ const StudentCountries = () => {
                                     onClick={() => handlePageChange(i + 1)}
                                     className={`px-4 py-2 ml-2 border ${
                                         currentPage === i + 1
-                                            ? 'bg-blue-700 text-white'
+                                            ? 'bg-sky-950 text-white'
                                             : 'bg-white text-blue-700'
                                     }`}
                                 >
@@ -124,7 +125,7 @@ const StudentCountries = () => {
                     onClick={handlePrevClick}
                     disabled={currentPage === 1}
                     className={`px-4 py-2 ml-2 border ${
-                        currentPage === 1 ? 'bg-gray-400 text-white' : 'bg-blue-700 text-white'
+                        currentPage === 1 ? 'bg-gray-400 text-white' : 'bg-sky-950 text-white'
                     }`}
                 >
                     Previous
@@ -135,11 +136,12 @@ const StudentCountries = () => {
                     className={`px-4 py-2 ml-2 border ${
                         currentPage >= Math.ceil(totalCountries / countriesPerPage)
                             ? 'bg-gray-400 text-white'
-                            : 'bg-blue-700 text-white'
+                            : 'bg-sky-950 text-white'
                     }`}
                 >
                     Next
                 </button>
+                </div>
             </div>
         </div>
     );

@@ -4,6 +4,7 @@ import Footer from '../../components/Layout/Footer'
 import HomeCourses from '../../components/Home/HomeCourses'
 import Consultencies from '../../components/Home/Consultencies'
 import CountriesList from '../../components/Countries/CountriesList'
+import board from '../../assets/studentsOnBoard.jpeg'
 
 const StudentHomePage = () => {
   return (
@@ -11,11 +12,12 @@ const StudentHomePage = () => {
     
       <Header />
    
-      <div className="mb-4 border border-gray-300">
-        <div className="p-24 bg-white text-start">
-          <h1 className=" text-5xl  font-roboto">Study abroad - your adventure starts here</h1>
-          <h1 className=" text-2xl  font-roboto">Popular study abroad Partners</h1>
-        </div>
+      <div className="mb-4 bordern w-full border-gray-300">
+      <div className="p-24 bg-white relative h-full" style={{ backgroundImage: `url(${board})`, backgroundSize: 'cover', backgroundPosition: 'center',height: '70vh' }}>
+        <h1 className="text-5xl font-roboto">Study abroad - your adventure starts here</h1>
+        <h1 className="text-2xl font-roboto">Popular study abroad Partners</h1>
+      </div>
+
 
         <Consultencies />
       </div>

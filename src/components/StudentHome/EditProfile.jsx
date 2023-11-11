@@ -115,13 +115,37 @@ return (
           />
         </div>
       </div>
-      <button
-        type="button"
-        onClick={() => document.getElementById('profileImage').click()}
-        className="mt-2 bg-blue-200 text-white py-2 px-4 rounded-full"
-      >
-        Change Image
-      </button>
+      
+      <div className='flex justify-center my-5'>
+          <div className=" relative border mb-4 w-2/6 rounded-md p-2 bg-gray-100">
+          <input
+            type="file"
+            id="course_image"
+            name="course_image"
+            accept="image/*"
+            onChange={() => document.getElementById('profileImage').click()}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          />
+          <div className="flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-6 h-6 text-gray-600"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            <span className="ml-2 text-gray-600">Choose an image</span>
+          </div>
+        </div>
+      </div>
+      
           </label>
         </div>
         <div>
