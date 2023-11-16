@@ -6,6 +6,7 @@ export const UserAuth = createSlice ({
         Token : null ,
         Role : null ,
         DisplayName : null ,
+        DisplayImage:null ,
         Email :null,
         Id:null
     },
@@ -14,13 +15,15 @@ export const UserAuth = createSlice ({
             state.Token = action.payload.token ,
             state.Role = action.payload.role ,
             state.DisplayName = action.payload.username ,
+            state.DisplayImage = action.payload.image ,
             state.Email = action.payload.email ,
             state.Id = action.payload.id 
         },
-        userLogout ( state, action){
+        userLogout ( state){
             state.Token = null ,
             state.Role = null ,
             state.DisplayName = null ,
+            state.DisplayImage = null ,
             state.Id = null 
         },
     }

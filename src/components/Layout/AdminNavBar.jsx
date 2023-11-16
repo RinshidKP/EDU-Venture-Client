@@ -21,12 +21,15 @@ function AdminNavBar() {
         <a onClick={() => navigate('/dashboard')} className={`w-full sm:w-auto ${pathname === '/dashboard' ? highlight : normal}`}>
           Dashboard
         </a>
+        <a onClick={() => navigate('/dashboard_students')} className={`w-full sm:w-auto ${pathname === '/dashboard_students' ? highlight : normal}`}>
+          Students
+        </a>
         <a onClick={() => navigate('/dashboard_consultencies')} className={`w-full sm:w-auto ${pathname === '/dashboard_consultencies' ? highlight : normal}`}>
           Consultencies
         </a>
-        <a onClick={() => navigate('/dashboard_courses')} className={`w-full sm:w-auto ${pathname === '/dashboard_courses' ? highlight : normal}`}>
+        {/* <a onClick={() => navigate('/dashboard_courses')} className={`w-full sm:w-auto ${pathname === '/dashboard_courses' ? highlight : normal}`}>
           Courses
-        </a>
+        </a> */}
         <a onClick={() => navigate('/dashboard_countries')} className={`w-full sm:w-auto ${pathname === '/dashboard_countries' ? highlight : normal}`}>
             Countries
         </a>

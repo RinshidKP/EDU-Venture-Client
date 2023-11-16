@@ -8,7 +8,7 @@ const ListAllConsultenciesPage = () => {
   return (
     <div>
       <Header/>
-      <ConsultancyCarousel/>
+      {/* <ConsultancyCarousel/> */}
       <ListAllConsultents/>
       <Footer/>
     </div>

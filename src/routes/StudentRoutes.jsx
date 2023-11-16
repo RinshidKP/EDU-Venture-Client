@@ -11,6 +11,9 @@ import ListAllCoursesPage from '../pages/Student/ListAllCoursesPage.jsx';
 import ListAllConsultenciesPage from '../pages/Student/ListAllConsultenciesPage.jsx';
 import StudentChatPage from '../pages/Student/StudentChatPage.jsx';
 import StudentCountriesPage from '../pages/Student/StudentCountriesPage.jsx';
+import CreateBlogPage from '../pages/Student/CreateBlogPage.jsx';
+import EditBlogPage from '../pages/Student/EditBlogPage.jsx';
+import ListAllBlogs from '../pages/Student/ListAllBlogs.jsx';
 
 const StudentRoutes = () => {
   return (
@@ -36,6 +39,14 @@ const StudentRoutes = () => {
           <ConfirmNewPasswordPage />
         </ProtectedStudentRoutes>
         } />
+        <Route path="/new_blog" element={<ProtectedStudentRoutes>
+          <CreateBlogPage />
+        </ProtectedStudentRoutes>
+        } />
+        <Route path="/edit_blog" element={<ProtectedStudentRoutes>
+          <EditBlogPage />
+        </ProtectedStudentRoutes>
+        } />
         
         <Route path="/student_courses" element={
           <ListAllCoursesPage />
@@ -46,10 +57,15 @@ const StudentRoutes = () => {
         } />
 
         <Route path="/student_chat" element={
-          <StudentChatPage />
+          <ProtectedStudentRoutes>
+            <StudentChatPage />
+          </ProtectedStudentRoutes>
         } />
         <Route path="/student_countries" element={
           <StudentCountriesPage />
+        } />
+        <Route path="/blogs" element={
+          <ListAllBlogs />
         } />
 
       </Routes>

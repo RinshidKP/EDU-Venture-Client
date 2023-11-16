@@ -1,23 +1,60 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaSignInAlt, FaBars, FaTimes } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../../Redux/Client';
+import { io } from 'socket.io-client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { studentAPI } from '../../apiRoutes/studentAPI';
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { Token, Role } = useSelector((state) => state.User);
+  const { Token, Role, Id } = useSelector((state) => state.User);
   const location = useLocation();
   const navigate = useNavigate();
   const [showOptions, setShowOptions] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = location.pathname;
-
+  const [count, setCount] = useState(false);
+  const [unread, setUnread] = useState(false);
   const highlited =
     'text-cyan-300 select-none dark:text-green-200 border-b-2 border-blue-500 mx-1.5 sm:mx-6';
   const normal =
     'border-b-2 select-none border-transparent text-gray-200 hover:text-cyan-300 dark:hover-text-gray-200 hover-border-blue-500 mx-1.5 sm:mx-6';
 
+  const socket = io('http://localhost:3000', {
+    transports: ['websocket'],
+    query: { userId: Id },
+  });
+
+  socket.on('message', (message) => {
+    console.log('Received message:', message);
+    setUnread(unread + 1);
+    setCount(true);
+  });
+
+  useEffect(() => {
+    if (Role === 'student' || Role === 'admin') {
+      studentAPI.get('/unread_messages', {
+        params: {
+          id: Id,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': Token,
+          'userRole': Role
+        }
+      }).then((response) => {
+        console.log(response.data);
+        if (response.status === 200) {
+          setUnread(response.data.unread)
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+    } 
+  }, [Id, Role, Token])
   return (
     <nav
       // style={{ backgroundColor: '#5c7062' }}
@@ -55,6 +92,15 @@ const Header = () => {
             <a onClick={() => navigate('/blogs')} className={pathname === '/blogs' ? highlited : normal}>
               Blogs
             </a>
+            <a onClick={() => navigate('/student_chat')} className={pathname === '/student_chat' ? highlited : normal}>
+
+              <FontAwesomeIcon icon={faComment} /> {unread && Role !== 'consultent' && (
+                <span className='bg-red-600 text-sm border border-white rounded-full'>
+                  {unread}
+                </span>
+              )}
+
+            </a>
           </div>
           {/* FaSignInAlt icon for mobile view */}
           <div className="flex items-center sm:hidden">
@@ -83,11 +129,15 @@ const Header = () => {
             <a onClick={() => navigate('/blogs')} className={pathname === '/blogs' ? highlited : normal}>
               Blogs
             </a>
+            {Role === 'consultent'?'':(<a onClick={() => navigate('/student_chat')} className={pathname === '/student_chat' ? highlited : normal}>
+
+              <FontAwesomeIcon icon={faComment} /> {unread ? <span className='bg-red-600 text-sm border border-white rounded-full'>{unread}</span> : ''}
+            </a>)}
             {/* FaSignInAlt icon for desktop view */}
             <div size={10} className="w-10 ml-2 select-none">
               <FaSignInAlt
                 size={20}
-                className={pathname === '/blogs' ? highlited : normal}
+                className={normal}
                 onClick={() => setShowOptions(!showOptions)}
               />
             </div>

@@ -10,10 +10,10 @@ const StudentCountriesPage = () => {
       <nav className='w-full flex justify-center items-center relative z-0 shadow'>
         <div className={`w-full h-1/6 `} >
         <div
-            className="bg-cover bg-no-repeat z-0 opacity-80"
+            className="bg-cover bg-no-repeat z-0 opacity-95"
             style={{ backgroundImage: `url(${flags})`,height: '50vh'}}
           >
-            <div className="absolute inset-0 flex justify-center items-center">
+            <div className="absolute inset-0 flex justify-center items-center bg-transparent">
             <h1
               // style={{ textShadow: '4px 1px 2px rgba(0, 0, 0, 0.4)' }}
               className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-wide 

@@ -5,6 +5,7 @@ import { studentAPI } from '../../apiRoutes/studentAPI';
 import { baseImageUrl } from '../../config/apiURL';
 import defaultImage from '../../assets/dummy-profile.jpg';
 import Applications from './Applications';
+import Blogs from '../Blogs/Blogs';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Profile = () => {
   const [imgUrl, setImgUrl] = useState('');
   const { Email, Token, Role } = useSelector((state) => state.User);
   const [application,setApplication] = useState(false);
-  const [review,setReview] = useState(false);
+  const [blog,setBlog] = useState(false);
   useEffect(() => {
     studentAPI.get('/profile', {
       // params: { email: Email },
@@ -35,8 +36,9 @@ const Profile = () => {
     setApplication(!application);
   }
 
-  const handleReviewClick = () => {
-    setReview(true);
+  const handleBlogClick = () => {
+    setBlog(!blog);
+    // console.log(blog);
   }
 
   return (
@@ -109,16 +111,18 @@ const Profile = () => {
             </h3>
           </div>
           {application&&( <Applications/> )}
-          <div className='my-5 flex flex-col sm:flex-row items-center justify-center'>
+          <div onClick={handleBlogClick} className='my-5 select-none flex flex-col sm:flex-row items-center justify-center cursor-pointer'>
+            <h3  className="border text-2xl text-center border-green-800 w-full sm:w-3/4 py-3 bg-white-100">
+              Blogs
+            </h3>
+          </div>
+          {blog&&( <Blogs courses={userData.courses} /> )}
+          <div className='my-5 flex flex-col sm:flex-row items-center justify-center select-none'>
             <h3 className="border text-2xl text-center border-green-800 w-full sm:w-3/4 py-3 bg-white-100">
               Rewards
             </h3>
           </div>
-          <div className='my-5 flex flex-col sm:flex-row items-center justify-center'>
-            <h3 onClick={handleReviewClick} className="border text-2xl text-center border-green-800 w-full sm:w-3/4 py-3 bg-white-100">
-              Reviews
-            </h3>
-          </div>
+
         </div>
       </div>
     </div>

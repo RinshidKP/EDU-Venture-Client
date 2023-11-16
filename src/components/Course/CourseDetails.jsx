@@ -10,17 +10,23 @@ import Swal from 'sweetalert2';
 
 const CourseDetails = () => {
   const [course, setCourse] = useState(null);
-  const { Token, Role } = useSelector((state) => state.User);
+  const { Token, Role, Id } = useSelector((state) => state.User);
   const location = useLocation();
-  // useEffect(() => {
-  //   const queryParams = queryString.parse(location.search);
-  //   setCourse(queryParams);
-  // }, [location.search]);
+  const [applied,setApplied] = useState(false);
+  const [country,setCountry] = useState(null)
 
   useEffect(() => {
-    console.log(location.state.course);
-    if (location.state.course) {
-      setCourse(location.state.course);
+    console.log(location.state.status);
+    
+    if (location.state?.course) {
+      setCourse(location.state?.course);
+      if (location.state?.status === 'Accepted'||location.state?.status === 'Pending') {
+        setApplied(true);
+      }      
+      setCountry(location.state?.course.countryInfo||location.state?.course.country)
+      const countryToSet = location.state?.course.countryInfo || location.state?.course.country;
+      setCountry(countryToSet);
+
     } else {
       console.log('the state doesnt have value mister ');
       // studentAPI.get('/country_details',{
@@ -36,6 +42,24 @@ const CourseDetails = () => {
     }
   }, [location]);
 
+  useEffect(()=>{
+      studentAPI.get('/student_application',{
+        params: {
+          courseID : location.state.course._id,
+          studentID : Id,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': Token,
+          'userRole': Role
+        }
+      }).then((response)=>{
+          // console.log(response.data);
+          setApplied(response.data.applied)
+        }).catch((error)=>{
+        console.log(error.response.data);
+      })
+  },[location,Id,Token,Role])
   const handleApply = () => {
     console.log(course._id);
 
@@ -57,8 +81,11 @@ const CourseDetails = () => {
             },
           })
           .then((response) => {
-            console.log(response.data.message);
+            console.log(response);
             showToast(response.data.message);
+            if(response.status===200){
+              setApplied(true);
+            }
           });
       }
     });
@@ -92,7 +119,6 @@ const CourseDetails = () => {
                       alt="Course Image"
                     />
 
-
                   </div>
                 </div>
 
@@ -115,9 +141,9 @@ const CourseDetails = () => {
                         <div className="text-center md:text-left">
                           <p className="text-lg text-gray-600">Country</p>
                           <p className="text-2xl text-green-600 flex justify-between items-center capitalize font-semibold">
-                            {course.countryInfo?.name}
+                            {country.name}
                           </p>
-                          <img className='object-cover object-center mx-3 w-5 h-5 rounded-full' src={baseImageUrl + course.countryInfo?.image} alt="" />
+                          <img className='object-cover object-center mx-3 w-5 h-5 rounded-full' src={baseImageUrl + country?.image} alt="" />
                         </div>
                       </div>
 
@@ -131,8 +157,8 @@ const CourseDetails = () => {
 
                       {/* Apply Button */}
                       <div className='flex items-start justify-start mt-6'>
-                        <button onClick={handleApply} className='mx-start py-2 px-10 font-semibold rounded bg-emerald-500 text-white'>
-                          Apply
+                        <button onClick={handleApply} disabled={applied !== false}  className='mx-start py-2 px-10 font-semibold rounded bg-emerald-500 text-white'>
+                          {applied ? 'Applied' : 'Apply'}
                         </button>
                       </div>
                     </div>

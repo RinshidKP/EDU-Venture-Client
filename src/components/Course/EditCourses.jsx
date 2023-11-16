@@ -53,6 +53,8 @@ const EditCourses = () => {
         setOpen(!open)
         setOpened(!opened)
       }
+    }).catch((error)=>{
+      showErrorToast(error.response.data.message)
     })
   }
 
@@ -151,7 +153,7 @@ const EditCourses = () => {
                   </div>
                   <div className="w-full md:w-1/2 pl-2">
                     <label htmlFor="short_blob" className="block text-sm font-medium text-gray-600">
-                      Short Blob
+                      Short Description
                     </label>
                     <textarea
                       id="short_blob"
@@ -164,7 +166,7 @@ const EditCourses = () => {
                   </div>
                   <div className="w-full md:w-1/2 pr-2">
                     <label htmlFor="students_qualification_header" className="block text-sm font-medium text-gray-600">
-                      Students Qualification Header
+                     Qualification
                     </label>
                     <input
                       type="text"
@@ -191,7 +193,7 @@ const EditCourses = () => {
                   </div>
                   <div className="w-full md:w-1/2 pr-2">
                     <label htmlFor="requirements_header" className="block text-sm font-medium text-gray-600">
-                      Requirements Header
+                      Requirements
                     </label>
                     <input
                       type="text"
@@ -205,7 +207,7 @@ const EditCourses = () => {
                   </div>
                   <div className="w-full md:w-1/2 pr-2">
                     <label htmlFor="requirements_blob" className="block text-sm font-medium text-gray-600">
-                      Requirements Blob
+                      Requirements Description
                     </label>
                     <textarea
                       id="requirements_blob"

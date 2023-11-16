@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { studentAPI } from "../../apiRoutes/studentAPI";
 import { useNavigate } from "react-router-dom";
 import { baseImageUrl } from "../../config/apiURL";
-import queryString from "query-string";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookReader } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,7 +15,6 @@ const ListAllCourses = () => {
     useEffect(() => {
         studentAPI
             .get('/view_courses', {
-
                 params: {
                     page: currentPage,
                     limit: coursesPerPage,

@@ -3,12 +3,13 @@ import { adminApi } from '../../apiRoutes/studentAPI'
 import { useSelector } from 'react-redux'
 import { ToastContainer, showErrorToast } from '../../helpers/toaster'
 import { baseImageUrl } from '../../config/apiURL'
-
+import defaultImage from '../../assets/dummy-profile.jpg'
 const Consultencencies = () => {
     const [consultents, setConsultents] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [consultenciesPerPage, setConsultenciesPerPage] = useState(9);
     const [totalConsultenciesCount, setTotalConsultenciesCount] = useState(0);
+    const [search,setSearch] = useState('')
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -26,6 +27,7 @@ const Consultencencies = () => {
             params: {
                 page: currentPage,
                 limit: consultenciesPerPage,
+                search: search,
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -40,12 +42,14 @@ const Consultencencies = () => {
                 console.log(error)
                 showErrorToast(error.message)
             })
-    }, [currentPage, consultenciesPerPage, Token, Role]);
+    }, [currentPage, consultenciesPerPage, Token, Role,search]);
+
     const handleNextClick = () => {
         if (currentPage < Math.ceil(totalConsultenciesCount / consultenciesPerPage)) {
             setCurrentPage(currentPage + 1);
         }
     };
+    
     const handleDisableClick = (id,index) => {
         adminApi.post('/consultant_access',{ id: id },{
             headers: {
@@ -61,6 +65,13 @@ const Consultencencies = () => {
             console.log(error);
         })
     }
+
+    const handleSearch = (e) => {
+        console.log(e.target.value);
+        if(e.target.value.length<320){
+            setSearch(e.target.value)
+        }
+    }
     return (
         <div >
             <div className="flex flex-col m-5">
@@ -75,7 +86,8 @@ const Consultencencies = () => {
                                         name="hs-table-search"
                                         id="hs-table-search"
                                         className="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                                        placeholder="Search for items"
+                                        placeholder="Search for users"
+                                        onChange={handleSearch}
                                     />
                                     <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
                                         <svg
@@ -114,7 +126,7 @@ const Consultencencies = () => {
                                             <tr className='' key={index}>
                                                 <td className="py-3 ">
                                                     <div className="flex justify-center items-center h-5">
-                                                        <img src={baseImageUrl + consultent?.profile_image} className="border-gray-200 h-10 w-10 rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
+                                                        <img src={consultent?.profile_image ?(baseImageUrl + consultent?.profile_image) : defaultImage} className="border-gray-200 h-10 w-10 rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
                                                         <label htmlFor="hs-table-search-checkbox-1" className="sr-only">Checkbox</label>
                                                     </div>
                                                 </td>

@@ -4,6 +4,7 @@ import ProtectedAdminRoutes from "../helpers/protectedAdminRoutes"
 import AdminCoursePage from "../pages/Admin/AdminCoursePage"
 import AdminCountries from "../pages/Admin/AdminCountries"
 import AdminConsultencencies from "../pages/Admin/AdminConsultencencies"
+import AdminStudentsPage from "../pages/Admin/AdminStudentsPage"
 const AdminRoutes = () => {
   return (
     <div className='bg-gradient-to-bl from-gray-400 to-slate-600'>
@@ -26,6 +27,11 @@ const AdminRoutes = () => {
         <Route path="/dashboard_consultencies" element={
           <ProtectedAdminRoutes>
             <AdminConsultencencies/>  
+          </ProtectedAdminRoutes>
+        }/>
+        <Route path="/dashboard_students" element={
+          <ProtectedAdminRoutes>
+            <AdminStudentsPage/>  
           </ProtectedAdminRoutes>
         }/>
       </Routes>

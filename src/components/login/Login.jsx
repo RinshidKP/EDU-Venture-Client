@@ -34,6 +34,7 @@ const Login = () => {
               token: response.data.token,
               role: response.data.role,
               username: response.data.user.full_name,
+              image: response.data.user.profile_picture,
               email: response.data.user.email ,
               id:  response.data.user._id,
             })
@@ -68,6 +69,7 @@ const Login = () => {
             token: response.data.token,
             role: response.data.role,
             username: response.data.user.consultancy_name,
+            image: response.data.user.profile_image,
             email: response.data.user.email,
             id:  response.data.user._id,
           })
