@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { baseImageUrl } from '../../config/apiURL';
 import { adminApi } from '../../apiRoutes/studentAPI';
 import { FaEdit, FaTrashAlt, FaUnlock } from 'react-icons/fa';
 
@@ -142,7 +141,7 @@ const Dashboard = () => {
                     <td className="border px-4 py-2">
                       <div className="flex items-center">
                         <img
-                          src={user.image ? baseImageUrl + user.profile_picture : 'defaultImage'}
+                          src={user.image ? user.profile_picture.url : 'defaultImage'}
                           className="rounded-full h-8 w-8 object-cover mr-2"
                           alt=""
                           loading="lazy"

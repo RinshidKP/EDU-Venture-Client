@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { consultentApi } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
-import { baseImageUrl } from '../../config/apiURL';
 import { useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 
@@ -41,7 +40,7 @@ const CourseList = () => {
               {course.header}
             </h5>
           </a>
-          <img src={baseImageUrl + course.course_image} alt="" />
+          <img src={course.course_image.url} alt="" />
           <p className=" font-normal text-gray-700 dark:text-gray-400">
             {course.short_blob}
           </p>

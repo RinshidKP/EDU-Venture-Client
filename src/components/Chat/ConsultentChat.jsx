@@ -8,7 +8,6 @@ import Message from './Message';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import ContactList from './ContactList';
-import { baseImageUrl } from '../../config/apiURL';
 
 
 function ConsultentChat() {
@@ -123,7 +122,7 @@ function ConsultentChat() {
               {/* Header */}
               <div className="py-2 px-3 bg-sky-300 flex flex-row justify-between items-center">
                 <div className='flex justify-between items-center '>
-                  <img className="w-10 h-10 rounded-full" src={baseImageUrl+DisplayImage} alt="Avatar" />
+                  <img className="w-10 h-10 rounded-full" src={DisplayImage.url} alt="Avatar" />
                   <h3 className='mx-3 text-center'>{DisplayName}</h3>
                 </div>
                 <div className="flex">

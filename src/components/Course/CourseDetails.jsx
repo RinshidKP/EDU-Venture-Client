@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-import { baseImageUrl } from '../../config/apiURL';
 import defaultImage from '../../assets/download.png';
 import { useLocation } from 'react-router-dom';
-import queryString from 'query-string';
 import { studentAPI } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import { showToast, ToastContainer } from '../../helpers/toaster';
@@ -115,7 +113,7 @@ const CourseDetails = () => {
                     <h1 className="text-3xl font-semibold text-gray-800 mb-4">{course.header}</h1>
                     <img
                       className="rounded-lg shadow-lg mx-auto w-full md:w-64 h-64 md:h-80 lg:w-96 lg:h-96 border-4 border-gray-300"
-                      src={course.course_image ? baseImageUrl + course.course_image : defaultImage}
+                      src={course.course_image ? course.course_image.url : defaultImage}
                       alt="Course Image"
                     />
 
@@ -143,7 +141,7 @@ const CourseDetails = () => {
                           <p className="text-2xl text-green-600 flex justify-between items-center capitalize font-semibold">
                             {country.name}
                           </p>
-                          <img className='object-cover object-center mx-3 w-5 h-5 rounded-full' src={baseImageUrl + country?.image} alt="" />
+                          <img className='object-cover object-center mx-3 w-5 h-5 rounded-full' src={ country?.image.url} alt="" />
                         </div>
                       </div>
 

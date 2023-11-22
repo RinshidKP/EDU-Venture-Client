@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { baseImageUrl } from '../../config/apiURL';
 import { useLocation, useNavigate } from 'react-router-dom';
 import defaultImage from '../../assets/download.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -162,7 +161,7 @@ const StudentProfile = () => {
                             <div className=' col-1'>
                                 <div className="flex justify-center">
                                     <img
-                                        src={userData.profile_picture ? baseImageUrl + userData.profile_picture : defaultImage}
+                                        src={userData.profile_picture ? userData.profile_picture.url : defaultImage}
                                         alt="User Profile"
                                         className="avatar rounded-full h-60 w-60 border-4 border-white"
                                     />

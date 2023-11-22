@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { baseImageUrl } from '../../config/apiURL';
 
 const Profile = () => {
 
@@ -25,7 +24,7 @@ const Profile = () => {
         })
         .then((response) => {
           setUser(response.data.user);
-          setImgUrl(response.data.user.profile_image);
+          setImgUrl(response.data.user.profile_image.url);
         })
         .catch((error) => {
           console.error("Error loading user profile:", error);
@@ -38,7 +37,7 @@ return (
     <div className='w-1/2 flex justify-center'>
 
     <div className='h-auto w-2/4 flex items-center justify-center my-auto'>
-      <img className='rounded-lg shadow-lg' src={imgUrl ? baseImageUrl+imgUrl: defaultImage} alt='User Profile' />
+      <img className='rounded-lg shadow-lg' src={imgUrl ? imgUrl: defaultImage} alt='User Profile' />
     </div>
     </div>
     <div className='h-full w-1/2  flex flex-col'>

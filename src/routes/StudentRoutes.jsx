@@ -14,6 +14,8 @@ import StudentCountriesPage from '../pages/Student/StudentCountriesPage.jsx';
 import CreateBlogPage from '../pages/Student/CreateBlogPage.jsx';
 import EditBlogPage from '../pages/Student/EditBlogPage.jsx';
 import ListAllBlogs from '../pages/Student/ListAllBlogs.jsx';
+import StudentsApplications from '../pages/Student/StudentsApplications.jsx';
+import StudentsBlogs from '../pages/Student/StudentsBlogs.jsx';
 
 const StudentRoutes = () => {
   return (
@@ -63,6 +65,12 @@ const StudentRoutes = () => {
         } />
         <Route path="/student_countries" element={
           <StudentCountriesPage />
+        } />
+        <Route path="/student_applications" element={
+          <StudentsApplications />
+        } />
+        <Route path="/student_blogs" element={
+          <StudentsBlogs />
         } />
         <Route path="/blogs" element={
           <ListAllBlogs />

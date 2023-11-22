@@ -3,7 +3,6 @@ import AddCountryModal from './AddCountryModal';
 import defaultImage from '../../assets/download.png'
 import { adminApi } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
-import { baseImageUrl } from '../../config/apiURL';
 import { useNavigate } from 'react-router-dom';
 import EditCountries from './EditCountries';
 import { ToastContainer, showToast } from '../../helpers/toaster';
@@ -21,8 +20,15 @@ const Countries = () => {
   const closeModal = () => {
     setOpen(false);
   };
-  const closeEditModal = () => {
+  const closeEditModal = (country) => {
     setEditOpen(false);
+    console.log(country);
+    console.log(countries[0],'existing');
+    setCountries(prevCountries =>
+      prevCountries.map(prev =>
+        prev._id === country._id ? country : prev
+      )
+    );
     setSelectedCountry(null);
   };
 
@@ -79,7 +85,7 @@ const Countries = () => {
       {countries.map((country, index) => (
         <div key={index} className='p-6   md:w-auto md:m-5 bg-white rounded-lg border border-gray-400 flex flex-col md:flex-row items-center'>
           <div className="mr-4 bg-gray-400 max-w-20 h-20 w-20 rounded-full overflow-hidden">
-            <img className="h-full w-full object-cover" src={country.image ? baseImageUrl + country.image : defaultImage} alt='image' />
+            <img className="h-full w-full object-cover" src={country ?  country.image.url : defaultImage} alt='image' />
           </div>
           <div className='flex-1 text-center md:text-left'>
             <h1 className='mb-2 text-3xl font-bold text-gray-900'>Country name: {country.name}</h1>
@@ -87,7 +93,7 @@ const Countries = () => {
           </div>
           <div className='mt-4 md:mt-0'>
             <button onClick={() => handleEditButton(country)} className='bg-blue-500 text-white py-2 px-4 rounded-full mb-2 md:mb-0 md:mr-2'>Edit</button>
-            <button onClick={() => handleDisable(country, index)} className='bg-red-700 text-white py-2 px-4 rounded-full'>
+            <button onClick={() => handleDisable(country, index)} className={` text-white py-2 px-4 rounded-full ${country.isActive === true ? 'bg-red-700' : 'bg-green-700'}`}>
               {country.isActive === true ? 'Disable' : 'Enable'}
             </button>
 

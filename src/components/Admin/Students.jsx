@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { baseImageUrl } from '../../config/apiURL';
 import { adminApi } from '../../apiRoutes/studentAPI';
 import { ToastContainer } from 'react-toastify';
 import defaultImage from '../../assets/dummy-profile.jpg'
@@ -162,7 +161,7 @@ const handleNextClick = () => {
                       {/* Profile Image */}
                       <div className="flex justify-center items-center h-5">
                         <img
-                          src={student?.profile_picture ? (baseImageUrl + student?.profile_picture) : defaultImage}
+                          src={student?.profile_picture ? (student?.profile_picture?.url) : defaultImage}
                           className="border-gray-200 h-10 w-10 rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                         <label htmlFor="hs-table-search-checkbox-1" className="sr-only">

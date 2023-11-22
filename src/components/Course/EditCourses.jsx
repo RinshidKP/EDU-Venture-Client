@@ -1,25 +1,27 @@
 import queryString from 'query-string';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { baseImageUrl } from '../../config/apiURL';
 import { useNavigate,useLocation } from 'react-router-dom';
 import { consultentApi } from '../../apiRoutes/studentAPI';
 import { showErrorToast,ToastContainer } from '../../helpers/toaster';
 import CustomSelect from './CustomSelect';
+import CropperModal from '../StudentHome/CropperModal';
 
 
 const EditCourses = () => {
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState('');
+  const [image, setImage] = useState('');
   const { Token,Role } = useSelector((state) => state.User);
   const [open, setOpen] = useState(false);
+  const [openCropper, setOpenCropper] = useState(false);
   const [opened, setOpened] = useState(false);
   const [newData, setNewData] = useState({})
 
   const location = useLocation();
   useEffect(() => {
     const queryParams = queryString.parse(location.search);
-    console.log(queryParams);
+    // console.log(queryParams);
     setOpened({ ...queryParams, is_active: queryParams.is_active === 'true' });
     setNewData({ ...newData, is_active: queryParams.is_active === 'true' });
     console.log(opened.is_active);
@@ -33,8 +35,20 @@ const EditCourses = () => {
       showErrorToast('Select a Valid Image');
       return;
     }
-    newData.image = file
-    setImagePreview(URL.createObjectURL(file));
+    setOpenCropper(true);
+    setImage(file);
+    // newData.image = file
+    // setImagePreview(URL.createObjectURL(file));
+  }
+
+  const handleCroppedImage = ({ image, imageUrl }) => {
+    setOpenCropper(false);
+    
+    if (image) {
+      setNewData({ ...newData, image: image });
+      setImagePreview(imageUrl);
+    }
+    
   }
 
   const handleSubmit = (e) => {
@@ -95,13 +109,14 @@ const EditCourses = () => {
               Edit Course
               </h2>
             </nav>
+            {openCropper&&<CropperModal image={image} handleCroppedImage={handleCroppedImage}/>}
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex flex-col md:flex md:items-center md:justify-center">
                 <div className="mx-auto mb-4 pr-2 w-1/2 md:w-auto">
                   {imagePreview ? (
                     <img className="rounded-lg shadow-lg max-h-48 md:max-h-96" src={imagePreview} alt="Course" />
                   ) : (
-                    <img className="rounded-lg shadow-lg max-h-48 md:max-h-96" src={baseImageUrl + (opened.course_image || 'defaultImage')} alt="Course" />
+                    <img className="rounded-lg shadow-lg max-h-48 md:max-h-96" src={(opened.course_image.url || 'defaultImage')} alt="Course" />
                   )}
                 </div>
                 <div className="w-1/2  md:w-auto">

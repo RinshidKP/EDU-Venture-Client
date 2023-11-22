@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { adminApi } from '../../apiRoutes/studentAPI'
 import { useSelector } from 'react-redux'
 import { ToastContainer, showErrorToast } from '../../helpers/toaster'
-import { baseImageUrl } from '../../config/apiURL'
 import defaultImage from '../../assets/dummy-profile.jpg'
 const Consultencencies = () => {
     const [consultents, setConsultents] = useState([]);
@@ -126,7 +125,7 @@ const Consultencencies = () => {
                                             <tr className='' key={index}>
                                                 <td className="py-3 ">
                                                     <div className="flex justify-center items-center h-5">
-                                                        <img src={consultent?.profile_image ?(baseImageUrl + consultent?.profile_image) : defaultImage} className="border-gray-200 h-10 w-10 rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
+                                                        <img src={consultent?.profile_image ?(consultent?.profile_image.url) : defaultImage} className="border-gray-200 h-10 w-10 rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
                                                         <label htmlFor="hs-table-search-checkbox-1" className="sr-only">Checkbox</label>
                                                     </div>
                                                 </td>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { studentAPI } from '../../apiRoutes/studentAPI';
-import { baseImageUrl } from '../../config/apiURL';
 
 const ConsultancyCarousel = () => {
     const [activeItem, setActiveItem] = useState(0);
@@ -42,7 +41,7 @@ const ConsultancyCarousel = () => {
             >
               {country.image ? (
                 <img
-                src={baseImageUrl+country.image}
+                src={country.image.url}
                   alt={country.name}
                   className="w-full h-[80%] md:h-[70%] lg:h-[60%] xl:h-[50%] rounded-md object-cover mb-4"
                 />

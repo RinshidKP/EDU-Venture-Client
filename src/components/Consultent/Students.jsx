@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { consultentApi } from '../../apiRoutes/studentAPI'
 import { useSelector } from 'react-redux';
-import { baseImageUrl } from '../../config/apiURL';
 import { useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 const Students = () => {
@@ -50,7 +49,7 @@ const Students = () => {
                 <td className="w-1/5">
                   <div className="p-4">
                     <div onClick={()=>handleClick(data)} className="w-40 h-40 bg-gray-200 rounded-full overflow-hidden">
-                      <img className="w-full h-full object-cover" src={baseImageUrl+data.student.profile_picture} alt="" />
+                      <img className="w-full h-full object-cover" src={data.student.profile_picture.url} alt="" />
                     </div>
                   </div>
                 </td>

@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
-import { baseImageUrl } from '../../config/apiURL';
 import defaultImage from '../../assets/download.png';
 import { consultentApi } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import { showErrorToast, ToastContainer } from '../../helpers/toaster';
 import { useNavigate } from 'react-router-dom';
 import CustomSelect from './CustomSelect';
+import CropperModal from '../StudentHome/CropperModal';
 const CourseForm = () => {
   const navigate = useNavigate()
   const { Token, Role } = useSelector((state) => state.User);
-  const [imgUrl, setImgUrl] = useState('');
+  const [img, setImg] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
+  const [openCropper,SetOpenCropper] = useState(false)
   const [formData, setFormData] = useState({
     header: '',
     course_image: null,
@@ -38,11 +39,19 @@ const CourseForm = () => {
       showErrorToast('Select a Valid Image');
       return;
     }
-    setImgUrl(file);
-    formData.image = file;
-    console.log(formData.image);
-    setImagePreview(URL.createObjectURL(file));
+    setImg(file);
+    SetOpenCropper(true)
   };
+
+  const handleCroppedImage = ({ image, imageUrl }) => {
+    SetOpenCropper(false);
+    
+    if (image) {
+      setFormData({ ...formData, image: image });
+      setImagePreview(imageUrl);
+    }
+    
+  }
 
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
@@ -57,6 +66,7 @@ const CourseForm = () => {
       [name]: type === 'file' ? e.target.files[0] : value,
     });
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -70,6 +80,10 @@ const CourseForm = () => {
     }
     if (!formData.image) {
       showErrorToast('Course Image is required');
+      return;
+    }
+    if (!formData.country) {
+      showErrorToast('Course Country is required');
       return;
     }
 
@@ -92,12 +106,13 @@ const CourseForm = () => {
   return (
     <div className="max-w-screen-xl mx-auto p-6 bg-white rounded-md shadow-md">
       <nav className="text-2xl font-semibold text-gray-800 mb-4 text-center">Create Course</nav>
+      {openCropper&&<CropperModal image={img} handleCroppedImage={handleCroppedImage} />}
       <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="mb-4">
           {imagePreview ? (
             <img className="rounded-lg shadow-lg mx-auto w-full max-h-48 md:max-h-full" src={imagePreview} alt="User Profile" />
           ) : (
-            <img className="rounded-lg shadow-lg mx-auto w-full max-h-48 md:max-h-full" src={imgUrl ? baseImageUrl + imgUrl : defaultImage} alt="User Profile" />
+            <img className="rounded-lg shadow-lg mx-auto w-full max-h-48 md:max-h-full" src={ defaultImage} alt="User Profile" />
           )}
         </div>
 

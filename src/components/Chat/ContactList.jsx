@@ -114,7 +114,7 @@ const ContactList = ({recieverIdChange,receiverId}) => {
         {chats.map((chat,index) => (
         <div key={index} onClick={()=>handleChange(chat._id)} className={receiverId===chat._id ? highlighted : normal}>
             <div className='flex  items-center justify-evenly'>
-            <div className="text-center mx-3"><img className='h-10 w-10 rounded-full' src={chat.profile_picture ?( baseImageUrl+chat?.profile_picture ): (baseImageUrl+chat?.profile_image) } alt="" /></div>
+            <div className="text-center mx-3"><img className='h-10 w-10 rounded-full' src={chat.profile_picture ?( chat?.profile_picture.url ): (chat?.profile_image.url) } alt="" /></div>
             <div className="text-center">{chat?.full_name ? chat?.full_name : chat?.consultancy_name}</div>
             </div>
             {chat?._id===newMessage&&(<div className="text-sm bg-white rounded-full p-2 text-red-500">

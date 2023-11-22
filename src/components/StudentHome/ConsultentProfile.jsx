@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { baseImageUrl } from '../../config/apiURL';
 import queryString from 'query-string';
 
 const ConsultentProfile = () => {
@@ -18,13 +17,13 @@ const ConsultentProfile = () => {
 
   const location = useLocation();
   useEffect(() => {
-    const queryParams = queryString.parse(location.search);
-    console.log(queryParams);
-    setConsultent(queryParams);
-    setImgUrl(queryParams.profile_image);
+    if(location.state.consultent){
+      setConsultent(location.state.consultent);
+      setImgUrl(location.state.consultent.profile_image.url);
+      
+    }
 
-
-    studentAPI.get(`/consultent_courses/?id=${queryParams._id}`, {
+    studentAPI.get(`/consultent_courses/?id=${location.state.consultent._id}`, {
       headers: {
         'Authorization': Token,
         'userRole': Role,
@@ -48,7 +47,7 @@ return (
     <div className='w-1/2 flex justify-center'>
 
     <div className='h-auto w-2/4 flex items-center justify-center my-auto'>
-      <img className='rounded-lg shadow-lg' src={imgUrl ? baseImageUrl+imgUrl: defaultImage} alt='User Profile' />
+      <img className='rounded-lg shadow-lg' src={imgUrl ? imgUrl: defaultImage} alt='User Profile' />
     </div>
     </div>
     <div className='h-full w-1/2  flex flex-col'>
@@ -97,7 +96,7 @@ return (
             {course.header}
           </h5>
         </a>
-        <img src={baseImageUrl+course.course_image} alt="" />
+        <img src={course.course_image.url} alt="" />
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           {course.short_blob}
         </p>

@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { createStudentAPI } from '../../apiRoutes/studentAPI';
 import defaultImage from '../../assets/dummy-profile.jpg';
-import { baseImageUrl } from '../../config/apiURL';
 import { showErrorToast, showToast, ToastContainer } from '../../helpers/toaster';
+import CropperModal from './CropperModal';
 
 const EditProfile = () => {
   const studentAPI = createStudentAPI();
@@ -13,7 +13,9 @@ const EditProfile = () => {
   const [newUser, setNewUser] = useState({});
   const [imagePreview, setImagePreview] = useState(null); 
   const [imgUrl, setImgUrl] = useState(''); 
+  const [image,setImage] = useState(null)
   const { Email, Token, Role } = useSelector((state) => state.User);
+  const [openCropper,setOpenCropper] = useState(false)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,11 +33,11 @@ const EditProfile = () => {
           'Content-Type': 'application/json',
           'Authorization': Token,
           'userRole': Role,
-        },
+        }, 
       })
       .then((response) => {
         setUserData(response.data.user);
-        setImgUrl(response.data.user.profile_picture);
+        setImgUrl(response.data.user.profile_picture.url);
       })
       .catch((error) => {
         console.error('Error loading user profile:', error);
@@ -73,44 +75,56 @@ const EditProfile = () => {
 };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file && !file.name.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-      showErrorToast('Select a Valid Image');
-      return;
-    }
+    e.preventDefault();
     
-    if (file && file.size > 10 * 1024 * 1024) {
-      showErrorToast('File size is too large. Please select a smaller image.');
-      return;
+    const file = e.target.files[0];
+    console.log('Check File Type',e.target.files[0]);
+    if (file && !file.name.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
+      return showErrorToast('Select a Valid Image');
     }
+  
+    setImage(file);
+    setOpenCropper(true);
 
-    setImagePreview(URL.createObjectURL(file));
-
-    newUser.image = file ;
-
-    console.log('newUser.image Added and Changed',newUser);
   };
+
+  const handleCroppedImage = ({ image, imageUrl }) => {
+    setOpenCropper(false);
+  
+    if (image) {
+      setNewUser({ ...newUser, image: image });
+      setImagePreview(imageUrl);
+    }
+  
+  }
 
 return (
 <div className="bg-gray-100 min-h-screen">
 
-  <nav className="bg-blue-200 text-white py-4 text-center">
+  <nav className="bg-sky-300 w-full text-white py-4 text-center">
     <div className="container mx-auto">
       <h1 className="text-2xl">Edit Profile</h1>
     </div>
   </nav>
 
+ { openCropper && <CropperModal cropType={'profile'} image={image} handleCroppedImage={handleCroppedImage}/>}
   <section className="container mx-auto py-8">
     <div className="bg-white shadow-md rounded-lg mx-auto max-w-3xl p-8">
       <form onSubmit={handleUpdateProfile} encType="multipart/form-data">
         <div className="text-center mb-8">
           <label htmlFor="profileImage" className="cursor-pointer block">
-            <input type="file" accept="image/*" id="profileImage" className="hidden" onChange={handleImageChange} />
+            <input
+              type="file"
+              accept="image/*"
+              id="profileImage"
+              className="hidden"
+              onChange={handleImageChange}
+             />
             <div className='flex justify-center'>
         <div className="rounded-full overflow-hidden w-48 h-48 md:w-64 md:h-64">
           <img
             className="object-cover w-full h-full"
-            src={imagePreview || (imgUrl ? baseImageUrl + imgUrl : defaultImage)}
+            src={imagePreview || (imgUrl ?  imgUrl : defaultImage)}
             alt="User Profile"
           />
         </div>
@@ -118,14 +132,14 @@ return (
       
       <div className='flex justify-center my-5'>
           <div className=" relative border mb-4 w-2/6 rounded-md p-2 bg-gray-100">
-          <input
+          {/* <input
             type="file"
             id="course_image"
             name="course_image"
             accept="image/*"
-            onChange={() => document.getElementById('profileImage').click()}
+            onClick={() => document.getElementById('profileImage').click()}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          />
+          /> */}
           <div className="flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +155,7 @@ return (
                 d="M12 6v6m0 0v6m0-6h6m-6 0H6"
               />
             </svg>
-            <span className="ml-2 text-gray-600">Choose an image</span>
+            <span className="mx-2 text-gray-600">Choose an image</span>
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { baseImageUrl } from '../../config/apiURL';
 import { studentAPI } from '../../apiRoutes/studentAPI';
 import CountryCourses from './CountryCourses';
 
@@ -66,14 +65,15 @@ const StudentCountries = () => {
                 >
                 {isOpen[index] ? ( 
                 <CountryCourses key={index} onClose={()=>handleCloseCountry(index)} countryID={country._id} />
-            ) : (                 <div
+                    ) : (          
+                   <div
                 key={index}
                 className='p-6 mt-10 w-full md:m-5 bg-white rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-center mx-auto'
                 >
                     <div className="mr-4 bg-gray-400 max-w-20 h-20 w-20 rounded-full overflow-hidden">
                         <img
                             className="h-full w-full object-cover"
-                            src={baseImageUrl + country.image || 'Image'}
+                            src={country.image.url || 'Image'}
                             alt='image'
                         />
                     </div>

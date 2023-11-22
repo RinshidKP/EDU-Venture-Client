@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { studentAPI } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import { baseImageUrl } from '../../config/apiURL';
 import { ToastContainer, showErrorToast } from '../../helpers/toaster';
 
-const Blogs = ({courses}) => {
+const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
-  const { Token, Role, Id } = useSelector((state) => state.User)
+  const { Token, Role, Id } = useSelector((state) => state.User);
+  const location = useLocation();
+  const courses = location.state.courses;
   const navigate = useNavigate()
   useEffect(() => {
     studentAPI.get('/user_blogs', {
@@ -27,6 +29,7 @@ const Blogs = ({courses}) => {
   },[])
 
   const handleCreateClick = () => {
+    {console.log(courses);}
     if(courses.length>0){
       () => navigate('/new_blog')
     }else{
@@ -34,8 +37,11 @@ const Blogs = ({courses}) => {
     }
   }
   return (
-    <div className="w-full flex justify-center items-center animate-flip-down">
-      <div className="w-5/6 bg-white py-10 shadow-lg flex flex-wrap justify-evenly">
+    <div className="w-full flex flex-col justify-center items-center ">
+      <div className='w-full h-auto flex justify-center py-10 bg-gray-200' >
+        <h1 className='text-3xl' >Blogs</h1>
+      </div>
+      <div className="w-5/6 my-10 bg-white py-10 shadow-lg flex flex-wrap justify-evenly">
 
         {/* Number of Blogs */}
         <div className="w-full mb-4 text-center">
@@ -58,7 +64,7 @@ const Blogs = ({courses}) => {
 
         {/* Display Blogs */}
         <div className="w-full flex flex-wrap justify-around">
-          {blogs &&
+          {blogs ?
             blogs.map((blog, index) => (
               <div key={index} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4">
                 <div className="bg-white group/item group-hover:shadow-2xl  p-4 rounded-md shadow-md transition-transform hover:scale-110 cursor-pointer">
@@ -82,13 +88,15 @@ const Blogs = ({courses}) => {
                   </div>
                 </div>
               </div>
-            ))}
+            )):(
+              <div>
+                Write review
+              </div>
+            )}
         </div>
         <ToastContainer/>
       </div>
     </div>
-
-
   )
 }
 

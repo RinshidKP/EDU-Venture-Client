@@ -2,21 +2,15 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { studentAPI } from '../../apiRoutes/studentAPI';
-import { baseImageUrl } from '../../config/apiURL';
 import defaultImage from '../../assets/dummy-profile.jpg';
-import Applications from './Applications';
-import Blogs from '../Blogs/Blogs';
 
 const Profile = () => {
   const navigate = useNavigate();
   const [userData, setData] = useState('');
   const [imgUrl, setImgUrl] = useState('');
-  const { Email, Token, Role } = useSelector((state) => state.User);
-  const [application,setApplication] = useState(false);
-  const [blog,setBlog] = useState(false);
+  const { Token, Role } = useSelector((state) => state.User);
   useEffect(() => {
     studentAPI.get('/profile', {
-      // params: { email: Email },
       headers: {
         'Content-Type': 'application/json',
         'Authorization': Token,
@@ -33,11 +27,13 @@ const Profile = () => {
   }, []);
 
   const handleApplicationClick = () => {
-    setApplication(!application);
-  }
-
-  const handleBlogClick = () => {
-    setBlog(!blog);
+    // setApplication(!application);
+      navigate('/student_applications')
+    }
+    
+    const handleBlogClick = () => {
+      // setBlog(!blog);
+      navigate('/student_blogs',{state:{courses:userData.courses}})
     // console.log(blog);
   }
 
@@ -62,7 +58,7 @@ const Profile = () => {
               <img
                 src={
                   userData.profile_picture
-                    ? baseImageUrl + imgUrl
+                    ? imgUrl.url
                     : defaultImage
                 }
                 alt="......"
@@ -110,13 +106,11 @@ const Profile = () => {
               Applications
             </h3>
           </div>
-          {application&&( <Applications/> )}
           <div onClick={handleBlogClick} className='my-5 select-none flex flex-col sm:flex-row items-center justify-center cursor-pointer'>
             <h3  className="border text-2xl text-center border-green-800 w-full sm:w-3/4 py-3 bg-white-100">
               Blogs
             </h3>
           </div>
-          {blog&&( <Blogs courses={userData.courses} /> )}
           <div className='my-5 flex flex-col sm:flex-row items-center justify-center select-none'>
             <h3 className="border text-2xl text-center border-green-800 w-full sm:w-3/4 py-3 bg-white-100">
               Rewards

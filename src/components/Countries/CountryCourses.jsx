@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { baseImageUrl } from '../../config/apiURL';
 import { useNavigate } from 'react-router-dom';
 import { studentAPI } from '../../apiRoutes/studentAPI';
 import queryString from 'query-string';
@@ -35,7 +34,7 @@ const CountryCourses = ({ countryID, onClose }) => {
                 {courses.map((course) => (
                     <div key={course._id} className="bg-white rounded-lg shadow p-4">
                         <a href="#" className="text-xl font-bold text-gray-900 mb-2">{course.header}</a>
-                        <img src={baseImageUrl + course.course_image} alt="" className="w-full h-auto mb-2" />
+                        <img src={ course.course_image.url } alt="" className="w-full h-auto mb-2" />
                         <p className="text-gray-700">{course.short_blob}</p>
                         <a
                             onClick={() => {

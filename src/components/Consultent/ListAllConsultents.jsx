@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { baseImageUrl } from '../../config/apiURL';
 import { studentAPI } from '../../apiRoutes/studentAPI';
 import queryString from 'query-string';
 import { useNavigate } from 'react-router-dom';
@@ -56,12 +55,12 @@ const ListAllConsultents = () => {
                                 {consultent.consultancy_name}
                             </h5>
                         </a>
-                        <img src={baseImageUrl + consultent.profile_image} alt="" />
+                        <img src={consultent.profile_image.url} alt="" />
                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                             {consultent.short_blob}
                         </p>
                         <a onClick={() => {
-                            navigate(`/consultent_details?${queryString.stringify(consultent)}`)
+                            navigate(`/consultent_details?`,{state:{consultent:consultent}})
                         }} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             Read more
                             <svg className="w-3.5 h-3.5 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">

@@ -57,8 +57,7 @@ const Header = () => {
   }, [Id, Role, Token])
   return (
     <nav
-      // style={{ backgroundColor: '#5c7062' }}
-      className="cursor-pointer sticky top-0 bg-sky-950 shadow dark:bg-gray-800 z-10 flex justify-evenly"
+      className="cursor-pointer backdrop-filter backdrop-blur-lg sticky top-0 bg-sky-950 opacity-95 shadow dark:bg-gray-800 z-10 flex justify-evenly"
     >
       <div className="container mx-auto">
         <div className="flex flex-wrap items-center justify-between p-6 text-dark-600 capitalize dark:text-gray-300">

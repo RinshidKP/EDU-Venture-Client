@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { showErrorToast } from '../../helpers/toaster';
 import { consultentApi } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
-import { baseImageUrl } from '../../config/apiURL';
 
 
 const CustomSelect = ({ onOptionSelect }) => {
@@ -41,7 +40,7 @@ const CustomSelect = ({ onOptionSelect }) => {
         >
           {selectedOption ? (
             <div className="flex items-center">
-              <img src={baseImageUrl + selectedOption.image} alt={selectedOption.label} className="w-6 h-6 mr-2" />
+              <img src={selectedOption.image.url} alt={selectedOption.label} className="w-6 h-6 mr-2" />
               {selectedOption.name}
             </div>
           ) : (
@@ -56,7 +55,7 @@ const CustomSelect = ({ onOptionSelect }) => {
                 className="flex items-center p-2 hover:bg-blue-100"
                 onClick={() => handleOptionSelect(option)}
               >
-                <img src={baseImageUrl+option.image} alt={option.name} className="w-6 h-6 mr-2" />
+                <img src={option.image.url} alt={option.name} className="w-6 h-6 mr-2" />
                 {option.name}
               </div>
             ))}
