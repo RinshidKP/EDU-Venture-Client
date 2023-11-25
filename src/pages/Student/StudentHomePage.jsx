@@ -6,6 +6,7 @@ import CountriesList from '../../components/Countries/CountriesList'
 import { useLottie } from "lottie-react";
 import animationData from '../../components/lotties/FloatingStudent.json';
 import { ChevronsDown } from 'lucide-react';
+
 const StudentHomePage = () => {
   const defaultOptions = {
     loop: true,
@@ -15,6 +16,8 @@ const StudentHomePage = () => {
       preserveAspectRatio: "xMidYMid slice"
     }
   };
+
+
   const { View } = useLottie(defaultOptions);
   return (
     <div className="bg-stone-50 ">
@@ -55,9 +58,10 @@ const StudentHomePage = () => {
           <div className='text-center my-5'>
             <h1 className='text-4xl'>Our Consultants</h1>
           </div>
-        <div className='rounded-lg py-10 ' >
-          <Consultencies />
-        </div>
+
+          <div className='rounded-lg py-10 ' >
+            <Consultencies />
+          </div>
 
         <div className='m-14 flex justify-center '>
           <h1 className='text-3xl'>Popular Choice of Courses</h1>
@@ -67,9 +71,17 @@ const StudentHomePage = () => {
         <div className="mb-4 rounded-lg py-10">
 
           <HomeCourses />
-
+          <div className='flex justify-center my-1'>
+            <button className='
+             px-5 py-2 bg-white shadow-2xl text-black
+              hover:text-sky-950 drop-shadow-2xl
+               hover:scale-105
+              transition-shadow ' >
+              See More
+            </button>
+          </div>
         </div>
-        <div className="mb-4 rounded-lg py-10 ">
+        <div className="mb-4 rounded-lg  ">
 
           <CountriesList />
 

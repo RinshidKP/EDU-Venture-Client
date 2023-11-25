@@ -7,8 +7,7 @@ const StudentCountries = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [countriesPerPage, setCountriesPerPage] = useState(9);
     const [totalCountries, setTotalCountries] = useState(0);
-    const [isOpen, setIsOpen] = useState(Array(9).fill(false)); // Initialize isOpen array
-
+    const [isOpen, setIsOpen] = useState(Array(9).fill(false));
     const handleViewCountry = (index) => {
         // Set the state of the clicked country to true to open its details
         const newIsOpen = [...isOpen];
