@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { studentAPI } from '../../apiRoutes/studentAPI';
-import queryString from 'query-string';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '../../assets/download.png'
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 const ListAllConsultents = () => {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
+    const studentAxios = useStudentAxiosIntercepter();
     const [consultenciesPerPage, setConsultenciesPerPage] = useState(9);
     const [consultencies, setConsultencies] = useState([]);
     const [totalConsultenciesCount, setTotalConsultenciesCount] = useState(0);
@@ -21,7 +21,7 @@ const ListAllConsultents = () => {
     };
 
     useEffect(() => {
-        studentAPI
+        studentAxios
             .get('/view_consultencies', {
 
                 params: {

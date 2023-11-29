@@ -2,12 +2,13 @@ import queryString from 'query-string';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
-import { chatApi, consultentApi } from '../../apiRoutes/studentAPI';
+import { chatApi } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import Message from './Message';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import ContactList from './ContactList';
+import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor';
 
 
 function ConsultentChat() {
@@ -15,10 +16,11 @@ function ConsultentChat() {
     const [chat, setChat] = useState([]);
     const [receiverId, setReceiverId] = useState(null);
     const [receiverName, setReceiverName] = useState(null);
+    const consultantAxios = useConsultantInterceptor();
 
     const location = useLocation();
 
-    const { Id,Token , Role ,DisplayImage,DisplayName} = useSelector((state) => state.User);
+    const { Id,DisplayImage,DisplayName} = useSelector((state) => state.User);
     const [userId, setUserId] = useState(Id);
 
 
@@ -48,15 +50,13 @@ function ConsultentChat() {
         }
     }, [location.search]);
 
-
-
     useEffect(() => {
         if (userId && receiverId) {
             chatApi
                 .get(`/messages/${userId}/${receiverId}`)
                 .then((response) => {
-                    console.log('loading... ', response.data);
-                    setChat(response.data);
+                    // console.log('loading... ', response.data);
+                    setChat(response.data.messages);
                 })
                 .catch((error) => {
                     console.error("Error fetching messages:", error);
@@ -67,10 +67,6 @@ function ConsultentChat() {
     const recieverIdChange = (id) => {
       setReceiverId(id)
   }
-
-
-
-
 
     const sendMessage = () => {
         if (message.trim()) {
@@ -90,17 +86,11 @@ function ConsultentChat() {
 
     useEffect(() => {
       if (userId && receiverId) {
-        consultentApi
+        consultantAxios
           .post(`/mark_read`,
           {
             reciever: userId,
             sender: receiverId,
-          }, {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': Token,
-              'userRole': Role
-            }
           })
           .then((response) => {
             console.log('messages', response.data);
@@ -109,7 +99,7 @@ function ConsultentChat() {
             console.error('Error fetching messages:', error);
           });
       }
-    }, [userId, receiverId ,Role ,Token]);
+    }, [userId, receiverId]);
 
 
     return (
@@ -148,7 +138,7 @@ function ConsultentChat() {
                 <div className="flex flex-col flex-grow w-2/3 max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
                   <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
                     {chat.map((message, index) => (
-                      <Message key={index} uniqueId={index === chat.length - 1 ? 'theLatestMessage' : `${index}`} text={message.text} timestamp={message.date} isUser={message.sender === userId} />
+                      <Message key={index} recieverId={message.sender === userId ? message.receiver : message.sender} uniqueId={index === chat.length - 1 ? 'theLatestMessage' : `${index}`} text={message.text} timestamp={message.date} isUser={message.sender === userId} />
                     ))}
                   </div>
                   <div className="bg-gray-300 p-4 flex">

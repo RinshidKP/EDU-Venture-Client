@@ -1,7 +1,6 @@
 import { Routes,Route } from "react-router-dom"
 import AdminHomePage from "../pages/Admin/AdminHomePage"
 import ProtectedAdminRoutes from "../helpers/protectedAdminRoutes"
-import AdminCoursePage from "../pages/Admin/AdminCoursePage"
 import AdminCountries from "../pages/Admin/AdminCountries"
 import AdminConsultencencies from "../pages/Admin/AdminConsultencencies"
 import AdminStudentsPage from "../pages/Admin/AdminStudentsPage"
@@ -12,11 +11,6 @@ const AdminRoutes = () => {
         <Route path="/dashboard" element={
           <ProtectedAdminRoutes>
             <AdminHomePage/>            
-          </ProtectedAdminRoutes>
-        }/>
-        <Route path="/dashboard_courses" element={
-          <ProtectedAdminRoutes>
-            <AdminCoursePage/>            
           </ProtectedAdminRoutes>
         }/>
         <Route path="/dashboard_countries" element={

@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { studentAPI } from '../../apiRoutes/studentAPI';
 import { ToastContainer, showErrorToast, showToast } from '../../helpers/toaster';
 import { useNavigate } from 'react-router-dom';
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
 const BlogForm = () => {
     const [image, setImage] = useState(false);
     const navigate = useNavigate()  
-    const { Token, Role,Id } = useSelector((state) => state.User);
+    const studentAxios = useStudentAxiosIntercepter();
+    const { Id } = useSelector((state) => state.User);
     const [blog, setBlog] = useState({
         heading: '',
         image: null,
@@ -19,11 +20,9 @@ const BlogForm = () => {
         if (!validateForm()) {
             return;
         }
-        studentAPI.post('/create_blog', blog, {
+        studentAxios.post('/create_blog', blog, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': Token,
-                'userRole': Role,
             },
         }).then((response)=>{
             console.log(response.status);

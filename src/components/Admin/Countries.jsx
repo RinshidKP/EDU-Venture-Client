@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import AddCountryModal from './AddCountryModal';
 import defaultImage from '../../assets/download.png'
-import { adminApi } from '../../apiRoutes/studentAPI';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import EditCountries from './EditCountries';
 import { ToastContainer, showToast } from '../../helpers/toaster';
+import { useAdminAxiosInterceptor } from '../../customHooks/useAdminAxiosInterceptor';
 const Countries = () => {
-  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [countries, setCountries] = useState([]);
-  const { Token, Role } = useSelector((state) => state.User);
   const [editOpen, setEditOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
+
+  const adminAxios = useAdminAxiosInterceptor();
+
   const openModal = () => {
     setOpen(true);
   };
@@ -38,12 +37,8 @@ const Countries = () => {
   }
 
   useEffect(() => {
-    adminApi.get('/admin_country', {
-      headers: {
-        'Authorization': Token,
-        'userRole': Role,
-      }
-    },).then((response) => {
+    adminAxios.get('/admin_country')
+    .then((response) => {
       console.log(response.data);
       setCountries(response.data.countries)
     })
@@ -53,13 +48,8 @@ const Countries = () => {
 
     const id = country._id;
 
-    adminApi
-      .post('/disable_country', { id }, {
-        headers: {
-          'Authorization': Token,
-          'userRole': Role,
-        }
-      })
+    adminAxios
+      .post('/disable_country', { id })
       .then((response) => {
         console.log(response.data);
         const updatedCountries = [...countries];

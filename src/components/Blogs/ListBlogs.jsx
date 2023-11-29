@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { studentAPI } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import { showErrorToast } from '../../helpers/toaster';
 import { baseImageUrl } from '../../config/apiURL';
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
 const ListBlogs = () => {
 
@@ -14,9 +14,10 @@ const ListBlogs = () => {
     const [blogsPerPage, setBlogsPerPage] = useState(3);
     const [totalBlogsCount, setTotalBlogsCount] = useState(12);
     const [search, setSearch] = useState('')
+    const studentAxios = useStudentAxiosIntercepter();
 
     useEffect(() => {
-        studentAPI.get('/blogs_data', {
+        studentAxios.get('/blogs_data', {
             params: {
                 page: currentPage,
                 limit: blogsPerPage,

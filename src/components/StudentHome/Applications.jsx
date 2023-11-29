@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { studentAPI } from '../../apiRoutes/studentAPI';
-import { useSelector } from 'react-redux';
 import { showErrorToast } from '../../helpers/toaster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 const Applications = () => {
   const [applications, setApplications] = useState([]);
-  const { Token, Role } = useSelector((state) => state.User);
+  const studentAxios = useStudentAxiosIntercepter();
   const navigate = useNavigate()
   useEffect(() => {
-    studentAPI
-      .get('/student_course', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: Token,
-          userRole: Role,
-        },
-      })
+    studentAxios
+      .get('/student_course')
       .then((response) => {
         console.log(response);
         if (response.status !== 200) {
@@ -29,7 +22,7 @@ const Applications = () => {
       .catch((error) => {
         showErrorToast(error.response.data.message);
       });
-  }, [Token, Role]);
+  }, []);
 
   return (
     <div className='w-full flex flex-col justify-center  items-center '>

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { adminApi } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import { ToastContainer, showErrorToast, showToast } from '../../helpers/toaster';
 import CropperModal from '../StudentHome/CropperModal';
+import { useAdminAxiosInterceptor } from '../../customHooks/useAdminAxiosInterceptor';
 
 const AddCountryModal = ({ open,setCountries, onClose }) => {
     if (!open) return null;
 
-    const { Token, Role } = useSelector((state) => state.User);
+    const adminAxios = useAdminAxiosInterceptor();
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [name, setName] = useState('');
@@ -54,14 +54,8 @@ const AddCountryModal = ({ open,setCountries, onClose }) => {
             description: description,
         };
 
-        adminApi
-            .post('/add_contries', newCountryData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': Token,
-                    'userRole': Role,
-                },
-            })
+        adminAxios
+            .post('/add_contries', newCountryData )
             .then((response) => {
 
                 if (response.status === 200) {

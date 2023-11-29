@@ -7,9 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import Message from './Message';
 import ContactList from './ContactList';
-import { baseImageUrl } from '../../config/apiURL';
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
 function StudentChat() {
+  const studentAxios = useStudentAxiosIntercepter();
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
   const [receiverId, setReceiverId] = useState(null);
@@ -48,8 +49,8 @@ function StudentChat() {
       chatApi
         .get(`/messages/${userId}/${receiverId}`)
         .then((response) => {
-          console.log('messages', response.data);
-          setChat(response.data);
+          // console.log('messages', response.data);
+          setChat(response.data.messages );
         })
         .catch((error) => {
           console.error('Error fetching messages:', error);
@@ -80,18 +81,13 @@ function StudentChat() {
 
   useEffect(() => {
     if (userId && receiverId) {
-      studentAPI
+      studentAxios
         .post(`/mark_read`,
         {
           reciever: userId,
           sender: receiverId,
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': Token,
-            'userRole': Role
-          }
-        })
+        }
+        )
         .then((response) => {
           console.log('messages', response.data);
         })
@@ -111,7 +107,7 @@ function StudentChat() {
               {/* Header */}
               <div className=" bg-sky-100 flex flex-row justify-between items-center">
                 <div className='flex m-1 border border-white py-3 px-3 w-full rounded-lg justify-between items-center '>
-                  <img className="w-10 h-10 rounded-full" src={baseImageUrl+DisplayImage} alt="Avatar" />
+                  <img className="w-10 h-10 rounded-full" src={DisplayImage.url} alt="Avatar" />
                   <h3 className='mx-3 text-center'>{DisplayName}</h3>
                 </div>
                 <div className="flex">
@@ -135,7 +131,7 @@ function StudentChat() {
                 <div className="flex flex-col flex-grow w-2/3 max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
                   <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
                     {chat.map((message, index) => (
-                      <Message key={index} uniqueId={index === chat.length - 1 ? 'theLatestMessage' : `${index}`} text={message.text} timestamp={message.date} isUser={message.sender === userId} />
+                      <Message key={index} recieverId={message.sender === userId ? message.receiver : message.sender} uniqueId={index === chat.length - 1 ? 'theLatestMessage' : `${index}`} text={message.text} timestamp={message.date} isUser={message.sender === userId} />
                     ))}
                   </div>
                   <div className="bg-gray-300 p-4 flex">

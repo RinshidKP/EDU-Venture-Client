@@ -1,26 +1,24 @@
 import {useState,useEffect} from 'react'
-import { consultentApi } from '../../apiRoutes/studentAPI'
 import defaultImage from '../../assets/download.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor';
 
 const Profile = () => {
 
   const [user,setUser]= useState()
-  const { Email,Token,Role } = useSelector((state) => state.User);
+  const { Email } = useSelector((state) => state.User);
   const [imgUrl, setImgUrl] = useState('');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const consultantAxios = useConsultantInterceptor();
+
    
     useEffect(()=>{
-        consultentApi.get('/profile', {
+      consultantAxios
+      .get('/profile', {
           params: { email: Email },
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': Token,
-            'userRole': Role
-          }
         })
         .then((response) => {
           setUser(response.data.user);

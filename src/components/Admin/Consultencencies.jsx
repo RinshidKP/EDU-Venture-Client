@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { adminApi } from '../../apiRoutes/studentAPI'
-import { useSelector } from 'react-redux'
 import { ToastContainer, showErrorToast } from '../../helpers/toaster'
 import defaultImage from '../../assets/dummy-profile.jpg'
+import { useAdminAxiosInterceptor } from '../../customHooks/useAdminAxiosInterceptor'
 const Consultencencies = () => {
     const [consultents, setConsultents] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [consultenciesPerPage, setConsultenciesPerPage] = useState(9);
     const [totalConsultenciesCount, setTotalConsultenciesCount] = useState(0);
     const [search,setSearch] = useState('')
+
+    const adminAxios = useAdminAxiosInterceptor();
+
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -20,18 +22,12 @@ const Consultencencies = () => {
         }
     };
 
-    const { Token, Role } = useSelector((state) => state.User)
     useEffect(() => {
-        adminApi.get('/consultent_data', {
+        adminAxios.get('/consultent_data', {
             params: {
                 page: currentPage,
                 limit: consultenciesPerPage,
                 search: search,
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': Token,
-                'userRole': Role,
             },
         })
             .then((response) => {
@@ -41,7 +37,7 @@ const Consultencencies = () => {
                 console.log(error)
                 showErrorToast(error.message)
             })
-    }, [currentPage, consultenciesPerPage, Token, Role,search]);
+    }, [currentPage, consultenciesPerPage,search]);
 
     const handleNextClick = () => {
         if (currentPage < Math.ceil(totalConsultenciesCount / consultenciesPerPage)) {
@@ -50,13 +46,8 @@ const Consultencencies = () => {
     };
     
     const handleDisableClick = (id,index) => {
-        adminApi.post('/consultant_access',{ id: id },{
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': Token,
-                'userRole': Role,
-            },
-        }).then((response)=>{
+        adminAxios.post('/consultant_access',{ id: id }).
+        then((response)=>{
             const updatedConsultents = [...consultents];
             updatedConsultents[index] = response.data.consultant;
             setConsultents(updatedConsultents);

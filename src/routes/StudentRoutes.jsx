@@ -16,6 +16,7 @@ import EditBlogPage from '../pages/Student/EditBlogPage.jsx';
 import ListAllBlogs from '../pages/Student/ListAllBlogs.jsx';
 import StudentsApplications from '../pages/Student/StudentsApplications.jsx';
 import StudentsBlogs from '../pages/Student/StudentsBlogs.jsx';
+import ListCoursesByCountry from '../pages/Student/ListCoursesByCountry.jsx';
 
 const StudentRoutes = () => {
   return (
@@ -74,6 +75,9 @@ const StudentRoutes = () => {
         } />
         <Route path="/blogs" element={
           <ListAllBlogs />
+        } />
+        <Route path="/view_courses_by_country" element={
+          <ListCoursesByCountry />
         } />
 
       </Routes>

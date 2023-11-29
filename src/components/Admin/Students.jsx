@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { adminApi } from '../../apiRoutes/studentAPI';
 import { ToastContainer } from 'react-toastify';
 import defaultImage from '../../assets/dummy-profile.jpg'
+import { useAdminAxiosInterceptor } from '../../customHooks/useAdminAxiosInterceptor';
 
 const Students = () => {
-  const navigate = useNavigate();
 
   const [students, setStudents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalStudentsCount, setTotalStudentsCount] = useState(0);
   const [search, setSearch] = useState('');
+  const adminAxios = useAdminAxiosInterceptor();
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -31,20 +29,13 @@ const handleNextClick = () => {
     }
 };
 
-  const { Token, Role } = useSelector((state) => state.User);
-
   useEffect(() => {
-    adminApi
+    adminAxios
       .get('/students_data', {
         params: {
             page: currentPage,
             limit: itemsPerPage,
             search: search,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: Token,
-          userRole: Role,
         },
       })
       .then((response) => {
@@ -55,29 +46,12 @@ const handleNextClick = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [Role,Token,currentPage,search,itemsPerPage]);
+  }, [currentPage,search,itemsPerPage]);
 
-  const changeAccess = (id) => {
-    adminApi
-      .get('/editaccess?id=' + id, {
-        headers: {
-          Authorization: Token,
-        },
-      })
-      .then((res) => {
-        setStudents(res.data.userData);
-        console.log(res.data.userData);
-      });
-  };
 
   const handleDisableClick = (id, index) => {
-    adminApi.post('/students_access',{ id: id },{
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': Token,
-            'userRole': Role,
-        },
-    }).then((response)=>{
+    adminAxios.post('/students_access',{ id: id })
+    .then((response)=>{
         const updatedStudents = [...students];
         updatedStudents[index] = response.data.student;
         setStudents(updatedStudents);

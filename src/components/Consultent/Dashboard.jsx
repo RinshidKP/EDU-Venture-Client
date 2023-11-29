@@ -3,23 +3,23 @@ import { Doughnut, Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 import 'chartjs-plugin-datalabels';
 import { useNavigate } from 'react-router-dom';
-import { useAdminAxiosInterceptor } from '../../customHooks/useAdminAxiosInterceptor';
+import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor';
 
 
 const Dashboard = () => {
   const navigate = useNavigate()
+  const consultantAxios = useConsultantInterceptor();
   const [studentsCount, setStudentsCount] = useState();
-  const [consultantsCount, setConsultantsCount] = useState();
+  const [applicationCount, setApplicationCount] = useState();
   const [coursesCount, setCoursesCount] = useState();
   const [totalRevenue, setTotalRevenue] = useState(2000);
-  const [unApproved, setUnApproved] = useState([]);
-  const { Token, Role } = useSelector((state) => state.User);
-  const adminAxios = useAdminAxiosInterceptor();
+  const [pendingApplications, setPendingApplications] = useState([])
+  const { Id } = useSelector((state) => state.User);
 
   const [usersChartData, setUsersChartData] = useState({
     labels: ['Students', 'Consultants'],
     datasets: [{
-      data: [studentsCount, consultantsCount],
+      data: [studentsCount, applicationCount],
       backgroundColor: ['#00F0FF', '#8B8B8D'],
     }],
   });
@@ -38,31 +38,36 @@ const Dashboard = () => {
     }],
   });
 
+
   useEffect(() => {
-    adminAxios.get('/admin_dashboard')
-    .then((response) => {
-      console.log(response.data);
-      setStudentsCount(response.data.studentsCount);
-      setConsultantsCount(response.data.consultantsCount);
+    console.log(Id);
+    consultantAxios.get('/consultant_dashboard', {
+       params: {
+        id: Id,
+      },
+    }).then((response) => {
+    //   console.log(response.data);
+      setStudentsCount(response.data.acceptedStudents);
+      setApplicationCount(response.data.applicationCount);
       setCoursesCount(response.data.courseCount);
-      setUnApproved(response.data.unApprovedConsultants)
+      setPendingApplications(response.data.pendingApplications)
       setUsersChartData({
-        labels: ['Students', 'Consultants'],
+        labels: ['Accepted Students', 'Applications','Courses'],
         datasets: [{
-          data: [response.data.studentsCount, response.data.consultantsCount],
-          backgroundColor: ['#00F0FF', '#7aeb34'],
+          data: [response.data.acceptedStudents, response.data.applicationCount,response.data.courseCount],
+          backgroundColor: ['#00F0FF', '#7aeb34','#e3ba49'],
         }],
       });
 
-      const labels = response.data.countriesWithCourseCount.map((country) => country.name);
+      const labels = response.data.coursesWithApplicationCount.map((course) => course.header);
 
-      const data = response.data.countriesWithCourseCount.map((country) => country.courseCount);
-      console.log(labels);
+      const data = response.data.coursesWithApplicationCount.map((course) => course.applicationCount);
+      console.log(response.data.pendingApplications);
 
       setCommercesChartData({
         labels: labels,
         datasets: [{
-          label: 'Count of Courses',
+          label: 'Number of Applications',
           data,
           datalabels: {
             display: true,
@@ -90,7 +95,7 @@ const Dashboard = () => {
 
       <div className="mt-8 flex flex-wrap  mx-5 space-x-4">
         <DataBox title="Students" count={studentsCount} color="text-cyan-500" />
-        <DataBox title="Consultants" count={consultantsCount} color="text-cyan-500" />
+        <DataBox title="Applications" count={applicationCount} color="text-cyan-500" />
         <DataBox title="Revenue" count={totalRevenue} color="text-cyan-500" />
         <DataBox title="Courses" count={coursesCount} color="text-cyan-500" />
       </div>
@@ -132,7 +137,7 @@ const Dashboard = () => {
                       },
                       title: {
                         display: true,
-                        text: 'Countries',
+                        text: 'Courses',
                       },
                     },
                     y: {
@@ -141,7 +146,7 @@ const Dashboard = () => {
                       },
                       title: {
                         display: true,
-                        text: 'Courses Count',
+                        text: 'Application Count',
                       },
                     },
                   },
@@ -151,7 +156,7 @@ const Dashboard = () => {
                     },
                     title: {
                       display: true,
-                      text: 'Countries And Courses',
+                      text: 'Courses And Applications',
                     },
                     datalabels: {
                       display: true,
@@ -180,19 +185,23 @@ const Dashboard = () => {
             <table className="w-full table-auto text-sm">
               <thead>
                 <tr className="text-sm leading-normal">
-                  <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-grey-light border-b border-grey-light text-center">Photo</th>
+                  <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-grey-light border-b border-grey-light text-center">Student</th>
                   <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-grey-light border-b border-grey-light text-center">Name</th>
-                  <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-grey-light border-b border-grey-light text-center">Role</th>
+                  <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-grey-light border-b border-grey-light text-center">Course</th>
+                  <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-grey-light border-b border-grey-light text-center">Name</th>
                 </tr>
               </thead>
               <tbody>
-                {unApproved.map((consultant,index) => (
+                {pendingApplications.map((application,index) => (
                   <tr key={index} className="hover:bg-grey-lighter">
                     <td className="py-2 px-4 border-b border-grey-light text-center">
-                      <img src={consultant.profile_image.url} alt="Profile" className="rounded-full h-10 w-10 mx-auto" />
+                      <img src={application?.student.profile_picture?.url} alt="Profile" className="rounded-full h-10 w-10 mx-auto" />
                     </td>
-                    <td className="py-2 px-4 border-b border-grey-light text-center">{consultant.consultancy_name}</td>
-                    <td className="py-2 px-4 border-b border-grey-light text-center">{consultant.email}</td>
+                    <td className="py-2 px-4 border-b border-grey-light text-center">{application?.student?.full_name}</td>
+                    <td className="py-2 px-4 border-b border-grey-light text-center">
+                      <img src={application?.course.course_image?.url} alt="Profile" className="rounded-full h-10 w-10 mx-auto" />
+                    </td>
+                    <td className="py-2 px-4 border-b border-grey-light text-center">{application?.course.header}</td>
                   </tr>
                 ))}
               </tbody>

@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { studentAPI } from '../../apiRoutes/studentAPI';
-import CountryCourses from './CountryCourses';
+import { useNavigate } from 'react-router-dom';
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
 const StudentCountries = () => {
     const [countries, setCountries] = useState([]);
+    const studentAxios = useStudentAxiosIntercepter()
     const [currentPage, setCurrentPage] = useState(1);
-    const [countriesPerPage, setCountriesPerPage] = useState(9);
+    const [countriesPerPage, setCountriesPerPage] = useState(5);
     const [totalCountries, setTotalCountries] = useState(0);
-    const [isOpen, setIsOpen] = useState(Array(9).fill(false));
-    const handleViewCountry = (index) => {
-        // Set the state of the clicked country to true to open its details
-        const newIsOpen = [...isOpen];
-        newIsOpen[index] = true;
-        setIsOpen(newIsOpen);
-    };
-
-    const handleCloseCountry = (index) => {
-        // Set the state of the clicked country to false to close its details
-        const newIsOpen = [...isOpen];
-        newIsOpen[index] = false;
-        setIsOpen(newIsOpen);
-    };
+    const navigate = useNavigate();
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -33,7 +21,7 @@ const StudentCountries = () => {
     };
 
     useEffect(() => {
-        studentAPI
+        studentAxios
             .get('list_all_countries', {
                 params: {
                     page: currentPage,
@@ -41,6 +29,7 @@ const StudentCountries = () => {
                 },
             })
             .then((response) => {
+                console.log(response.data);
                 setCountries(response.data.countries);
                 setTotalCountries(response.data.totalCount);
             })
@@ -62,10 +51,7 @@ const StudentCountries = () => {
                 key={index}
                 className=' md:w-auto md:m-5  flex flex-col md:flex-row items-center'
                 >
-                {isOpen[index] ? ( 
-                <CountryCourses key={index} onClose={()=>handleCloseCountry(index)} countryID={country._id} />
-                    ) : (          
-                   <div
+                <div
                 key={index}
                 className='p-6 mt-10 w-full md:m-5 bg-white rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-center mx-auto'
                 >
@@ -87,14 +73,13 @@ const StudentCountries = () => {
                     <div className='mt-4 md:mt-0'>
                         
                             <button
-                                onClick={() => handleViewCountry(index)}
+                                onClick={() => navigate('/view_courses_by_country',{state:{country}})}
                                 className='bg-green-500 text-white py-2 px-4 rounded-full transform hover:scale-110 transition-transform duration-300'
                             >
                                 View
                             </button>
                     </div>
                     </div>
-                )}
                 </div>
                 ))}
 

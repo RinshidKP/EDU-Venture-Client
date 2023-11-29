@@ -1,26 +1,21 @@
-import { adminApi } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import { ToastContainer, showErrorToast, showToast } from '../../helpers/toaster';
 import { useEffect, useState } from 'react';
 import CropperModal from '../StudentHome/CropperModal';
+import { useAdminAxiosInterceptor } from '../../customHooks/useAdminAxiosInterceptor';
 const EditCountries = ({ open, countryID, onClose }) => {
     if (!open) return null;
-    const { Token, Role } = useSelector((state) => state.User);
     const [selectedImage, setSelectedImage] = useState(null);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [openCropper, setOpenCropper] = useState(false)
     const [country, setCountry] = useState({})
+    const adminAxios = useAdminAxiosInterceptor();
 
     const [image, setImage] = useState(null);
     useEffect(() => {
-        adminApi.get(`/country_data`, {
+        adminAxios.get(`/country_data`, {
             params: { id: countryID },
-            headers: {
-                'Authorization': Token,
-                'userRole': Role,
-                'Content-Type': 'application/json',
-            }
         })
             .then((response) => {
                 //   console.log(response);
@@ -71,14 +66,8 @@ const EditCountries = ({ open, countryID, onClose }) => {
 
         console.log('sending...');
 
-        adminApi
-            .post('/update_countries', countryData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': Token,
-                    'userRole': Role,
-                },
-            })
+        adminAxios
+            .post('/update_countries', countryData, )
             .then((response) => {
                 console.log('response', response);
                 if (response.status === 200) {

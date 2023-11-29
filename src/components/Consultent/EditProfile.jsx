@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '../../assets/download.png';
-import { consultentApi } from '../../apiRoutes/studentAPI';
 import { showErrorToast, showToast, ToastContainer } from '../../helpers/toaster';
 import CropperModal  from '../StudentHome/CropperModal.jsx'
+import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor.jsx';
 const EditProfile = () => {
+
+  const consultantAxios = useConsultantInterceptor();
 
 const [editedUser, setEditedUser] = useState({});
 const [newUser, setNewUser] = useState({});
@@ -60,11 +62,9 @@ const handleImageChange = ({ image, imageUrl }) => {
 const handleSave = (e) => {
     e.preventDefault();
     newUser.countries = countries
-    consultentApi.post('/update_profile', newUser, {
+    consultantAxios.post('/update_profile', newUser, {
         headers: {
         'Content-Type': 'multipart/form-data',
-        'Authorization': Token,
-        'userRole': Role,
         },
     })  
       .then(()=>{
@@ -76,14 +76,9 @@ const handleSave = (e) => {
 };
 
 useEffect(() => {
-    consultentApi
+  consultantAxios
         .get('/profile', {
             params: { email: Email },
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': Token,
-            'userRole': Role,
-            },
         })
         .then((response) => {
             setImgUrl(response.data.user.profile_image );

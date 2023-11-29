@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import defaultImage from '../../assets/download.png';
 import { consultentApi } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';

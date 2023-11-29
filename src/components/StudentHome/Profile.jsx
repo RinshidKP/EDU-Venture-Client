@@ -3,20 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { studentAPI } from '../../apiRoutes/studentAPI';
 import defaultImage from '../../assets/dummy-profile.jpg';
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
 const Profile = () => {
   const navigate = useNavigate();
+  const studentAxios = useStudentAxiosIntercepter()
   const [userData, setData] = useState('');
   const [imgUrl, setImgUrl] = useState('');
-  const { Token, Role } = useSelector((state) => state.User);
   useEffect(() => {
-    studentAPI.get('/profile', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': Token,
-        'userRole': Role
-      }
-    })
+    studentAxios.get('/profile')
       .then((response) => {
         setData(response.data.user);
         setImgUrl(response.data.user.profile_picture || defaultImage);

@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import { ToastContainer, showErrorToast, showToast } from '../../helpers/toaster';
-import { consultentApi } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import queryString from 'query-string';
+import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor';
 
 const StudentProfile = () => {
 
@@ -25,6 +25,7 @@ const StudentProfile = () => {
     const navigate = useNavigate()
     const { state: studentData } = location;
     const [application,setApplication]=useState(studentData)
+    const consultantAxios = useConsultantInterceptor();
 
     useEffect(() => {
         setCourse(application.course);
@@ -69,13 +70,10 @@ const StudentProfile = () => {
               cancelButtonText: 'Cancel',
             }).then((result) => {
               if (result.isConfirmed) {
-                consultentApi.post('/accept_candidate',{id:application._id},{
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': Token,
-                        'userRole': Role,
-                        }
-                }).then((response)=>{
+                consultantAxios
+                .post('/accept_candidate',
+                {id:application._id}
+                ).then((response)=>{
                     console.log(response.data);
                     setApplication(response.data.studentData)
                     showToast(response.data.message);
@@ -100,13 +98,9 @@ const StudentProfile = () => {
             }).then((result) => {
               if (result.isConfirmed) {
                 // Handle the decline action
-                consultentApi.post('/decline_candidate',{id:application._id},{
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': Token,
-                        'userRole': Role,
-                        }
-                }).then((response)=>{
+                consultantAxios.post('/decline_candidate',
+                {id:application._id}
+                ).then((response)=>{
                     console.log(response.data);
                     setApplication(response.data.studentData)
                     showToast(response.data.message);

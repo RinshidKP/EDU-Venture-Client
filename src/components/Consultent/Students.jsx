@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { consultentApi } from '../../apiRoutes/studentAPI'
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import queryString from 'query-string';
+import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor';
 const Students = () => {
   const navigate = useNavigate()
   const [students, setStudents] = useState([])
-  const { Token, Role } = useSelector((state) => state.User);
+  const consultantAxios = useConsultantInterceptor();
 
   useEffect(() => {
-    consultentApi.get('/students_consultent', {
-      headers: {
-        'Authorization': Token,
-        'userRole': Role,
-      }
-    }).then((response) => {
+    consultantAxios.get('/students_consultent')
+    .then((response) => {
       console.log(response);
       setStudents(response.data.students)
     }).catch((error) => {

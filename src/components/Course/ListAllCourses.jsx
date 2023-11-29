@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { studentAPI } from "../../apiRoutes/studentAPI";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookReader } from "@fortawesome/free-solid-svg-icons";
 import { Filter } from "lucide-react";
 import { Listbox } from "@headlessui/react";
 import SortButton from "./SortButton";
+import { useStudentAxiosIntercepter } from "../../customHooks/useStudentAxiosIntercepter";
 
 const ListAllCourses = () => {
     const navigate = useNavigate();
+    const studentAxios = useStudentAxiosIntercepter()
     const coursesPerPage = 9;
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -55,7 +56,7 @@ const ListAllCourses = () => {
     };
 
     useEffect(() => {
-        studentAPI
+        studentAxios
             .get("/view_courses", {
                 params: {
                     page: currentPage,

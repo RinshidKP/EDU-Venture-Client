@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { studentAPI } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import { baseImageUrl } from '../../config/apiURL';
 import { ToastContainer, showErrorToast } from '../../helpers/toaster';
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const { Token, Role, Id } = useSelector((state) => state.User);
   const location = useLocation();
   const courses = location.state.courses;
+  const studentAxios = useStudentAxiosIntercepter();
+
   const navigate = useNavigate()
   useEffect(() => {
-    studentAPI.get('/user_blogs', {
+    studentAxios.get('/user_blogs', {
       params: {
         id: Id
       },

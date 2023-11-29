@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { createStudentAPI } from '../../apiRoutes/studentAPI';
 import defaultImage from '../../assets/dummy-profile.jpg';
 import { showErrorToast, showToast, ToastContainer } from '../../helpers/toaster';
 import CropperModal from './CropperModal';
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
 const EditProfile = () => {
-  const studentAPI = createStudentAPI();
+  const studentAxios = useStudentAxiosIntercepter()
+
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
   const [newUser, setNewUser] = useState({});
@@ -26,13 +27,11 @@ const EditProfile = () => {
   };
 
   useEffect(() => {
-    studentAPI
+    studentAxios
       .get('/profile', {
         params: { email: Email },
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': Token,
-          'userRole': Role,
         }, 
       })
       .then((response) => {
@@ -57,11 +56,9 @@ const EditProfile = () => {
   }
 
 
-    studentAPI.post('/update_profile', newUser, {
+  studentAxios.post('/update_profile', newUser, {
         headers: {
         'Content-Type': 'multipart/form-data',
-        'Authorization': Token,
-        'userRole': Role,
         },
     }).
     then((response)=>{
@@ -132,14 +129,6 @@ return (
       
       <div className='flex justify-center my-5'>
           <div className=" relative border mb-4 w-2/6 rounded-md p-2 bg-gray-100">
-          {/* <input
-            type="file"
-            id="course_image"
-            name="course_image"
-            accept="image/*"
-            onClick={() => document.getElementById('profileImage').click()}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          /> */}
           <div className="flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -1,130 +1,127 @@
 import { useEffect, useState } from 'react'
-import { consultentApi, studentAPI } from '../../apiRoutes/studentAPI'
 import { useSelector } from 'react-redux';
-import { baseImageUrl } from '../../config/apiURL';
 import { io } from 'socket.io-client';
 import { showErrorToast } from '../../helpers/toaster';
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
+import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor';
 
-const ContactList = ({recieverIdChange,receiverId}) => {
-    const [chats,setChats] = useState([]);
+const ContactList = ({ recieverIdChange, receiverId }) => {
+    const [chats, setChats] = useState([]);
     const [unread, setUnread] = useState(false);
     const [newMessage, setNewMessage] = useState(false);
-    const { Token,Role,Id } = useSelector((state) => state.User);
-    useEffect(()=>{
-        if(Role==='student'||Role==='admin'){
+    const { Token, Role, Id } = useSelector((state) => state.User);
 
-            studentAPI.get(`/chat_list`,{
+    const studentAxios = useStudentAxiosIntercepter();
+    const consultantAxios = useConsultantInterceptor();
+
+
+    useEffect(() => {
+        if (Role === 'student' || Role === 'admin') {
+
+            studentAxios.get(`/chat_list`, {
                 params: {
                     id: Id,
-                  },
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': Token,
-                    'userRole': Role
-                  }
-            }).then((response)=>{
-                // console.log(response);
+                }
+            }).then((response) => {
+                console.log(response);
+                console.log(response.data.chats[0].latestMessage);
                 setChats(response.data.chats)
-            }).catch((error)=>{
+            }).catch((error) => {
                 console.log(error)
                 console.error('Error fetching chat list:', error);
             })
-        }else{
+        } else {
 
-            consultentApi.get(`/chat_list`,{
+            consultantAxios.get(`/chat_list`, {
                 params: {
                     id: Id,
-                  },
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': Token,
-                    'userRole': Role
-                  }
-            }).then((response)=>{
+                },
+            }).then((response) => {
                 console.log(response);
                 setChats(response.data.chats)
-            }).catch((error)=>{
+            }).catch((error) => {
                 console.log(error)
                 console.error('Error fetching chat list:', error);
             })
         }
-    },[])
+    }, [])
 
-    // const socket = io('http://localhost:3000', {
-    //     transports: ['websocket'],
-    //     query: { userId: Id },
-    //   });
+    const socket = io('http://localhost:3000', {
+        transports: ['websocket'],
+        query: { userId: Id },
+      });
 
-    //   socket.on('message', (message) => {
-    //     console.log('Received message:', message.message.sender);
-    //     setNewMessage(message.message.sender)
-    //   });
+      socket.on('message', (message) => {
+        console.log('Received message:', message.message.sender);
+        setNewMessage(message.message.sender)
+      });
 
-      useEffect(()=>{
-        if(Role==='student'||Role==='admin'){
-            studentAPI.get(`/unread_between_users`,{
+    useEffect(() => {
+        if (Role === 'student' || Role === 'admin') {
+            studentAxios.get(`/unread_between_users`, {
                 params: {
                     id: Id,
-                    sender :newMessage,
-                  },
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': Token,
-                    'userRole': Role
-                  }
-            }).then((response)=>{
-                if(response.status===200){
-                    setUnread(response.data.unread+1)
+                    sender: newMessage,
                 }
-            }).catch((error)=>{
+            }).then((response) => {
+                if (response.status === 200) {
+                    setUnread(response.data.unread + 1)
+                }
+            }).catch((error) => {
                 showErrorToast(error.message)
             })
-        }else{
-            consultentApi.get(`/unread_between_users`,{
+        } else {
+            consultantAxios.get(`/unread_between_users`, {
                 params: {
                     id: Id,
-                    sender :newMessage,
-                  },
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': Token,
-                    'userRole': Role
-                  }
-            }).then((response)=>{
-                if(response.status===200){
+                    sender: newMessage,
+                },
+            }).then((response) => {
+                if (response.status === 200) {
                     setUnread(response.data.unread)
                 }
-            }).catch((error)=>{
+            }).catch((error) => {
                 showErrorToast(error.message)
             })
         }
-      },[Id,Role,Token,newMessage])
+    }, [Id, Role, Token, newMessage])
 
-      const handleChange = (id) => {
-        if(id===newMessage){
+    const handleChange = (id) => {
+        if (id === newMessage) {
             setUnread(false)
         }
         recieverIdChange(id)
-      }
-      
-    const normal = "h-20 rounded-lg mb-2 border border-1 bg-cyan-600 flex items-center justify-between border-white p-2 hover:bg-gray-100"
-    const highlighted = "h-20 rounded-lg mb-2 border border-1 flex items-center bg-white justify-between border-white p-2"
-  return (
-    <div className='h-full p-2 bg-sky-100'>
-        {chats.map((chat,index) => (
-        <div key={index} onClick={()=>handleChange(chat._id)} className={receiverId===chat._id ? highlighted : normal}>
-            <div className='flex  items-center justify-evenly'>
-            <div className="text-center mx-3"><img className='h-10 w-10 rounded-full' src={chat.profile_picture ?( chat?.profile_picture.url ): (chat?.profile_image.url) } alt="" /></div>
-            <div className="text-center">{chat?.full_name ? chat?.full_name : chat?.consultancy_name}</div>
-            </div>
-            {chat?._id===newMessage&&(<div className="text-sm bg-white rounded-full p-2 text-red-500">
-                {unread}
-            </div>)}
-        </div>
-        ))}
-    </div>
+    }
 
-  )
+    const normal = "h-20 rounded-lg mb-2 border border-1 bg-cyan-200 flex items-center justify-between border-white p-2 hover:bg-gray-100"
+    const highlighted = "h-20 rounded-lg mb-2 border border-1 flex items-center bg-white justify-between border-white p-2"
+    return (
+        <div className='h-full p-2 bg-sky-100'>
+            {chats.map((chat, index) => (
+            <div key={index} onClick={() => handleChange(chat._id)} className={`${receiverId === chat._id ? highlighted : normal} flex items-center justify-between p-3 border-b border-gray-300`}>
+                <div className='flex items-center space-x-3'>
+                <img className='h-10 w-10 rounded-full' src={chat.profile_picture ? chat?.profile_picture.url : chat?.profile_image.url} alt="" />
+                <div className='flex flex-col justify-start items-start ml-3'>
+                    <div className="text-center">{chat?.full_name ? chat?.full_name : chat?.consultancy_name}</div>
+                    <div className={`text-xs ${ chat.latestMessage?.read=== false && chat.latestMessage.sender!==Id ? 'animate-pulse border border-1 border-red-500 rounded-lg px-1 bg-white text-red-900' : ''}`}>
+                    {chat.latestMessage?.text}
+                    </div>
+                </div>
+                </div>
+                <div className='flex flex-col items-end'>
+                <div className='text-xs'>
+                    {chat.latestMessage?.date && new Date(chat.latestMessage.date).toLocaleString('en-IN', {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    })}
+                </div>
+                </div>
+                
+            </div>
+            ))}
+        </div>
+
+    )
 }
 
 export default ContactList

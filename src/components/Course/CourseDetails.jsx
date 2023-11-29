@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import defaultImage from '../../assets/download.png';
 import { useLocation } from 'react-router-dom';
-import { studentAPI } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import { showToast, ToastContainer } from '../../helpers/toaster';
 import Swal from 'sweetalert2';
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
 const CourseDetails = () => {
   const [course, setCourse] = useState(null);
-  const { Token, Role, Id } = useSelector((state) => state.User);
+  const { Id } = useSelector((state) => state.User);
+  const studentAxios = useStudentAxiosIntercepter();
   const location = useLocation();
   const [applied,setApplied] = useState(false);
   const [country,setCountry] = useState(null)
@@ -25,31 +26,14 @@ const CourseDetails = () => {
       const countryToSet = location.state?.course.countryInfo || location.state?.course.country;
       setCountry(countryToSet);
 
-    } else {
-      console.log('the state doesnt have value mister ');
-      // studentAPI.get('/country_details',{
-      //   params: {
-      //     id :location.course._id
-      //   },
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Authorization': Token,
-      //     'userRole': Role
-      //   }
-      // })
     }
   }, [location]);
 
   useEffect(()=>{
-      studentAPI.get('/student_application',{
+      studentAxios.get('/student_application',{
         params: {
           courseID : location.state.course._id,
           studentID : Id,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': Token,
-          'userRole': Role
         }
       }).then((response)=>{
           // console.log(response.data);
@@ -57,7 +41,7 @@ const CourseDetails = () => {
         }).catch((error)=>{
         console.log(error.response.data);
       })
-  },[location,Id,Token,Role])
+  },[location,Id])
   const handleApply = () => {
     console.log(course._id);
 
@@ -71,13 +55,8 @@ const CourseDetails = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         const id = course._id;
-        studentAPI
-          .post('/apply_course', { id }, {
-            headers: {
-              'Authorization': Token,
-              'userRole': Role,
-            },
-          })
+        studentAxios
+          .post('/apply_course', { id })
           .then((response) => {
             console.log(response);
             showToast(response.data.message);
@@ -102,26 +81,28 @@ const CourseDetails = () => {
         </div>
       </nav>
 
-      <div className="w-full max-w-screen-xl mx-auto p-6 bg-white rounded-md shadow-md">
+      <div className="w-full max-w-screen-xl mx-auto py-10  p-6 bg-white rounded-md shadow-md">
         {course ? (
           <div className="flex w-full justify-center md:flex-row">
-            <div className='w-4/6 flex bg-gray-200 justify-content-center'>
+            <div className='w-5/6 flex bg-white shadow-2xl rounded-lg justify-content-center'>
               <div className='flex mx-auto my-10'>
                 {/* Left Section */}
-                <div className="w-full md:w-2/4 pr-6">
+                <div className="w-full md:w-3/5 pr-6">
                   <div className="text-center">
                     <h1 className="text-3xl font-semibold text-gray-800 mb-4">{course.header}</h1>
+                    <div className='m-10' >
                     <img
-                      className="rounded-lg shadow-lg mx-auto w-full md:w-64 h-64 md:h-80 lg:w-96 lg:h-96 border-4 border-gray-300"
+                      className="rounded-lg shadow-lg mx-auto w-full object-cover object-center border-4 border-gray-300"
                       src={course.course_image ? course.course_image.url : defaultImage}
                       alt="Course Image"
                     />
+                    </div>
 
                   </div>
                 </div>
 
                 {/* Right Section */}
-                <div className='flex mx-auto justify-content-center'>
+                <div className='flex mx-auto justify-content-center w-2/5'>
                   <div className="flex flex-1 flex-col justify-center">
                     <div className="mt-4 items-start">
                       {/* Column 1 */}
@@ -176,7 +157,7 @@ const CourseDetails = () => {
         {/* Other contents below the image and header */}
         <div className="mt-6">
           <div className="text-center">
-            <h2 className="text-lg text-gray-600">Students Qualification</h2>
+            <h2 className="text-2xl underline capitalize text-gray-600">Students Qualification</h2>
             <p className="text-gray-800">{course?.students_qualification_header}</p>
           </div>
         </div>
@@ -189,19 +170,18 @@ const CourseDetails = () => {
 
         <div className="mt-6">
           <div className="text-center">
-            <h2 className="text-lg text-gray-600">Requirements</h2>
+            <h2 className="text-2xl underline capitalize text-gray-600">Requirements</h2>
             <p className="text-gray-800">{course?.requirements_header}</p>
           </div>
         </div>
 
         <div className="mt-6">
           <div className="text-center">
-            <h2 className="text-lg text-gray-600">Requirements Description</h2>
+            <h2 className="text-2xl underline capitalize text-gray-600">Requirements Description</h2>
             <p className="text-gray-800">{course?.requirements_blob}</p>
           </div>
         </div>
 
-        {/* Button */}
 
       </div>
       <ToastContainer />

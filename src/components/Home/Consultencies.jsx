@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { studentAPI } from '../../apiRoutes/studentAPI';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Slider from "react-slick";
 import defaultImage from '../../assets/download.png'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
 const Consultencies = () => {
   const navigate = useNavigate();
   const [consultents, setConsultents] = useState([]);
   const { Token, Role } = useSelector((state) => state.User);
-
+  const studentAxios = useStudentAxiosIntercepter()
   const settings = {
     dots: true,
     infinite: true,
@@ -50,12 +50,7 @@ const Consultencies = () => {
   };
   
   useEffect(() => {
-    studentAPI.get('/list_consultencies', {
-      headers: {
-        'Authorization': Token,
-        'userRole': Role,
-      }
-    })
+    studentAxios.get('/list_consultencies')
     .then((response) => {
       setConsultents(response.data.consultents);
       console.log(response.data.consultents);
