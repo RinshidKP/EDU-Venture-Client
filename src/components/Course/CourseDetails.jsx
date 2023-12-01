@@ -1,27 +1,27 @@
 import { useState, useEffect } from 'react';
 import defaultImage from '../../assets/download.png';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { showToast, ToastContainer } from '../../helpers/toaster';
 import Swal from 'sweetalert2';
 import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
+import { loadStripe } from '@stripe/stripe-js';
 
 const CourseDetails = () => {
+  const navigate= useNavigate()
   const [course, setCourse] = useState(null);
   const { Id } = useSelector((state) => state.User);
   const studentAxios = useStudentAxiosIntercepter();
   const location = useLocation();
   const [applied,setApplied] = useState(false);
   const [country,setCountry] = useState(null)
-
+  const [application,setApplication] = useState({})
   useEffect(() => {
-    console.log(location.state.status);
+    // console.log(location.state);
     
     if (location.state?.course) {
       setCourse(location.state?.course);
-      if (location.state?.status === 'Accepted'||location.state?.status === 'Pending') {
-        setApplied(true);
-      }      
+      // console.log(location.state.course);   
       setCountry(location.state?.course.countryInfo||location.state?.course.country)
       const countryToSet = location.state?.course.countryInfo || location.state?.course.country;
       setCountry(countryToSet);
@@ -36,14 +36,15 @@ const CourseDetails = () => {
           studentID : Id,
         }
       }).then((response)=>{
-          // console.log(response.data);
+          console.log('Applied',response.data.applied);
           setApplied(response.data.applied)
+          setApplication(response.data.applied[0])
         }).catch((error)=>{
         console.log(error.response.data);
       })
   },[location,Id])
   const handleApply = () => {
-    console.log(course._id);
+    // console.log(course._id);
 
     Swal.fire({
       title: 'Confirm Application',
@@ -58,16 +59,34 @@ const CourseDetails = () => {
         studentAxios
           .post('/apply_course', { id })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             showToast(response.data.message);
-            if(response.status===200){
-              setApplied(true);
-            }
+            // if(response.status===200){
+            //   setApplied(true);
+            // }
           });
       }
     });
   };
 
+  const makePayment = async () => {
+    const stripe = await loadStripe('pk_test_51OHixDSJYia4uvqdHG3CLqt8yNNQyd7bmI9AXQDyLiriRwdHoMmlvqrJSDDdO27yuApUoPqY6Yh94KrYEfL1cCNt00qNJxd2Nj');
+    console.log(application);
+    studentAxios.post('/create_check_out',{application:location.state,id:application._id })
+    .then((response)=>{
+      const result = stripe.redirectToCheckout({sessionId:response.data.id});
+      console.log(result);
+      if(result.error){
+        console.log(result);
+        navigate('/course_details/cancel',{state:{result}})
+      }
+      studentAxios.post('/checkout_success',{id:application._id ,sessionId:response.data.id,result})
+      .catch((error)=>{
+          console.log(error);
+      })
+      
+    })
+  }
   return (
     <div className="">
 
@@ -80,16 +99,15 @@ const CourseDetails = () => {
           </div>
         </div>
       </nav>
-
-      <div className="w-full max-w-screen-xl mx-auto py-10  p-6 bg-white rounded-md shadow-md">
+      <div className="w-full max-w-screen-xl  mx-auto py-10  p-6 bg-white rounded-md shadow-md">
         {course ? (
           <div className="flex w-full justify-center md:flex-row">
             <div className='w-5/6 flex bg-white shadow-2xl rounded-lg justify-content-center'>
-              <div className='flex mx-auto my-10'>
+              <div className='flex mx-auto justify-center my-10'>
                 {/* Left Section */}
                 <div className="w-full md:w-3/5 pr-6">
                   <div className="text-center">
-                    <h1 className="text-3xl font-semibold text-gray-800 mb-4">{course.header}</h1>
+                    <h1 className="text-3xl capitalize font-semibold text-gray-800 mb-4">{course.header}</h1>
                     <div className='m-10' >
                     <img
                       className="rounded-lg shadow-lg mx-auto w-full object-cover object-center border-4 border-gray-300"
@@ -99,6 +117,16 @@ const CourseDetails = () => {
                     </div>
 
                   </div>
+                  {applied&&applied.paymentStatus!=='Pending'&&(
+                    <div className='flex w-full justify-center mt-6 ' >
+                      <div className='border flex justify-evenly items-center w-full border-sky-600 rounded-lg mx-5 py-2 px-1' >
+                        <p className='my-3 capitalize'>{course.creator?.consultancy_name||'Consultant'} Has Requested Payment</p>
+                        <div className=' my-3'>
+                          <button onClick={makePayment} className='px-5 py-3 bg-emerald-500 text-white rounded-lg ' >Pay Now</button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Right Section */}
@@ -124,6 +152,8 @@ const CourseDetails = () => {
                           </p>
                           <img className='object-cover object-center mx-3 w-5 h-5 rounded-full' src={ country?.image.url} alt="" />
                         </div>
+
+                        
                       </div>
 
                       {/* Column 3 */}
@@ -142,6 +172,8 @@ const CourseDetails = () => {
                       </div>
                     </div>
                   </div>
+
+
                 </div>
               </div>
             </div>

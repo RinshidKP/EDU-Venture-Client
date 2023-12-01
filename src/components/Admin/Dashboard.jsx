@@ -45,7 +45,8 @@ const Dashboard = () => {
       setStudentsCount(response.data.studentsCount);
       setConsultantsCount(response.data.consultantsCount);
       setCoursesCount(response.data.courseCount);
-      setUnApproved(response.data.unApprovedConsultants)
+      setUnApproved(response.data.unApprovedConsultants);
+
       setUsersChartData({
         labels: ['Students', 'Consultants'],
         datasets: [{
@@ -57,7 +58,6 @@ const Dashboard = () => {
       const labels = response.data.countriesWithCourseCount.map((country) => country.name);
 
       const data = response.data.countriesWithCourseCount.map((country) => country.courseCount);
-      console.log(labels);
 
       setCommercesChartData({
         labels: labels,

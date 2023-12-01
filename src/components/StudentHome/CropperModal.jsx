@@ -32,7 +32,7 @@ const CropperModal = ({cropType,image,handleCroppedImage}) => {
             const buffer = await blobToBuffer(blob);
   
             // Get the Data URL of the cropped image
-            const imageUrl = croppedCanvas.toDataURL('image/jpeg', 0.9);
+            const imageUrl = croppedCanvas.toDataURL('image/jpeg', 0.8);
   
             // Pass both the Buffer and Image URL to the parent component
             handleCroppedImage({ image:buffer, imageUrl });

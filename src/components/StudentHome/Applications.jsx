@@ -44,8 +44,8 @@ const Applications = () => {
               </div>
 
               <div className='flex-1 mb-5'>
-                <div className={application.status === 'Pending' ? 'text-blue-500' : 'text-red-500' || 'Application'}>
-                  Status: {application.status || 'Application'}
+                <div className={application.status === 'Pending' ? 'text-blue-500' :application.status === 'Accepted' ? 'text-green-500': 'text-red-500' || 'Application'}>
+                  Status: {application.paymentStatus !=="Pending" ? application.paymentStatus : application.status || 'Application'}
                 </div>
               </div>
               <div className='flex-1 mb-5'>

@@ -14,9 +14,9 @@ function StudentChat() {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
   const [receiverId, setReceiverId] = useState(null);
-  const [receiverName, setReceiverName] = useState(null);
+  const [receiverName, setReceiverName] = useState(false);
+  // const [new , setNew] = useState(false);
   const location = useLocation();
-
   const { Id ,Token ,Role,DisplayImage,DisplayName } = useSelector((state) => state.User);
   const [userId, setUserId] = useState(Id);
 
@@ -27,7 +27,8 @@ function StudentChat() {
 
   socket.on('message', (message) => {
       if(receiverId===message.message.sender){
-        console.log('Received message:', message);
+        console.log('Received message:',message);
+        setReceiverName(!receiverName);
         setChat((prevChat) => (prevChat ? [...prevChat, message.message] : [message.message]));
     }
   });
@@ -42,7 +43,7 @@ function StudentChat() {
       setReceiverId(queryParams.get('_id'));
       setReceiverName(queryParams.get('consultancy_name'));
     }
-  }, [location.search]);
+  }, [location.search,receiverName]);
 
   useEffect(() => {
     if (userId && receiverId) {

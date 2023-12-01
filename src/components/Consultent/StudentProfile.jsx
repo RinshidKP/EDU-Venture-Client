@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import { ToastContainer, showErrorToast, showToast } from '../../helpers/toaster';
-import { useSelector } from 'react-redux';
+import defaultPassport from '../../assets/download.png';
 import queryString from 'query-string';
 import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor';
 
@@ -15,7 +15,7 @@ const StudentProfile = () => {
     const [course, setCourse] = useState({});
     const [selectedValue, setSelectedValue] = useState('');
     const [isOpen, setIsOpen] = useState(false);
-    const {Token , Role} = useSelector((state)=>state.User);
+    const [certificate,setCertificate] = useState({})
     const [selectOptions,setSelectOptions] = useState([
         { value: 'Accepted', label: 'Accept' },
         { value: 'Decline', label: 'Decline' },
@@ -28,13 +28,30 @@ const StudentProfile = () => {
     const consultantAxios = useConsultantInterceptor();
 
     useEffect(() => {
+
+        consultantAxios.get('/student_certificates', {
+            params: { studentId: location.state.student._id } 
+          })
+        .then((response)=>{
+            console.log(location.state.student._id);
+            console.log(response);
+            if(response.data.certificate===false){
+                setCertificate({})
+            }else{
+                setCertificate(response.data.certificate)
+            }
+        })
+        .catch((error)=>{
+            console.error(error);
+        })
+
         setCourse(application.course);
-        console.log(application);
         setUserData(application.student);
         setSelectedValue(
           application.status
         );
       }, [application]);
+
 
       
       useEffect(() => {
@@ -124,10 +141,19 @@ const StudentProfile = () => {
             }).then((result) => {
               if (result.isConfirmed) {
                 // Handle the payment initiation action here
-                // initiatePayment(); // Replace this with your payment initiation logic
+                consultantAxios.post('/intiatie_payement_option',
+                {id:application._id}
+                ).then((response)=>{
+                    console.log(response.data);
+                    setApplication(response.data.studentData)
+                    showToast(response.data.message);
+                }).catch((error)=>{
+                    showErrorToast(error.message)
+                })
+              
                 setSelectedValue(option.value);
               } else if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
-                showToast('Payment Cancelled');
+                showToast('Payment Initialisation Cancelled');
                 return
               }
             });
@@ -148,10 +174,10 @@ const StudentProfile = () => {
                 </div>
             </nav>
 
-            <section className="pt-16">
+            <section className="pt-5">
                 <div className="container mx-auto">
                     <div className="bg-white bg-opacity-70 w-full shadow-xl rounded-lg p-6">
-                        <div className="grid grid-cols-2 text-center my-auto w-full">
+                        <div className="border border-black rounded py-5 grid grid-cols-2 text-center my-auto w-full">
                             <div className=' col-1'>
                                 <div className="flex justify-center">
                                     <img
@@ -189,7 +215,7 @@ const StudentProfile = () => {
                                         <input
                                             type="text"
                                             className="border-2 border-black px-10 py-2 rounded-3xl text-center cursor-pointer"
-                                            value={selectOptions.find((option) => option.value === selectedValue)?.label || selectedValue ||'Select Action'}
+                                            value={application.paymentStatus !== 'Pending' ? application.paymentStatus :selectOptions.find((option) => option.value === selectedValue)?.label || selectedValue ||'Select Action'}
                                             readOnly
                                             onClick={() => {setIsOpen(!isOpen)}}
                                         />
@@ -213,6 +239,12 @@ const StudentProfile = () => {
                             </div>
 
                         </div>
+
+
+                        
+            
+
+
                         <div className="user-info">
 
                             <div className="flex items-center m-10 justify-center">
@@ -234,9 +266,188 @@ const StudentProfile = () => {
                         <div className="input-group mb-3 w-75 mx-auto">
                             {/* Add any input fields or form elements here */}
                         </div>
+
+
+                        <div className='my-5 select-none w-full flex flex-col sm:flex-row items-center justify-center cursor-pointer'>
+                <div className='my-5 select-none w-full flex flex-col sm:flex-row items-center justify-center cursor-pointer'>
+                  <div className="text-2xl rounded-lg text-center  w-full sm:w-3/4 border border-green-800">
+                    <div className='py-3 bg-white-100'>
+                      <h3 className='underline text-green-800 font-semibold'>Passport</h3>
                     </div>
+                    <div className='flex justify-center' >
+                    <div className='flex m-4 text-start'>
+                      {/* First Column */}
+                      <div className='text-xl flex flex-col my-2 mx-5'>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Passport Name
+                        </h3>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Passport Number
+                        </h3>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Date Of Birth
+                        </h3>
+                      </div>
+
+                      {/* Second Column */}
+                      <div className='text-xl flex flex-col my-2 mx-5'>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                        {certificate?.passport?.name||"Passport Name"}
+                        </h3>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                        {certificate?.passport?.passportNumber||"Passport Number"}
+                        </h3>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                          {certificate?.passport?.dateOfBirth
+                          ? new Date(certificate?.passport.dateOfBirth).toLocaleDateString('en-GB', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                            })
+                          :"Date of birth"}
+                        </h3>
+                      </div>
+
+                      {/* Third Column */}
+                      <div className='text-xl flex flex-col my-2 mx-5'>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Place Of Birth
+                        </h3>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Date Of Issue
+                        </h3>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Date Of Expirey
+                        </h3>
+                      </div>
+
+                      {/* Fourth Column */}
+                      <div className='text-xl flex flex-col my-2 mx-5'>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                         {certificate?.passport?.placeOfBirth||" Place of birth"}
+                        </h3>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                          {certificate?.passport?.dateOfIssue
+                          ? new Date(certificate?.passport.dateOfIssue).toLocaleDateString('en-GB', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                            })
+                          :"Date of Issue"}
+                        </h3>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                          {certificate?.passport?.dateOfExpiry
+                          ? new Date(certificate?.passport.dateOfExpiry).toLocaleDateString('en-GB', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                            })
+                          :"Date of Expirey"}
+                        </h3>
+                      </div>
+                    </div>
+                    </div>
+                    <div className='m-5 flex justify-center '>
+                      <img className='h-40 w-80 border rounded border-sky-800' src={certificate?.passport?.image_proof.url||defaultPassport} alt="" />
+                    </div>
+                    <div>
+                      <button className='border border-black text-green-900 px-2 m-2 rounded-lg hover:bg-gray-800 hover:text-white' >Edit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className='my-5 select-none w-full flex flex-col sm:flex-row items-center justify-center cursor-pointer'>
+                <div className='my-5 select-none w-full flex flex-col sm:flex-row items-center justify-center cursor-pointer'>
+                  <div className="text-2xl rounded-lg text-center w-full sm:w-3/4 border border-green-800">
+                    <div className='py-3 bg-white-100'>
+                      <h3 className='underline text-green-800 font-semibold'>Certificates</h3>
+                    </div>
+                    <div className="flex justify-center">
+                    <div className='flex m-4 text-start '>
+                      {/* First Column */}
+                      <div className='text-xl flex flex-col my-2 mx-5'>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Qualification Name
+                        </h3>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          University Name
+                        </h3>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Joined Date
+                        </h3>
+                      </div>
+
+                      {/* Second Column */}
+                      <div className='text-xl flex flex-col my-2 mx-5'>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                          {certificate?.qualification?.qualificationName||'Name'}
+                        </h3>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                          {certificate?.qualification?.universityName||'University Name'}
+
+                        </h3>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                          {certificate?.qualification?.joinedDate?
+                           new Date(certificate.qualification.joinedDate).toLocaleDateString('en-GB', {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                          })
+                        :'Date of Joining'}
+                        </h3>
+                      </div>
+
+                      {/* Third Column */}
+                      <div className='text-xl flex flex-col my-2 mx-5'>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Collage Name
+                        </h3>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Collage Address
+                        </h3>
+                        <h3 className='my-2 font-bold text-gray-700 p-1'>
+                          Date Of Passing
+
+                        </h3>
+                      </div>
+
+                      {/* Fourth Column */}
+                      <div className='text-xl flex flex-col my-2 mx-5'>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                          {certificate?.qualification?.collegeName||'College Name'}
+                        </h3>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                          {certificate?.qualification?.collegeAddress||'College Address'}
+
+                        </h3>
+                        <h3 className='my-2 rounded-lg border border-sky-500 p-1 text-gray-800'>
+                        {certificate?.qualification?.dateOfPassing?
+                           new Date(certificate.qualification.dateOfPassing).toLocaleDateString('en-GB', {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                          })
+                        :'Date of Passing'}
+                        </h3>
+                      </div>
+                    </div>
+                    </div>
+                    <div className='m-5 flex justify-center '>
+                      <img className='h-40 w-80 border rounded border-sky-800' src={certificate?.qualification?.image_proof.url||defaultPassport} alt="" />
+                    </div>
+                    <div>
+                      <button className='border border-black text-green-900 px-2 m-2 rounded-lg hover:bg-gray-800 hover:text-white' >Edit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                    </div>
+                    
                 </div>
             </section>
+
+            
             <ToastContainer/>
         </div>
     );

@@ -122,7 +122,7 @@ const Header = () => {
               <a onClick={() => navigate('/blogs')} className={pathname === '/blogs' ? highlited : normal}>
                 Blogs
               </a>
-              {Role === 'consultent' ? (
+              {Role === 'consultant' ? (
                 ''
               ) : (
                 <a
@@ -155,7 +155,7 @@ const Header = () => {
                 showOptions ? (
                   <div className="absolute top-10 right-10 p-2 bg-white shadow-md w-30 cursor-pointer rounded-md">
                     <ul className="list-none">
-                      {Role === 'consultent' && (
+                      {Role === 'consultant' && (
                         <li className="mb-2">
                           <a
                             onClick={() => navigate('/consultent')}

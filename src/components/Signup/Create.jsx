@@ -38,10 +38,7 @@ function Create() {
 
   const resendOtp = () => {
 studentAPI
-  
-      .get('/resend_otp', {
-        params: { email: user.email },
-      })
+      .post('/resend_otp', {email: user.email})
       .then((response) => {
         if (response.status === 200) {
           console.log(response);

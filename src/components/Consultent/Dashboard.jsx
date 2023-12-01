@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 import 'chartjs-plugin-datalabels';
+import { Chart } from 'chart.js/auto';
 import { useNavigate } from 'react-router-dom';
 import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor';
-
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -41,21 +41,28 @@ const Dashboard = () => {
 
   useEffect(() => {
     console.log(Id);
+
+    if (Chart.helpers) {
+      Chart.helpers.each(Chart.instances, (instance) => {
+        instance.destroy();
+      });
+    }
+
     consultantAxios.get('/consultant_dashboard', {
-       params: {
+      params: {
         id: Id,
       },
     }).then((response) => {
-    //   console.log(response.data);
+      //   console.log(response.data);
       setStudentsCount(response.data.acceptedStudents);
       setApplicationCount(response.data.applicationCount);
       setCoursesCount(response.data.courseCount);
       setPendingApplications(response.data.pendingApplications)
       setUsersChartData({
-        labels: ['Accepted Students', 'Applications','Courses'],
+        labels: ['Accepted Students', 'Applications', 'Courses'],
         datasets: [{
-          data: [response.data.acceptedStudents, response.data.applicationCount,response.data.courseCount],
-          backgroundColor: ['#00F0FF', '#7aeb34','#e3ba49'],
+          data: [response.data.acceptedStudents, response.data.applicationCount, response.data.courseCount],
+          backgroundColor: ['#00F0FF', '#7aeb34', '#e3ba49'],
         }],
       });
 
@@ -83,17 +90,16 @@ const Dashboard = () => {
   }, [])
 
   const DataBox = ({ title, count, color }) => (
-    <div className="flex-1 bg-cyan-200 p-4 shadow rounded-lg">
+    <div className="flex-1 sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 bg-cyan-200 p-4 shadow rounded-lg">
       <h2 className="text-gray-500 text-lg font-semibold pb-1">{title}</h2>
       <div className="my-1"></div>
       <div className={`text-3xl font-bold ${color}`}>{count}</div>
     </div>
   );
-
+  
   return (
     <div className="flex flex-col h-full bg-gray-100 pb-10">
-
-      <div className="mt-8 flex flex-wrap  mx-5 space-x-4">
+      <div className="mt-8 flex flex-wrap mx-5 space-x-4">
         <DataBox title="Students" count={studentsCount} color="text-cyan-500" />
         <DataBox title="Applications" count={applicationCount} color="text-cyan-500" />
         <DataBox title="Revenue" count={totalRevenue} color="text-cyan-500" />
@@ -103,29 +109,33 @@ const Dashboard = () => {
       <div className="flex-1 p-4 w-full">
 
 
-        <div className="mt-8 flex flex-wrap space-x-4">
-          <div className="flex-1 bg-white p-4 shadow rounded-lg">
+        <div className="flex flex-wrap w-full justify-evenly">
+          <div className="w-full sm:w-2/5  py-5 bg-white p-4 shadow rounded-lg mb-4">
             <h2 className="text-gray-500 text-lg font-semibold pb-1">Users</h2>
             <div className="my-1"></div>
             <div className="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div>
             <div className="chart-container relative w-full h-4/5">
-              <Doughnut data={usersChartData} options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                  position: 'bottom',
-                },
-              }} />
+              <Doughnut
+                key="usersChart"
+                data={usersChartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  legend: {
+                    position: 'bottom',
+                  },
+                }}
+              />
             </div>
           </div>
 
-          <div className="flex-1 bg-white p-4 shadow rounded-lg">
+          <div className="w-full sm:w-2/5  py-5 bg-white p-4 shadow rounded-lg mb-4">
             <h2 className="text-gray-500 text-lg font-semibold pb-1">Businesses</h2>
             <div className="my-1"></div>
             <div className="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div>
-            <div className="chart-container flex items-center justify-center relative w-full ">
-              {/* {console.log(commercesChartData)} */}
+            <div className="chart-container flex items-center justify-center relative w-full">
               <Bar
+                key="commercesChart"
                 data={commercesChartData}
                 options={{
                   responsive: true,
@@ -158,28 +168,18 @@ const Dashboard = () => {
                       display: true,
                       text: 'Courses And Applications',
                     },
-                    datalabels: {
-                      display: true,
-                      align: 'end',
-                      anchor: 'end',
-                      formatter: (value, context) => {
-                        const index = context.dataIndex;
-                        return commercesChartData.labels[index];
-                      },
-                    },
                   },
                 }}
               />
-
-
             </div>
           </div>
         </div>
 
 
-        <div className="flex mt-8 space-x-4">
-          <div className="flex-1 bg-white p-4 shadow rounded-lg">
-            <h2 className="text-gray-500 text-lg font-semibold pb-4">Pending Authorizations </h2>
+
+        <div className="flex flex-col lg:flex-row mt-8 space-y-4 lg:space-y-0 lg:space-x-4">
+          <div className="flex-1 bg-white p-4 shadow rounded-lg overflow-x-auto">
+            <h2 className="text-gray-500 text-lg font-semibold pb-4">Pending Authorizations</h2>
             <div className="my-1"></div>
             <div className="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div>
             <table className="w-full table-auto text-sm">
@@ -192,7 +192,7 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {pendingApplications.map((application,index) => (
+                {pendingApplications.map((application, index) => (
                   <tr key={index} className="hover:bg-grey-lighter">
                     <td className="py-2 px-4 border-b border-grey-light text-center">
                       <img src={application?.student.profile_picture?.url} alt="Profile" className="rounded-full h-10 w-10 mx-auto" />
@@ -206,22 +206,19 @@ const Dashboard = () => {
                 ))}
               </tbody>
             </table>
-
-
             <div className="text-right mt-4">
-              <button onClick={()=>navigate('/dashboard_consultencies')} className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
+              <button onClick={() => navigate('/consultent_student')} className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
                 View More
               </button>
             </div>
           </div>
 
-          <div className="flex-1 bg-white p-4 shadow rounded-lg">
+          <div className="flex-1 bg-white p-4 shadow rounded-lg overflow-x-auto">
             <div className="bg-white p-4 rounded-md mt-4">
               <h2 className="text-gray-500 text-lg font-semibold pb-4">Transactions</h2>
               <div className="my-1"></div>
               <div className="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div>
               <table className="w-full table-auto text-sm">
-                {/* Table content for Transactions */}
                 <thead>
                   <tr className="text-sm leading-normal">
                     <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Name</th>
@@ -230,19 +227,17 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="hover:bg-grey-lighter">
-                  </tr>
+                  {/* Table content for Transactions */}
                 </tbody>
               </table>
               <div className="text-right mt-4">
-                <button className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
+                <button onClick={()=>navigate('/consultent_student')} className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
                   View More
                 </button>
               </div>
             </div>
           </div>
         </div>
-
 
       </div>
     </div>

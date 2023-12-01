@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookReader } from "@fortawesome/free-solid-svg-icons";
-import { Filter } from "lucide-react";
+import { Filter, SortAsc, SortDesc } from "lucide-react";
 import { Listbox } from "@headlessui/react";
-import SortButton from "./SortButton";
 import { useStudentAxiosIntercepter } from "../../customHooks/useStudentAxiosIntercepter";
 
 const ListAllCourses = () => {
@@ -24,27 +23,22 @@ const ListAllCourses = () => {
         { value: "country", label: "Country", sort: "asc" },
         { value: "courseName", label: "Course Name", sort: "asc" },
     ]);
-    const [sortOption, setSortOption] = useState(options[0]);
+
+    const [sortCountryOption, setSortCountryOptionOption] = useState(false);
+    const [sortDateOption, setSortDateOptionOption] = useState(false);
 
     const handleFilterClick = () => {
         setShowCountries(!showCountries);
     };
 
-    const handleSortChange = (selectedOption) => {
-        setSortOption(selectedOption);
-        console.log(selectedOption);
+    const handleSortChange = () => {
+        setSortCountryOptionOption((sortCountryOption) => !sortCountryOption);
     };
 
-    const handleToggleOrder = (value) => {
-        setSortOption((prevSortOptions) =>
-            prevSortOptions.map((option) => {
-                if (option.value === value) {
-                    return { ...option, sort: option.sort === "asc" ? "desc" : "asc" };
-                }
-                return option;
-            })
-        );
+    const handleDateOrder = () => {
+        setSortDateOptionOption((sortDateOption) => !sortDateOption);
     };
+    
 
     const handleCountryChange = (selectedOptions) => {
         setListboxValue(selectedOptions);
@@ -66,6 +60,8 @@ const ListAllCourses = () => {
                         listboxValue.length > 0
                             ? listboxValue.map((country) => country._id)
                             : undefined,
+                    sortCountry:sortCountryOption === true ? -1 : 1,
+                    sortDate:sortDateOption === true ? -1 : 1,
                 },
             })
             .then((response) => {
@@ -79,7 +75,7 @@ const ListAllCourses = () => {
             .catch((error) => {
                 console.error("Error fetching courses:", error);
             });
-    }, [currentPage, listboxValue, search]);
+    }, [currentPage, listboxValue, search, sortCountryOption,sortDateOption]);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -146,14 +142,27 @@ const ListAllCourses = () => {
                     >
                         <Filter size={24} strokeWidth={1} />
                     </div>
-                    <div className="w-full md:w-auto">
-                        <SortButton
-                            size={16}
-                            options={options}
-                            selectedOption={sortOption}
-                            onSelect={handleSortChange}
-                            onToggleOrder={handleToggleOrder}
-                        />
+                    <div className="w-full flex md:w-auto">
+                        <div className="flex my-3" >
+                            <button onClick={()=>setSortCountryOptionOption((sortCountryOption) => !sortCountryOption)}
+                             className="flex px-2 border rounded mx-1" >Countries
+                            {sortCountryOption ? (
+                                <SortAsc size={20} strokeWidth={1} />
+                                ) : (
+                                <SortDesc size={20} strokeWidth={1} />
+                            )}
+                            </button>
+                        </div>
+                        <div className="flex my-3" >
+                            <button onClick={()=>        setSortDateOptionOption((sortDateOption) => !sortDateOption)}
+                             className="flex px-2 border rounded mx-1" >Date
+                            {sortDateOption ? (
+                                <SortAsc size={20} strokeWidth={1} />
+                                ) : (
+                                <SortDesc size={20} strokeWidth={1} />
+                            )}
+                            </button>
+                        </div>
                     </div>
                 </div>
        

@@ -95,9 +95,7 @@ function ConsultentForm() {
   const resendOtp = () => {
     consultentApi
       
-          .get('/resend_otp', {
-            params: { email: email },
-          })
+          .post('/resend_otp',{ email: email })
           .then((response) => {
             if (response.status === 200) {
               console.log(response);

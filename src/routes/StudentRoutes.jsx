@@ -17,6 +17,10 @@ import ListAllBlogs from '../pages/Student/ListAllBlogs.jsx';
 import StudentsApplications from '../pages/Student/StudentsApplications.jsx';
 import StudentsBlogs from '../pages/Student/StudentsBlogs.jsx';
 import ListCoursesByCountry from '../pages/Student/ListCoursesByCountry.jsx';
+import PaymentSuccess from '../pages/Student/PaymentSuccess.jsx';
+import PaymentCancel from '../pages/Student/PaymentCancel.jsx';
+import PassportDetails from '../pages/Student/PassportDetails.jsx';
+import CertificateDetails from '../pages/Student/CertificateDetails.jsx';
 
 const StudentRoutes = () => {
   return (
@@ -78,6 +82,18 @@ const StudentRoutes = () => {
         } />
         <Route path="/view_courses_by_country" element={
           <ListCoursesByCountry />
+        } />
+        <Route path="/course_details/success/:applicationId" element={
+          <PaymentSuccess />
+        } />
+        <Route path="/course_details/cancel/:applicationId" element={
+          <PaymentCancel />
+        } />
+        <Route path="/edit_passport_details" element={
+          <PassportDetails />
+        } />
+        <Route path="/edit_certificate_details" element={
+          <CertificateDetails />
         } />
 
       </Routes>

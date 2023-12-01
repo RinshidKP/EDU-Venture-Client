@@ -5,7 +5,7 @@ function ProtectedConsultentRoutes({ children }) {
 const { Token , Role } = useSelector((state) => state.User);
 const location = useLocation();
 
-return Token && Role =='consultent' ? (
+return Token && Role =='consultant' ? (
     children
     ) : (
         <Navigate to="/" state={{ from: location.pathname }} replace />
