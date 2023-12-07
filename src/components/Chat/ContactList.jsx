@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import { showErrorToast } from '../../helpers/toaster';
 import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 import { useConsultantInterceptor } from '../../customHooks/useConsultantInterceptor';
-
+import { format } from 'timeago.js';
 const ContactList = ({ recieverIdChange, receiverId }) => {
     const [chats, setChats] = useState([]);
     const [unread, setUnread] = useState(false);
@@ -23,8 +23,8 @@ const ContactList = ({ recieverIdChange, receiverId }) => {
                     id: Id,
                 }
             }).then((response) => {
-                console.log(response);
-                console.log(response.data.chats[0].latestMessage);
+                // console.log(response);
+                // console.log(response.data.chats[0].latestMessage);
                 setChats(response.data.chats)
             }).catch((error) => {
                 console.log(error)
@@ -37,7 +37,7 @@ const ContactList = ({ recieverIdChange, receiverId }) => {
                     id: Id,
                 },
             }).then((response) => {
-                console.log(response);
+                // console.log(response);
                 setChats(response.data.chats)
             }).catch((error) => {
                 console.log(error)
@@ -96,7 +96,7 @@ const ContactList = ({ recieverIdChange, receiverId }) => {
     const normal = "h-20 rounded-lg mb-2 border border-1 bg-cyan-200 flex items-center justify-between border-white p-2 hover:bg-gray-100"
     const highlighted = "h-20 rounded-lg mb-2 border border-1 flex items-center bg-white justify-between border-white p-2"
     return (
-        <div className='h-full p-2 bg-sky-100'>
+        <div className='h-full p-1 bg-sky-100'>
             {chats.map((chat, index) => (
             <div key={index} onClick={() => handleChange(chat._id)} className={`${receiverId === chat._id ? highlighted : normal} flex items-center justify-between p-3 border-b border-gray-300`}>
                 <div className='flex items-center space-x-3'>
@@ -110,10 +110,11 @@ const ContactList = ({ recieverIdChange, receiverId }) => {
                 </div>
                 <div className='flex flex-col items-end'>
                 <div className='text-xs'>
-                    {chat.latestMessage?.date && new Date(chat.latestMessage.date).toLocaleString('en-IN', {
+                    {format(chat.latestMessage?.date)}
+                    {/* {chat.latestMessage?.date && new Date(chat.latestMessage.date).toLocaleString('en-IN', {
                     hour: 'numeric',
                     minute: 'numeric',
-                    })}
+                    })} */}
                 </div>
                 </div>
                 

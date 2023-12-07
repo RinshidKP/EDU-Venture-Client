@@ -31,14 +31,6 @@ const ListAllCourses = () => {
         setShowCountries(!showCountries);
     };
 
-    const handleSortChange = () => {
-        setSortCountryOptionOption((sortCountryOption) => !sortCountryOption);
-    };
-
-    const handleDateOrder = () => {
-        setSortDateOptionOption((sortDateOption) => !sortDateOption);
-    };
-    
 
     const handleCountryChange = (selectedOptions) => {
         setListboxValue(selectedOptions);
@@ -60,8 +52,8 @@ const ListAllCourses = () => {
                         listboxValue.length > 0
                             ? listboxValue.map((country) => country._id)
                             : undefined,
-                    sortCountry:sortCountryOption === true ? -1 : 1,
-                    sortDate:sortDateOption === true ? -1 : 1,
+                    sortCountry: sortCountryOption === true ? -1 : 1,
+                    sortDate: sortDateOption === true ? -1 : 1,
                 },
             })
             .then((response) => {
@@ -75,7 +67,7 @@ const ListAllCourses = () => {
             .catch((error) => {
                 console.error("Error fetching courses:", error);
             });
-    }, [currentPage, listboxValue, search, sortCountryOption,sortDateOption]);
+    }, [currentPage, listboxValue, search, sortCountryOption, sortDateOption]);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -94,16 +86,10 @@ const ListAllCourses = () => {
     };
 
     return (
-        <div className="container mx-auto">
-            <div className="flex flex-col md:flex-row w-full my-4 justify-evenly items-center">
-                <div className=" w-1/3  mx-4 md:mx-0 my-4">
-                    <form className="w-full">
-                        <label
-                            htmlFor="default-search"
-                            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-                        >
-                            Search
-                        </label>
+        <div className="container mx-auto ">
+            <div className="flex flex-col md:flex-row w-full my-4 justify-around items-center">
+                <div className=" w-1/3  md:mx-0 ">
+                    <form className="w-full my-2">
                         <div className="relative">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg
@@ -135,51 +121,54 @@ const ListAllCourses = () => {
                 </div>
 
 
-                <div className="flex justify-around" >
-                <div
+                <div className="flex justify-around my-2" >
+                    <div
                         onClick={handleFilterClick}
-                        className="bg-sky-700 text-white rounded-full h-10 w-10 flex justify-center items-center cursor-pointer transform hover:scale-110 transition-transform duration-300"
+                        className="bg-sky-700 mx-2 text-white rounded-full h-10 w-10 flex justify-center items-center cursor-pointer transform hover:scale-110 transition-transform duration-300"
                     >
                         <Filter size={24} strokeWidth={1} />
                     </div>
                     <div className="w-full flex md:w-auto">
                         <div className="flex my-3" >
-                            <button onClick={()=>setSortCountryOptionOption((sortCountryOption) => !sortCountryOption)}
-                             className="flex px-2 border rounded mx-1" >Countries
-                            {sortCountryOption ? (
-                                <SortAsc size={20} strokeWidth={1} />
+                            <button onClick={() => setSortCountryOptionOption((sortCountryOption) => !sortCountryOption)}
+                                className="flex px-2 border rounded mx-1" >Countries
+                                {sortCountryOption ? (
+                                    <SortAsc size={20} strokeWidth={1} />
                                 ) : (
-                                <SortDesc size={20} strokeWidth={1} />
-                            )}
+                                    <SortDesc size={20} strokeWidth={1} />
+                                )}
                             </button>
                         </div>
                         <div className="flex my-3" >
-                            <button onClick={()=>        setSortDateOptionOption((sortDateOption) => !sortDateOption)}
-                             className="flex px-2 border rounded mx-1" >Date
-                            {sortDateOption ? (
-                                <SortAsc size={20} strokeWidth={1} />
+                            <button onClick={() => setSortDateOptionOption((sortDateOption) => !sortDateOption)}
+                                className="flex px-2 border rounded mx-1" >Date
+                                {sortDateOption ? (
+                                    <SortAsc size={20} strokeWidth={1} />
                                 ) : (
-                                <SortDesc size={20} strokeWidth={1} />
-                            )}
+                                    <SortDesc size={20} strokeWidth={1} />
+                                )}
                             </button>
                         </div>
                     </div>
                 </div>
-       
+
             </div>
 
-            <div className="w-full flex justify-end">
+            <div className="w-full flex md:justify-center">
                 {showCountries && (
-                    <div className="mt-4 md:mt-0 md:ml-4 mx-8 p-4 w-1/6 border border-gray-300 rounded-lg bg-gray-50">
-                        <p className="font-bold mb-2">Select Countries:</p>
-                        <div className="flex my-1 mx-1  cursor-pointer">
+                    <div className="mt-4 md:mt-0 md:ml-4 px-2 mx-2  py-4 w-auto border border-gray-300 rounded-lg bg-gray-50">
+                        <div className="m-2 w-auto">
+                            <p className="font-bold mb-2 md:text-xl text-sm">
+                                <span className="text-clip">Select Countries:</span>
+                            </p>
                             <span
                                 onClick={() => handleCountryChange([])}
-                                className="text-sm hover:bg-slate-200 rounded-lg px-1 select-none"
+                                className="cursor-pointer hover:bg-slate-200 rounded-lg px-1 select-none"
                             >
-                                clear filter
+                                Clear filter
                             </span>
                         </div>
+
                         <Listbox value={listboxValue} onChange={handleCountryChange} multiple>
                             {({ open }) => (
                                 <>
@@ -244,7 +233,7 @@ const ListAllCourses = () => {
                                 src={course.course_image.url}
                                 alt=""
                             />
-                            <p className="my-1 font-normal text-gray-700 dark:text-gray-400">
+                            <p className="my-1 font-normal line-clamp-2 text-gray-700 dark:text-gray-400">
                                 {course.short_blob}
                             </p>
                             <div className="flex justify-between">

@@ -22,13 +22,13 @@ const HomeCourses = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-wrap justify-center mb-10">
+    <div className="w-full flex flex-wrap justify-center mb-10 ">
       {courses.map((course) => (
         <div
         key={course._id}
         className="m-5 transition-transform duration-500 ease-in-out hover:scale-110 sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
     >
-        <div className="flex justify-between">
+        <div className="flex justify-between ">
             <div>
                 <h5
                     className={`mb-2 capitalize  font-semibold tracking-wide text-lg ${!course.is_active ? "text-red-600" : "text-gray-900"
@@ -66,7 +66,7 @@ const HomeCourses = () => {
                 onClick={() => {
                     navigate(`/course_details`, { state: { course: course } });
                 }}
-                className="inline-flex group items-center px-3 py-2 text-sm font-medium text-center transition-width hover:w-full duration-500 ease-in-out text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="inline-flex group  items-center px-3 py-2 text-sm font-medium text-center transition-width hover:w-full duration-500 ease-in-out text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
                 <div className="flex items-center justify-between w-full">
                     <span>Read more</span>

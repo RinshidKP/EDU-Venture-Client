@@ -4,7 +4,7 @@ import EditCertificate from '../../components/StudentHome/EditCertificate'
 
 const CertificateDetails = () => {
   return (
-    <div>
+    <div className='h-screen overflow-hidden' >
       <Header/>
       <EditCertificate/>
     </div>

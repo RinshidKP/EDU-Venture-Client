@@ -123,7 +123,7 @@ const EditPassport = () => {
         }
     }
     return (
-        <div className="bg-gray-100 h-full p-4 md:p-8 lg:p-12 xl:p-16 2xl:p-20 ">
+        <div className="bg-gray-100 h-full  md:h-[88%] p-4 md:p-8 lg:p-12 xl:p-16 2xl:p-20 ">
             {open && <CropperModal image={selectedImage} handleCroppedImage={handleImageChange} />}
             <form className='h-full' encType="multipart/form-data">
                 <div className="flex h-full flex-col md:flex-row items-center mt-7 space-y-4 md:space-y-0">

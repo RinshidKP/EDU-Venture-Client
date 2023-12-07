@@ -10,7 +10,7 @@ import { loadStripe } from '@stripe/stripe-js';
 const CourseDetails = () => {
   const navigate= useNavigate()
   const [course, setCourse] = useState(null);
-  const { Id } = useSelector((state) => state.User);
+  const { Id ,Role } = useSelector((state) => state.User);
   const studentAxios = useStudentAxiosIntercepter();
   const location = useLocation();
   const [applied,setApplied] = useState(false);
@@ -166,7 +166,7 @@ const CourseDetails = () => {
 
                       {/* Apply Button */}
                       <div className='flex items-start justify-start mt-6'>
-                        <button onClick={handleApply} disabled={applied !== false}  className='mx-start py-2 px-10 font-semibold rounded bg-emerald-500 text-white'>
+                        <button onClick={handleApply} disabled={applied !== false || Role ==='consultant'}  className='mx-start py-2 px-10 font-semibold rounded bg-emerald-500 text-white'>
                           {applied ? 'Applied' : 'Apply'}
                         </button>
                       </div>

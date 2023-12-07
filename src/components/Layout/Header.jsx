@@ -105,7 +105,7 @@ const Header = () => {
                 onClick={() => navigate('/student_consultents')}
                 className={pathname === '/student_consultents' ? highlited : normal}
               >
-                Consultencies
+                Consultancies
               </a>
               <a
                 onClick={() => navigate('/student_countries')}
@@ -246,7 +246,7 @@ const Header = () => {
             className={pathname === '/student_chat' ? highlited : normal}
           >
             <FontAwesomeIcon icon={faComment} />{' '}
-            {unread && Role !== 'consultent' && (
+            {unread && Role !== 'consultant' && (
               <span className="bg-red-600 text-sm border border-white rounded-full">{unread}</span>
             )}
           </a>

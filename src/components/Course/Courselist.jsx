@@ -42,7 +42,7 @@ const CourseList = () => {
             </h5>
           </a>
           <img src={course.course_image.url} alt="" />
-          <p className=" font-normal text-gray-700 dark:text-gray-400">
+          <p className=" font-normal text-gray-700 line-clamp-2 dark:text-gray-400">
             {course.short_blob}
           </p>
           <p className="mb-3 font-semibold text-gray-700 dark:text-gray-400">
@@ -53,7 +53,7 @@ const CourseList = () => {
               onClick={() => {
                 navigate(`/profile/create_details?${queryString.stringify(course)}`);
               }}
-              className="inline-flex cursor-pointer items-center px-3 py-2 text-sm font-medium text-center text-white bg-cyan-600 rounded-lg hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+              className="inline-flex cursor-pointer line-clamp-3 items-center px-3 py-2 text-sm font-medium text-center text-white bg-cyan-600 rounded-lg hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
             >
               Read more
               <svg

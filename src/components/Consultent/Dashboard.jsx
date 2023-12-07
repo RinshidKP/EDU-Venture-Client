@@ -90,7 +90,7 @@ const Dashboard = () => {
   }, [])
 
   const DataBox = ({ title, count, color }) => (
-    <div className="flex-1 sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 bg-cyan-200 p-4 shadow rounded-lg">
+    <div className="flex-1  my-4 mx-2 sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 bg-cyan-200 p-4 shadow rounded-lg">
       <h2 className="text-gray-500 text-lg font-semibold pb-1">{title}</h2>
       <div className="my-1"></div>
       <div className={`text-3xl font-bold ${color}`}>{count}</div>
@@ -99,7 +99,7 @@ const Dashboard = () => {
   
   return (
     <div className="flex flex-col h-full bg-gray-100 pb-10">
-      <div className="mt-8 flex flex-wrap mx-5 space-x-4">
+      <div className="mt-4 flex flex-wrap mx-5 space-x-4">
         <DataBox title="Students" count={studentsCount} color="text-cyan-500" />
         <DataBox title="Applications" count={applicationCount} color="text-cyan-500" />
         <DataBox title="Revenue" count={totalRevenue} color="text-cyan-500" />

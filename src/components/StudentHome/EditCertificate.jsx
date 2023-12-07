@@ -95,7 +95,7 @@ const EditCertificate = () => {
         <div className="bg-gray-100 h-full p-4 md:p-8 lg:p-12 xl:p-16 2xl:p-20 ">
             {open && <CropperModal image={selectedImage} handleCroppedImage={handleImageChange} />}
             <form className='h-full' encType="multipart/form-data">
-                <div className="flex h-full flex-col md:flex-row items-center mt-7 space-y-4 md:space-y-0">
+                <div className="flex h-full flex-col md:flex-row items-center space-y-4 md:space-y-0">
                     <div className='flex w-1/2 justify-center'>
                         <div className="w-full h-full md:w-1/2 p-4">
                             {imagePreview ? (

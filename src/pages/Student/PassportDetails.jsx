@@ -4,7 +4,7 @@ import EditPassport from '../../components/StudentHome/EditPassport'
 
 const PassportDetails = () => {
   return (
-    <div>
+    <div className='h-screen overflow-hidden' >
       <Header/>
       <EditPassport/>
     </div>

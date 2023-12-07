@@ -71,7 +71,7 @@ const Blogs = () => {
               <div key={index} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4">
                 <div className="bg-white group/item group-hover:shadow-2xl  p-4 rounded-md shadow-md transition-transform hover:scale-110 cursor-pointer">
                   <h3 className="text-lg font-semibold mb-2">{blog.heading}</h3>
-                  <p className="text-gray-600 mb-4">{blog.description}</p>
+                  <p className="text-gray-600 mb-4 line-clamp-3">{blog.description}</p>
                   <img
                     src={baseImageUrl + blog.image}
                     alt="Blog Image"

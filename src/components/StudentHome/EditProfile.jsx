@@ -96,7 +96,7 @@ const EditProfile = () => {
   }
 
 return (
-<div className="bg-gray-100 min-h-screen">
+<div className="bg-gray-100 ">
 
   <nav className="bg-sky-300 w-full text-white py-4 text-center">
     <div className="container mx-auto">

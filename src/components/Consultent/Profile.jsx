@@ -32,48 +32,33 @@ return (
 <div>
 
   <div className='flex items-center mt-10'>
-    <div className='w-1/2 flex justify-center'>
-
-    <div className='h-auto w-2/4 flex items-center justify-center my-auto'>
-      <img className='rounded-lg shadow-lg' src={imgUrl ? imgUrl: defaultImage} alt='User Profile' />
+    <div className='w-1/2 flex justify-center md:my-10'>
+      <div className='h-auto md:w-2/4 flex w-auto m-5 items-center justify-center my-auto'>
+        <img className='rounded-lg h-auto  shadow-lg' src={imgUrl ? imgUrl: defaultImage} alt='User Profile' />
+      </div>
     </div>
-    </div>
-    <div className='h-full w-1/2  flex flex-col'>
-      <div className='flex items-center justify-start'>
-        <h3 className='text-4xl text-center mt-10 text-dark'>
+    <div className='h-full w-1/2  flex flex-col md:my-10'>
+      <div className='flex items-center md:text-start justify-start'>
+        <h3 className=' text-xl md:text-4xl lg:text-4xl text-center mt-10 text-dark'>
           {user ? user?.consultancy_name : 'Consultancy Name'}
         </h3>
       </div>
-      {user?.countries ? (
-        <p className="text-xl text-dark mt-4">
-          <span className="flex">
-            Focused On: {user.countries.map((country) => country + ', ')}
-          </span>
-        </p>
-      ) : (
-        <p className="text-xl text-dark mt-4">
-          <span className="flex">Focused On: Countries</span>
-        </p>
-      )}
-
       <div className=' '>
-        <div className='max-w-md '>
-          <p className=' text-sm lg:text-base xl:text-lg 2xl:text-xl text-start text-dark mt-5'>
+        <div className='max-w-md'>
+          <p className=' text-sm lg:text-base xl:text-lg 2xl:text-xl text-start text-dark '>
             Description : {user ? user?.description : ' an Indian firm whose goal is to support students in their future'}
           </p>
         </div>
-        <div  className='flex items-center m-10 justify-end'>
-          <button onClick={(()=>navigate('edit_profile'))} className="button bg-cyan-800 py-2 px-6 rounded-lg">
+        <div  className='flex items-center mx-10 my-5 justify-end'>
+          <button onClick={(()=>navigate('edit_profile'))} className="button text-white bg-cyan-800 py-2 px-6 rounded-lg">
             <FontAwesomeIcon  icon={faPen} className="icon " /> <span className='text-white'>Edit Info</span>
           </button>
         </div>
       </div>
-
-
     </div>
   </div>
   <div className=' flex items-center mx-5 my-7 justify-center'>
-    <h3 className="border text-2xl text-center border-green-800 w-3/4 py-3 bg-white-100">
+    <h3 className="border text-2xl text-center rounded mt-10  border-gray-300 shadow-lg w-3/4 py-3 bg-white-100">
       Our Courses
     </h3>
   </div>
