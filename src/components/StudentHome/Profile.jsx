@@ -288,7 +288,7 @@ const Profile = () => {
                   Blogs
                 </h3>
               </div>
-              <div onClick={handlePaymentClick} className='my-5 flex flex-col sm:flex-row items-center justify-center select-none'>
+              <div onClick={handlePaymentClick} className='my-5 cursor-pointer flex flex-col sm:flex-row items-center justify-center select-none'>
                 <h3 className="border text-2xl text-center border-green-800 w-full sm:w-3/4 py-3 bg-white-100">
                   Payments
                 </h3>

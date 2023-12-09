@@ -339,8 +339,8 @@ const CourseDetails = () => {
                       />
                     </div>
                   </div>
-                  {applied && applied.paymentStatus === 'Initiated' && (
-                    <div className="flex w-full justify-center mt-6 ">
+                  { application && application?.paymentStatus === 'Initiated' && (
+                    <div className="flex w-full justify-center my-3 ">
                       <div className="border flex justify-evenly items-center w-full border-sky-600 rounded-lg mx-5 py-2 px-1">
                         <p className="my-3 capitalize">{course.creator?.consultancy_name || 'Consultant'} Has Requested Payment</p>
                         <div className="my-3">

@@ -10,12 +10,20 @@ const Success = () => {
   const [application,setApplication] = useState({})
   useEffect(()=>{
     console.log('applicationId',applicationId);
-    studentAxios.post('checkout_confirm',{applicationId})
-    .then((response)=>{
-        setTransaction(response.data.transaction[0]);
-        setApplication(response.data.application)
-        console.log(response);
+    studentAxios.get('/checkout_confirm', {
+      params: {
+        applicationId: applicationId,
+      }
     })
+      .then((response) => {
+        setTransaction(response.data.transaction[0]);
+        setApplication(response.data.application);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+    
   },[applicationId])
 
   function formatDate(dateString) {
@@ -23,10 +31,6 @@ const Success = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   }
 
-  const moneyFormatter = new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-  });
 
   return (
     <div className="bg-gray-300 h-full flex items-center justify-center">
@@ -45,6 +49,12 @@ const Success = () => {
              <p className="font-bold">Payment Details:</p>
             <p>
               Course: {application?.course?.header} <br />
+            </p>
+            <p>
+              Consultant Name: {application?.course?.creator_id?.consultancy_name} <br />
+            </p>
+            <p>
+              Country Name: {application?.course?.country?.name} <br />
             </p>
             <p>
               Amount: ₹{application?.course?.fee} <br />

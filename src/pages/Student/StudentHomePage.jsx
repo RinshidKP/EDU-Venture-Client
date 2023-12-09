@@ -6,8 +6,11 @@ import CountriesList from '../../components/Countries/CountriesList'
 import { useLottie } from "lottie-react";
 import animationData from '../../components/lotties/FloatingStudent.json';
 import { ChevronsDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'
 
 const StudentHomePage = () => {
+
+  const navigate = useNavigate()
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -70,6 +73,15 @@ const StudentHomePage = () => {
         <div className='rounded-lg py-10 w-5/6 mx-auto' >
           <Consultencies />
         </div>
+          <div className='flex justify-center my-1'>
+                <button onClick={()=>navigate('/student_consultents')}  className='
+             px-5 py-2 bg-white shadow-2xl text-black
+              hover:text-sky-950 drop-shadow-2xl
+               hover:scale-105 my-3
+              transition-shadow ' >
+                  See More
+                </button>
+              </div>
 
         <div className='m-14 flex justify-center '>
           <h1 className='text-3xl'>Popular Choice of Courses</h1>
@@ -82,7 +94,9 @@ const StudentHomePage = () => {
             <div className='bg-opacity-100'>
               <HomeCourses />
               <div className='flex justify-center my-1'>
-                <button className='
+                <button 
+                onClick={()=>navigate('/student_courses')}
+                className='
              px-5 py-2 bg-white shadow-2xl text-black
               hover:text-sky-950 drop-shadow-2xl
                hover:scale-105
@@ -93,10 +107,20 @@ const StudentHomePage = () => {
             </div>
           </div>
         </div>
-        <div className="mb-4 rounded-lg  ">
+        <div className="mb-4 rounded-lg bg-pink-50 py-2 ">
 
           <CountriesList />
-
+          <div className='flex justify-center my-1'>
+                <button 
+                onClick={()=>navigate('/student_countries')}
+                className='
+             px-5 py-2 bg-white shadow-2xl text-black
+              hover:text-sky-950 drop-shadow-2xl
+               hover:scale-105
+              transition-shadow ' >
+                  See More
+                </button>
+              </div>
         </div>
 
       </div>

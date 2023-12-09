@@ -83,7 +83,7 @@ return (
 
 <>
   
-  <nav  className=" z-10 cursor-pointer bg-gradient-to-r from-cyan-600 to-cyan-700 sticky top-0 shadow dark:bg-gray-800">
+  <nav  className=" z-10 h-auto cursor-pointer bg-gradient-to-r from-cyan-600 to-cyan-700 sticky top-0 shadow dark:bg-gray-800">
     <div className="container  mx-auto">
       <div className=" shadow-sm"> {/* Add border and padding here */}
         <div className="flex items-center justify-center p-6 text-dark-600 capitalize dark:text-gray-300">

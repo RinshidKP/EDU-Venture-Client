@@ -30,13 +30,37 @@ const Payments = () => {
                 </div>
             </nav>
             <body>
-                {transactions ? transactions.map((transaction, index) => (
-                    <div key={index}>
-                        <p>Amount: {transaction?.course?.fee}</p>
-                        <p>Date: {transaction.transactionDate}</p>
-                        {/* Add more lines to display other transaction properties */}
-                    </div>
-                )) : <div>Nothing</div>}
+            <div className="container mx-auto mt-6 p-6 bg-white shadow-md rounded-md">
+  {transactions ? (
+    transactions.map((transaction, index) => (
+      <div key={index} className="mb-6 border p-6 rounded-md bg-gray-100">
+        <div className="flex justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-semibold mb-2">{transaction.course?.header}</h2>
+            <p className="text-sm text-gray-500">Transaction ID: {transaction.transactionId}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-gray-500">{new Date(transaction.transactionDate).toLocaleDateString()}</p>
+          </div>
+        </div>
+        <div className="mb-4">
+          <p className="text-lg font-semibold">Amount: ${transaction?.course?.fee}</p>
+        </div>
+        <div className="flex justify-between">
+          <div>
+            <p className="text-sm">Payer: {transaction.payer.full_name}</p>
+            <p className="text-sm">Application Date: {new Date(transaction.application?.applicationDate).toLocaleDateString()}</p>
+            <p className="text-sm">Transaction Date: {new Date(transaction.transactionDate).toLocaleDateString()}</p>
+          </div>
+          {/* You can add more details here as needed */}
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className="text-center text-gray-500">NO Bills Yet</div>
+  )}
+</div>
+
 
             </body>
         </div>

@@ -25,7 +25,7 @@ const EditCountries = ({ open, countryID, onClose }) => {
                 console.error(error);
             });
 
-    }, [countryID, Role, Token])
+    }, [countryID])
 
     const handleImageSelect = (event) => {
 
@@ -67,7 +67,11 @@ const EditCountries = ({ open, countryID, onClose }) => {
         console.log('sending...');
 
         adminAxios
-            .post('/update_countries', countryData, )
+            .post('/update_countries', countryData, {
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                },
+            } )
             .then((response) => {
                 console.log('response', response);
                 if (response.status === 200) {

@@ -88,19 +88,14 @@ useEffect(() => {
         .catch((error) => {
             console.error('Error loading user profile:', error);
         });
-    }, [Email, Token, Role]
+    }, [Email]
 );
 
-const initialCountriesValue = ()=>{
-    return newUser?.countries
-    ? newUser.countries.map((country) => country + ', ').join('')
-    : editedUser.countries || 'Countries';
-}
 
 
 
 return (
-<div className="bg-gray-100 h-full p-4 md:p-8 lg:p-12 xl:p-16 2xl:p-20 ">
+<div className="bg-gray-100 h-auto p-4 md:p-8 lg:p-12 xl:p-16 2xl:p-20 ">
 {open&&<CropperModal image={selectedImage} handleCroppedImage={handleImageChange} />}
   <form className='h-full' encType="multipart/form-data">
     <div className="flex h-full flex-col md:flex-row items-center mt-6 space-y-4 md:space-y-0">
@@ -133,13 +128,6 @@ return (
               Title:
             </span>
             <input type="text" name="title" value={newUser.title ? newUser.title : editedUser.title || '' } onChange={handleInputChange} placeholder="Title" className="input-text w-full md:w-4/5" />
-          </p>
-          <p className="text-xl text-dark mt-4">
-            <span className='flex'>
-              Focused On <span>: add , to separate countries</span>
-            </span>
-
-            <input type="text" name="countries" value={countries ? countries : initialCountriesValue} onChange={handleCountriesChange} placeholder={initialCountriesValue} className="input-text w-full md:w-4/5" />
           </p>
 
         </div>

@@ -57,17 +57,7 @@ return (
           {consultent ? consultent?.consultancy_name : 'Consultancy Name'}
         </h3>
       </div>
-      {consultent?.countries ? (
-        <p className="text-xl text-dark mt-4">
-          <span className="flex">
-            Focused On: {consultent.countries.map((country) => country + ', ')}
-          </span>
-        </p>
-      ) : (
-        <p className="text-xl text-dark mt-4">
-          <span className="flex">Focused On: Countries</span>
-        </p>
-      )}
+
 
       <div className=' '>
         <div className='max-w-md '>
@@ -90,7 +80,7 @@ return (
   </div>
 
   <div className="w-full flex flex-wrap justify-evenly ">
-  {courses.map((course) => (
+  {courses ? courses.map((course) => (
         <div
         key={course._id}
         className="m-5 transition-transform duration-500 ease-in-out hover:scale-110 sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
@@ -159,7 +149,10 @@ return (
             </a>
         </div>
     </div>
-      ))}
+      ))
+    : <div>
+      No Courses By Consultant
+    </div> }
   </div>
 </div>
 

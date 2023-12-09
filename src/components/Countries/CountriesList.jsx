@@ -17,7 +17,7 @@ const CountriesList = () => {
 
 
     return (
-        <div className='w-full font-sans flex flex-wrap justify-evenly sm:justify-center sm:items-center items-center  bg-pink-50 rounded-lg mx-auto  my-auto px-auto py-10'>
+        <div className='w-full font-sans flex flex-wrap justify-evenly sm:justify-center sm:items-center items-center   rounded-lg mx-auto  my-auto px-auto py-5'>
             {countries.map((country, index) => (
                 <div
                     key={index}
@@ -63,6 +63,7 @@ const CountriesList = () => {
 
                 </div>
             ))}
+
         </div>
 
     );

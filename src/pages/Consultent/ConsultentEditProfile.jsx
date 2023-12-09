@@ -4,8 +4,8 @@ import ConsultentNavbar from '../../components/Layout/ConsultentNavbar'
 
 const ConsultentEditProfile = () => {
   return (
-    <div>
-        <ConsultentNavbar/>
+    <div className='h-screen' >
+      <ConsultentNavbar/>
       <EditProfile/>
     </div>
   )

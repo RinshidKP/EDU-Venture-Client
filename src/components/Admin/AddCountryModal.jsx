@@ -13,6 +13,7 @@ const AddCountryModal = ({ open,setCountries, onClose }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
+    const [croppedImage, setCroppedImage] = useState(null);
     const [openCropper,setOpenCropper] = useState(false)
 
     const validateImage = (e) =>{
@@ -27,9 +28,9 @@ const AddCountryModal = ({ open,setCountries, onClose }) => {
 
       const handleCroppedImage = ({ image, imageUrl }) => {
         setOpenCropper(false);
-        
         if (image) {
-          setImage(image)
+            console.log(image);
+          setCroppedImage(image)
           setSelectedImage(imageUrl);
         }
       }
@@ -49,13 +50,18 @@ const AddCountryModal = ({ open,setCountries, onClose }) => {
 
 
         const newCountryData = {
-            image: image,
+            image: croppedImage,
             name: name,
             description: description,
         };
+        console.log(newCountryData);
 
         adminAxios
-            .post('/add_contries', newCountryData )
+            .post('/add_contries', newCountryData, {
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                },
+            } )
             .then((response) => {
 
                 if (response.status === 200) {
@@ -74,7 +80,7 @@ const AddCountryModal = ({ open,setCountries, onClose }) => {
             })
             .catch((error) => {
                 console.error(error);
-                showErrorToast(error.message)
+                showErrorToast(error.response.data.message)
             });
     };
 

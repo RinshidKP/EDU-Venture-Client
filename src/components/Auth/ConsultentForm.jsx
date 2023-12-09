@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, InputAdornment } from '@mui/material';
 import { showErrorToast, showToast, ToastContainer } from '../../helpers/toaster';
 import { consultentApi } from '../../apiRoutes/studentAPI';
 import OtpValidation from '../Signup/OtpValidation';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 function ConsultentForm() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -12,6 +14,8 @@ function ConsultentForm() {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [title, setTitle] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const [showPassword,setShowPassword] = useState(true);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -168,11 +172,19 @@ function ConsultentForm() {
           <TextField
             fullWidth
             label="Password"
-            type="password"
+            type={showPassword?"password":"text"}
             variant="outlined"
             size="small"
             InputLabelProps={{ style: { fontSize: '14px' } }}
-            InputProps={{ style: { fontSize: '14px' }}}
+            // InputProps={{ style: { fontSize: '14px' }}}
+            InputProps={{
+              style: { fontSize: '16px' },
+              endAdornment: (
+                <InputAdornment position="end">
+                  <FontAwesomeIcon onClick={()=>setShowPassword(!showPassword)} className='cursor-pointer' icon={showPassword ?faEyeSlash : faEye} style={{ fontSize: '24px' }} />
+                </InputAdornment>
+              ),
+            }}
             placeholder="Password"
             value={password}
             onChange={handlePasswordChange}
@@ -182,11 +194,19 @@ function ConsultentForm() {
           <TextField
             fullWidth
             label="Repeat Password"
-            type="password"
+            type={showPassword?"password":"text"}
             variant="outlined"
             size="small"
             InputLabelProps={{ style: { fontSize: '14px' } }}
-            InputProps={{ style: { fontSize: '14px' }}}
+            // InputProps={{ style: { fontSize: '14px' }}}
+            InputProps={{
+              style: { fontSize: '16px' },
+              endAdornment: (
+                <InputAdornment position="end">
+                  <FontAwesomeIcon onClick={()=>setShowPassword(!showPassword)} className='cursor-pointer' icon={showPassword ?faEyeSlash : faEye} style={{ fontSize: '24px' }} />
+                </InputAdornment>
+              ),
+            }}
             placeholder="Password"
             value={repeatPassword}
             onChange={handleRepeatPasswordChange}
