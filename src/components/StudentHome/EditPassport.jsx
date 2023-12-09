@@ -23,8 +23,8 @@ const EditPassport = () => {
 
     useEffect(() => {
         setPassport(location.state.passport)
-        if(location.state.passport.image_proof){
-            setImagePreview(location.state.passport.image_proof.url)
+        if(location.state.passport?.image_proof){
+            setImagePreview(location.state.passport?.image_proof.url)
         }
     }, [location])
     const handleInputChange = (e) => {
@@ -132,7 +132,7 @@ const EditPassport = () => {
                             {imagePreview ? (
                                 <img onClick={validateImage} className="rounded-lg shadow-lg mx-auto w-full max-h-48 md:max-h-full" src={imagePreview} alt="User Profile" />
                             ) : (
-                                <img className="rounded-lg shadow-lg mx-auto w-full max-h-48 md:max-h-full" src={editedPassport.image_proof ? editedPassport.image_proof.url : defaultPassport} alt="User Profile" />
+                                <img className="rounded-lg shadow-lg mx-auto w-full max-h-48 md:max-h-full" src={editedPassport?.image_proof ? editedPassport?.image_proof?.url : defaultPassport} alt="User Profile" />
                             )}
                             <label className="block mt-2 text-center cursor-pointer">
                                 <span className="btn-primary cursor-pointer block">{fileInputText}</span>
@@ -153,7 +153,7 @@ const EditPassport = () => {
                                     type="text"
                                     name="name"
                                     onChange={handleInputChange}
-                                    placeholder={passport.name || 'Name in Passport'}
+                                    placeholder={passport?.name || 'Name in Passport'}
                                     className="input-text w-full md:w-4/5 px-2 rounded-lg border border-gray-400 focus:outline-none focus:border-teal-500"
                                 />
                             </h3>
@@ -161,7 +161,7 @@ const EditPassport = () => {
                                 <input
                                     type="text"
                                     name="passportNumber"
-                                    placeholder={passport.passportNumber||'Passport Number'}
+                                    placeholder={passport?.passportNumber||'Passport Number'}
                                     onChange={handleInputChange}
                                     className="input-text w-full md:w-4/5 px-2 rounded-lg border border-gray-400 focus:outline-none focus:border-teal-500"
                                 />
@@ -174,7 +174,7 @@ const EditPassport = () => {
                                 <input
                                     type="date"
                                     name="dateOfBirth"
-                                    placeholder={passport.dateOfBirth||''}
+                                    placeholder={passport?.dateOfBirth||''}
                                     onChange={handleInputChange}
                                     className="input-text w-full md:w-4/5 px-2 rounded-lg border border-gray-400 focus:outline-none focus:border-teal-500"
                                 />
@@ -183,7 +183,7 @@ const EditPassport = () => {
                                 <input
                                     type="text"
                                     name="placeOfBirth"
-                                    placeholder={passport.placeOfBirth||' Place of birth in Passport'}
+                                    placeholder={passport?.placeOfBirth||' Place of birth in Passport'}
                                     onChange={handleInputChange}
                                     className="input-text w-full md:w-4/5 px-2 rounded-lg border border-gray-400 focus:outline-none focus:border-teal-500"
                                 />

@@ -12,32 +12,27 @@ const Students = () => {
   const [applicationPerPage, setApplicationPerPage] = useState(5);
   const [totalApplication, setTotalApplication] = useState(0);
   const consultantAxios = useConsultantInterceptor();
-  const [filterStates,setFilterStates]= useState({
-    date: true ,
-    applicationStatus: true ,
-    paymentStatus: true ,
-  })
-  const [datefilter,setDateFilter] = useState(true)
-  const [filterStatus,setFilterStatus] = useState(false)
+  const [datefilter, setDateFilter] = useState(true)
 
   const studentStatusOptions = [
-    { name: 'Student Status' ,value: null },
-    { name: 'Accepted' ,value: 'Accepted' },
-    { name: 'Rejected' ,value: 'Rejected' },
-    { name: 'Pending' ,value: 'Pending' },
+    { name: 'Student Status', value: null },
+    { name: 'Accepted', value: 'Accepted' },
+    { name: 'Rejected', value: 'Rejected' },
+    { name: 'Pending', value: 'Pending' },
+    { name: 'Reapplied', value: 'Reapplied' },
   ]
 
   const studentPaymentOptions = [
-    { name: 'Payment Status' ,value: null },
-    { name: 'Pending' ,value: 'Pending' },
-    { name: 'Initiated' ,value: 'Initiated' },
-    { name: 'Success' ,value: 'Paid' },
-    { name: 'Failed' ,value: 'Failed' },
+    { name: 'Payment Status', value: null },
+    { name: 'Pending', value: 'Pending' },
+    { name: 'Initiated', value: 'Initiated' },
+    { name: 'Success', value: 'Paid' },
+    { name: 'Failed', value: 'Failed' },
   ]
 
   const [selectedStudentStatus, setSelectedStudentStatus] = useState(studentStatusOptions[0])
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState(studentPaymentOptions[0])
-  
+
   useEffect(() => {
     consultantAxios.get('/students_consultent', {
       params: {
@@ -45,8 +40,8 @@ const Students = () => {
         limit: applicationPerPage,
         search: search,
         date: datefilter ? 1 : -1,
-        status:selectedStudentStatus.value,
-        payment :selectedPaymentStatus.value
+        status: selectedStudentStatus.value,
+        payment: selectedPaymentStatus.value
       }
     })
       .then((response) => {
@@ -56,7 +51,7 @@ const Students = () => {
       }).catch((error) => {
         console.log(error);
       })
-  }, [currentPage, applicationPerPage, search,datefilter,selectedStudentStatus,selectedPaymentStatus])
+  }, [currentPage, applicationPerPage, search, datefilter, selectedStudentStatus, selectedPaymentStatus])
 
   const handleClick = (data) => {
     navigate(`/view_student_profile`, { state: data })
@@ -119,120 +114,116 @@ const Students = () => {
               <div className="border-l text-center flex justify-center border-black text-xl sm:text-2xl md:w-1/3">
                 Date
                 <div onClick={() => setDateFilter(!datefilter)}
-                 className='my-auto mx-2 cursor-pointer' >
+                  className='my-auto mx-2 cursor-pointer' >
                   {datefilter ? <ArrowUpNarrowWide /> :
-                  <ArrowDownNarrowWide />}
+                    <ArrowDownNarrowWide />}
                 </div>
               </div>
               <div className="border-l flex justify-center my-auto border-black text-2xl sm:text-2xl md:w-1/3">
                 <Listbox value={selectedStudentStatus} onChange={setSelectedStudentStatus}>
-                    <div className="relative ">
-                      <Listbox.Button className="relative w-full cursor-default rounded-lg bg-transparent py-1 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                        <span className="block text-xl truncate">{selectedStudentStatus.name}</span>
-                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                          <ChevronUpDownIcon
-                            className="h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                          />
-                        </span>
-                      </Listbox.Button>
-                      <Transition
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                          {studentStatusOptions.map((person, personIdx) => (
-                            <Listbox.Option
-                              key={personIdx}
-                              className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                  active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
-                                }`
-                              }
-                              value={person}
-                            >
-                              {({ selected }) => (
-                                <>
-                                  <span
-                                    className={`block truncate ${
-                                      selected ? 'font-medium' : 'font-normal'
+                  <div className="relative ">
+                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-transparent py-1 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                      <span className="block text-xl truncate">{selectedStudentStatus.name}</span>
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <ChevronUpDownIcon
+                          className="h-5 w-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                        {studentStatusOptions.map((person, personIdx) => (
+                          <Listbox.Option
+                            key={personIdx}
+                            className={({ active }) =>
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                              }`
+                            }
+                            value={person}
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${selected ? 'font-medium' : 'font-normal'
                                     }`}
-                                  >
-                                    {person.name}
+                                >
+                                  {person.name}
+                                </span>
+                                {selected ? (
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
                                   </span>
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                      <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                    </span>
-                                  ) : null}
-                                </>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
-                    </div>
-                  </Listbox>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </Listbox>
               </div>
               <div className="border-l flex justify-center text-end mr-3 border-black text-xl sm:text-2xl md:w-1/3">
-              <Listbox value={selectedPaymentStatus} onChange={setSelectedPaymentStatus}>
-                    <div className="relative ">
-                      <Listbox.Button className="relative w-full cursor-default rounded-lg bg-transparent py-1 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                        <span className="block text-xl truncate">{selectedPaymentStatus.name}</span>
-                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                          <ChevronUpDownIcon
-                            className="h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                          />
-                        </span>
-                      </Listbox.Button>
-                      <Transition
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full  overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                          {studentPaymentOptions.map((person, personIdx) => (
-                            <Listbox.Option
-                              key={personIdx}
-                              className={({ active }) =>
-                                `relative cursor-default text-start select-none py-2 pl-10 pr-4 ${
-                                  active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
-                                }`
-                              }
-                              value={person}
-                            >
-                              {({ selected }) => (
-                                <>
-                                  <span
-                                    className={`block truncate ${
-                                      selected ? 'font-medium' : 'font-normal'
+                <Listbox value={selectedPaymentStatus} onChange={setSelectedPaymentStatus}>
+                  <div className="relative ">
+                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-transparent py-1 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                      <span className="block text-xl truncate">{selectedPaymentStatus.name}</span>
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <ChevronUpDownIcon
+                          className="h-5 w-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute mt-1 max-h-60 w-full  overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                        {studentPaymentOptions.map((person, personIdx) => (
+                          <Listbox.Option
+                            key={personIdx}
+                            className={({ active }) =>
+                              `relative cursor-default text-start select-none py-2 pl-10 pr-4 ${active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                              }`
+                            }
+                            value={person}
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${selected ? 'font-medium' : 'font-normal'
                                     }`}
-                                  >
-                                    {person.name}
+                                >
+                                  {person.name}
+                                </span>
+                                {selected ? (
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
                                   </span>
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                      <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                    </span>
-                                  ) : null}
-                                </>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
-                    </div>
-                  </Listbox>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </Listbox>
               </div>
             </div>
           </div>
         </div>
       </nav>
-      
+
       <div>
         {students.map((data, index) => (
           <table key={index} className="w-full border-collapse border border-gray-300">
@@ -259,7 +250,7 @@ const Students = () => {
                         <p className="text-gray-600 ">Course: {data.course.header}</p>
                       </div>
                       <div>
-                        <div className={`${data.status==='Accepted'? 'text-green-500': data.status==='Rejected'?'text-red-500': 'text-cyan-500' } `}>Status: {data.status}</div>
+                        <div className={`${data.status === 'Accepted' ? 'text-green-500' : data.status === 'Rejected' ? 'text-red-500' : data.status === 'Reapplied' ? 'text-pink-500' : 'text-cyan-500'} `}>Status: {data.status}</div>
                       </div>
                       <div>
                         <div className="text-red-500 ">Status: {data.paymentStatus}</div>

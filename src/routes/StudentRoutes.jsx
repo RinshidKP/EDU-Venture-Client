@@ -21,6 +21,7 @@ import PaymentSuccess from '../pages/Student/PaymentSuccess.jsx';
 import PaymentCancel from '../pages/Student/PaymentCancel.jsx';
 import PassportDetails from '../pages/Student/PassportDetails.jsx';
 import CertificateDetails from '../pages/Student/CertificateDetails.jsx';
+import PaymentDetailsPage from '../pages/Student/PaymentDetailsPage.jsx';
 
 const StudentRoutes = () => {
   return (
@@ -52,6 +53,11 @@ const StudentRoutes = () => {
         } />
         <Route path="/edit_blog" element={<ProtectedStudentRoutes>
           <EditBlogPage />
+        </ProtectedStudentRoutes>
+        } />
+
+        <Route path="/payment_details" element={<ProtectedStudentRoutes>
+          <PaymentDetailsPage />
         </ProtectedStudentRoutes>
         } />
         

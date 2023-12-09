@@ -28,9 +28,7 @@ const Profile = () => {
   }
 
   const handleBlogClick = () => {
-    // setBlog(!blog);
     navigate('/student_blogs', { state: { courses: userData.courses } })
-    // console.log(blog);
   }
   const editPassport = () => {
     navigate('/edit_passport_details', { state: { passport: certificate?.passport } })
@@ -38,6 +36,10 @@ const Profile = () => {
 
   const editCertificate = () => {
     navigate('/edit_certificate_details', { state: { qualification: certificate?.qualification } })
+  }
+
+  const handlePaymentClick = () => {
+    navigate('/payment_details')
   }
   return (
     <div>
@@ -286,9 +288,9 @@ const Profile = () => {
                   Blogs
                 </h3>
               </div>
-              <div className='my-5 flex flex-col sm:flex-row items-center justify-center select-none'>
+              <div onClick={handlePaymentClick} className='my-5 flex flex-col sm:flex-row items-center justify-center select-none'>
                 <h3 className="border text-2xl text-center border-green-800 w-full sm:w-3/4 py-3 bg-white-100">
-                  Rewards
+                  Payments
                 </h3>
               </div>
 
