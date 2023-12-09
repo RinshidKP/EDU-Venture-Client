@@ -1,6 +1,6 @@
 import { Routes,Route } from "react-router-dom"
 import AdminHomePage from "../pages/Admin/AdminHomePage"
-import ProtectedAdminRoutes from "../helpers/protectedAdminRoutes"
+import ProtectedAdminRoutes from "../helpers/ProtectedAdminRoutes.jsx"
 import AdminCountries from "../pages/Admin/AdminCountries"
 import AdminConsultencencies from "../pages/Admin/AdminConsultencencies"
 import AdminStudentsPage from "../pages/Admin/AdminStudentsPage"
