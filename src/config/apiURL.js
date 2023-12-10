@@ -1,9 +1,9 @@
 // config.js
 export const apiUrls = {
-  studentUrl: 'http://eduventure.live:3000/',
-  consultentUrl :'http://eduventure.live/consultent',
-  adminUrl : 'http://eduventure.live/admin',
-  chatUrl : 'http://eduventure.live/chat'
+  studentUrl: 'eduventure.live:3000/',
+  consultentUrl :'eduventure.live/consultent',
+  adminUrl : 'eduventure.live/admin',
+  chatUrl : 'eduventure.live/chat'
   };
 // export const apiUrls = {
 //   studentUrl: 'http://localhost:3000/',
@@ -12,5 +12,5 @@ export const apiUrls = {
 //   chatUrl : 'http://localhost:3000/chat'
 //   };
 
-  export const baseImageUrl = 'http://eduventure.live/';
+  export const baseImageUrl = 'eduventure.live/';
   
