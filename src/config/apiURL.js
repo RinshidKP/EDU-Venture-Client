@@ -1,6 +1,6 @@
 // config.js
 export const apiUrls = {
-  studentUrl: 'http://eduventure.live/',
+  studentUrl: 'http://eduventure.live',
   consultentUrl :'http://eduventure.live/consultent',
   adminUrl : 'http://eduventure.live/admin',
   chatUrl : 'http://eduventure.live/chat'
