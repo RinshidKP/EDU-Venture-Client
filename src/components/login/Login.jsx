@@ -26,7 +26,11 @@ const Login = () => {
       if (!emailPattern.test(userData.email)) {
         showErrorToast('Enter Valid Email')
       }
-      studentAPI.post('/login',userData).then((response)=>{
+      studentAPI.post('/login',userData,{
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then((response)=>{
         showErrorToast(response.data.message)
         console.log(response);
         if(response.data.user.isVerified){
