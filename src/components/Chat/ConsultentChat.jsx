@@ -36,10 +36,14 @@ function ConsultentChat() {
     }
 
 
-    const socket = io('http://localhost:3000', {
+    const socket = io('eduventure.live', {
         transports: ['websocket'],
         query: { userId },
     });
+    // const socket = io('http://localhost:3000', {
+    //     transports: ['websocket'],
+    //     query: { userId },
+    // });
     socket.on('message', (message) => {
         // Handle incoming messages from the server
         if(receiverId===message.message.sender){

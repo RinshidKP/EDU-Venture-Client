@@ -32,7 +32,7 @@ function StudentChat() {
     setRecord(!record)
   }
 
-  const socket = io('http://eduventure.live/', {
+  const socket = io('eduventure.live', {
     transports: ['websocket'],
     query: { userId },
   });

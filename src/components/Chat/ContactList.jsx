@@ -46,7 +46,7 @@ const ContactList = ({ recieverIdChange, receiverId }) => {
         }
     }, [])
 
-    const socket = io('http://localhost:3000', {
+    const socket = io('eduventure.live', {
         transports: ['websocket'],
         query: { userId: Id },
       });
