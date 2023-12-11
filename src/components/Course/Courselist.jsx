@@ -34,7 +34,7 @@ const CourseList = () => {
   return (
     <div className="w-full flex flex-wrap justify-center mb-10">
       
-      {courses.map((course) => (
+      {courses ? courses.map((course) => (
         <div key={course._id} className=" my-5 w-full max-w-sm px-5 py-5 mx-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
           <a>
             <h5 className={`mb-2 text-2xl ${!course.is_active ? 'text-red-600' : 'text-gray-900'} font-bold tracking-tight dark:text-white`}>
@@ -96,7 +96,11 @@ const CourseList = () => {
           </div>
 
         </div>
-      ))}
+      )):(
+        <div>
+          NO courses Listed
+        </div>
+      )}
     </div>
   );
 };
