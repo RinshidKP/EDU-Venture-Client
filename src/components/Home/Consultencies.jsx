@@ -65,7 +65,7 @@ const Consultencies = () => {
       <div>
       <Slider {...settings} className="my-4 ">
         
-        {consultents.map((consultent) => (
+        {consultents ? consultents.map((consultent) => (
           <div key={consultent._id} className="max-w-sm  transition-transform hover:scale-105">
             <div className='mx-2 bg-sky-100 rounded-b-lg' >
             <img className='w-full h-40 object-cover rounded-t-lg' src={consultent.profile_image.url||defaultImage} alt="" />
@@ -90,7 +90,11 @@ const Consultencies = () => {
             </div>
             </div>
           </div>
-        ))}
+        )):(
+          <div>
+            No consultants Available
+          </div>
+        )}
       </Slider>
       </div>
     </div>

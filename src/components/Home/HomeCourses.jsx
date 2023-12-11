@@ -23,7 +23,7 @@ const HomeCourses = () => {
 
   return (
     <div className="w-full flex flex-wrap justify-center mb-10 ">
-      {courses.map((course) => (
+      {courses ? courses.map((course) => (
         <div
         key={course._id}
         className="m-5 transition-transform duration-500 ease-in-out hover:scale-110 sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
@@ -92,7 +92,11 @@ const HomeCourses = () => {
             </a>
         </div>
     </div>
-      ))}
+      )):(
+        <div>
+            No courses Available
+        </div>
+      )}
     </div>
   );
 };

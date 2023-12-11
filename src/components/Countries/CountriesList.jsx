@@ -18,7 +18,7 @@ const CountriesList = () => {
 
     return (
         <div className='w-full font-sans flex flex-wrap justify-evenly sm:justify-center sm:items-center items-center   rounded-lg mx-auto  my-auto px-auto py-5'>
-            {countries.map((country, index) => (
+            {countries ? countries.map((country, index) => (
                 <div
                     key={index}
                     className=' sm:w-5/6 md:w-1/3 lg:w-1/4 xl:w-1/5 sm:mx-24 md:mx-auto lg:mx-auto'
@@ -62,7 +62,10 @@ const CountriesList = () => {
                     </div>
 
                 </div>
-            ))}
+            )):
+            ( <div>
+                No countries Availbale
+            </div> )}
 
         </div>
 
