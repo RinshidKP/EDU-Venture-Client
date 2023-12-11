@@ -202,7 +202,7 @@ const ListAllCourses = () => {
                 )}
             </div>
             <div className="w-full flex flex-wrap justify-center mb-10">
-                {courses.length > 0 ? (
+                {courses ? (
                     courses.map((course) => (
                         <div
                             key={course._id}
