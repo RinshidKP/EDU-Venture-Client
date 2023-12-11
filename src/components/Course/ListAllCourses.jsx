@@ -174,7 +174,7 @@ const ListAllCourses = () => {
                                 <>
                                     <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md cursor-default focus:outline-none focus:ring focus:border-blue-300 sm:text-sm">
                                         <span className="block truncate">
-                                            {selectedCountries.length > 0
+                                            {selectedCountries
                                                 ? selectedCountries.map((country) => country.name).join(", ")
                                                 : "Select countries"}
                                         </span>
