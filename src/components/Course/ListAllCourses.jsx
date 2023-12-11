@@ -155,7 +155,7 @@ const ListAllCourses = () => {
             </div>
 
             <div className="w-full flex md:justify-center">
-                {showCountries && (
+                {showCountries && showCountries && (
                     <div className="mt-4 md:mt-0 md:ml-4 px-2 mx-2  py-4 w-auto border border-gray-300 rounded-lg bg-gray-50">
                         <div className="m-2 w-auto">
                             <p className="font-bold mb-2 md:text-xl text-sm">

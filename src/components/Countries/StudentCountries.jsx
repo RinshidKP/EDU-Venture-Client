@@ -89,7 +89,7 @@ const StudentCountries = () => {
                     </div>
                 </div>
             <div className=' w-full font-sans '>
-                {countries.map((country, index) => (
+                {countries && countries.map((country, index) => (
                     <div
                         key={index}
                         className=' md:w-auto md:m-5  flex flex-col md:flex-row items-center'

@@ -94,7 +94,7 @@ const ListAllConsultents = () => {
                     </div>
                 </div>
             <div className="w-full flex flex-wrap justify-center md:p-8">
-                {consultencies.map((consultent) => (
+                {consultencies && consultencies.map((consultent) => (
                     <div key={consultent._id} className="max-w-sm group/items my-3 md:mx-6 lg:mx-8 transition-transform hover:scale-105">
                         <div className='bg-sky-100 rounded-b-lg'>
                             <img className='w-full h-40 object-cover rounded-t-lg' src={consultent.profile_image.url || defaultImage} alt="" />

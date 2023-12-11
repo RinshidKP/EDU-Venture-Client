@@ -88,7 +88,7 @@ const ListBlogs = () => {
                     className="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
                 />
             </div>
-            {blogs.map((blog) => (
+            {blogs && blogs.map((blog) => (
                 <div key={blog.id} className="w-5/6 mx-auto bg-white rounded-lg shadow-md mb-8">
                     <div className='flex items-center'>
                         <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold mt-5 ml-10">
