@@ -26,11 +26,7 @@ const Login = () => {
       if (!emailPattern.test(userData.email)) {
         showErrorToast('Enter Valid Email')
       }
-      studentAPI.post('/login',userData,{
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      }).then((response)=>{
+      studentAPI.post('/login',userData).then((response)=>{
         showErrorToast(response.data.message)
         console.log(response);
         if(response.data.user.isVerified){
@@ -52,7 +48,7 @@ const Login = () => {
           navigate('/')
         }
       }).catch((error)=>{
-        console.log('not now',error)
+        console.log(error.message,error)
         showErrorToast(error.response?.data?.message)
       })
   }
