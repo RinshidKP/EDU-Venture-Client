@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import { chatApi } from '../../apiRoutes/studentAPI';
@@ -51,7 +50,7 @@ function StudentChat() {
   // });
 
   useEffect(() => {
-    const queryParams = queryString.parse(location.search);
+    const queryParams = new URLSearchParams(location.search);
     if (queryParams.get('_id')) {
       setReceiverId(queryParams.get('_id'));
       setReceiverName(queryParams.get('consultancy_name'));
