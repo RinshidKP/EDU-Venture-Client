@@ -38,16 +38,13 @@ function StudentChat() {
   });
 
   socket.on('message', (message) => {
+    console.log('Received mail:');
     console.log('Received message:', message);
-    if (receiverId === message.sender) {
+    if (receiverId === message?.sender) {
       // setReceiverName(!receiverName);
       setChat((prevChat) => (prevChat ? [...prevChat, message.message] : [message.message]));
     }
   });
-
-  // socket.on('error', (error) => {
-  //   console.error('Socket.io connection error:', error);
-  // });
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -62,7 +59,6 @@ function StudentChat() {
       chatApi
         .get(`/messages/${userId}/${receiverId}`)
         .then((response) => {
-          // console.log('messages', response.data);
           setChat(response.data.messages);
         })
         .catch((error) => {
@@ -247,12 +243,12 @@ function StudentChat() {
                     {chat && chat.map((message, index) => (
                       <Message
                         key={index}
-                        recieverId={message.sender === userId ? message.receiver : message.sender}
+                        recieverId={message?.sender === userId ? message?.receiver : message?.sender}
                         uniqueId={index === chat.length - 1 ? 'theLatestMessage' : `${index}`}
-                        text={message.text}
-                        timestamp={message.date}
-                        type={message.type}
-                        isUser={message.sender === userId}
+                        text={message?.text}
+                        timestamp={message?.date}
+                        type={message?.type}
+                        isUser={message?.sender === userId}
                       />
                     ))}
                   </div>
@@ -267,7 +263,7 @@ function StudentChat() {
                     </div>}
                   {drop &&
                     <div className='border rounded-t-sm border-gray-300' >
-                      <Dropzone className='w-full h-48'  onDrop={onDrop}>
+                      <Dropzone className='w-full h-48' onDrop={onDrop}>
                         {({ getRootProps, getInputProps }) => (
                           <section>
                             <div {...getRootProps()}>
@@ -288,7 +284,7 @@ function StudentChat() {
                     />
                     <div
                       className="h-auto flex items-center justify-center px-2 bg-white border border-transparent"
-                    onClick={() => setDrop(!drop)}
+                      onClick={() => setDrop(!drop)}
                     >
                       <Upload className="bg-white text-gray-300" />
                       <h2>
