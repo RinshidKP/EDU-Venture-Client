@@ -19,7 +19,7 @@ const ConsultentNavbar = () => {
   const [unread, setUnread] = useState(false);
   const [count, setCount] = useState(false);
   const {Token,Role,Id} = useSelector((state)=>state.User)
-  const socket = io('eduventure.live', {
+  const socket = io('https://eduventure.live', {
     transports: ['websocket'],
     query: { userId: Id },
   });

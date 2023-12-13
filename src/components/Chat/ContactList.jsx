@@ -46,7 +46,7 @@ const ContactList = ({ recieverIdChange, receiverId }) => {
         }
     }, [])
 
-    const socket = io('eduventure.live', {
+    const socket = io('https://eduventure.live', {
         transports: ['websocket'],
         query: { userId: Id },
       });

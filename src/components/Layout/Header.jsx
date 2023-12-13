@@ -24,7 +24,7 @@ const Header = () => {
   const normal =
     'border-b-2 select-none cursor-pointer cursor-pointer border-transparent text-gray-200 hover:text-cyan-300 dark:hover-text-gray-200 hover-border-blue-500 mx-1.5 sm:mx-6';
 
-  const socket = io('eduventure.live', {
+  const socket = io('https://eduventure.live', {
     transports: ['websocket'],
     query: { userId: Id },
   });
