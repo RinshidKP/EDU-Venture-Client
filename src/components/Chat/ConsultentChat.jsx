@@ -48,7 +48,7 @@ function ConsultentChat() {
         // Handle incoming messages from the server
         if(receiverId===message.message.sender){
             console.log('Received message:', message);
-            setNewMessage(!newMessage);
+            // setNewMessage(!newMessage);
             setChat((prevChat) => (prevChat ? [...prevChat, message.message] : [message.message]));
         }
     });
@@ -78,7 +78,7 @@ function ConsultentChat() {
                     console.error("Error fetching messages:", error);
                 });
         }
-    }, [userId, receiverId ,newMessage]);
+    }, [userId, receiverId  ]);
 
     const recieverIdChange = (id) => {
       setReceiverId(id)
@@ -88,11 +88,12 @@ function ConsultentChat() {
       setOnEmoji(false)
         if (message.trim()) {
             // Emit the message to the server using socket.io
-            socket.emit('message', message);
+            // socket.emit('message', message);
             chatApi.post('/messages', {
                 text: message,
                 sender: userId,
-                receiver: receiverId
+                receiver: receiverId,
+                type: 0,
             }).then((response) => {
                 console.log('response', response);
                 setChat((prevChat) => (prevChat ? [...prevChat, response.data] : [response.data]));
@@ -119,7 +120,6 @@ function ConsultentChat() {
     }, [userId, receiverId]);
 
     const handleEmojiClick = (emoji) => {
-      console.log(message+" ",emoji.emoji);
       setMessage(message+' '+emoji.emoji)
     }
 
@@ -177,8 +177,7 @@ function ConsultentChat() {
   }
 
   const onAudioSubmit = (voice) => {
-    // const fileExtension = voice.name.split('.').pop().toLowerCase();
-    // console.log(fileExtension,voice);
+
     if(voice.size<=0){
       showErrorToast(`the voice size is low ${voice.size}`)
     }
@@ -211,138 +210,142 @@ function ConsultentChat() {
 
     return (
       <div className="h-[87%] w-full overflow-hidden ">
-        <div className="flex h-full  md:flex-row ">
-          {/* Left Panel */}
-          <div className="hidden md:block md:w-2/5 ">
+      <div className="flex h-full  md:flex-row ">
+        {/* Left Panel */}
+        <div className="hidden md:block md:w-2/5 ">
+          <div className="bg-sky-100 flex flex-row justify-between items-center p-2">
+            <div className="flex mx-5 my-3 p-auto rounded-lg justify-between items-center w-full">
+              <img className="w-10 h-10 rounded-full" src={DisplayImage.url} alt="Avatar" />
+              <h3 className="mx-3 text-xl md:text-2xl">{DisplayName}</h3>
+            </div>
+          </div>
+
+          {/* Contacts */}
+          <div className="bg-gray-300 h-full overflow-hidden">
+            <ContactList recieverIdChange={recieverIdChange} receiverId={receiverId} />
+          </div>
+        </div>
+
+        {/* Right Panel */}
+        <div className="w-full md:w-3/5 border">
+          <div className={`md:w-2/5 p-2 ${showSidebar ? 'block' : 'hidden'}`}>
             <div className="bg-sky-100 flex flex-row justify-between items-center p-2">
               <div className="flex mx-5 my-3 p-auto rounded-lg justify-between items-center w-full">
                 <img className="w-10 h-10 rounded-full" src={DisplayImage.url} alt="Avatar" />
                 <h3 className="mx-3 text-xl md:text-2xl">{DisplayName}</h3>
               </div>
             </div>
-  
+
             {/* Contacts */}
             <div className="bg-gray-300 h-full overflow-hidden">
               <ContactList recieverIdChange={recieverIdChange} receiverId={receiverId} />
             </div>
           </div>
-  
-          {/* Right Panel */}
-          <div className="w-full md:w-3/5 border">
-            <div className={`md:w-2/5 p-2 ${showSidebar ? 'block' : 'hidden'}`}>
-              <div className="bg-sky-100 flex flex-row justify-between items-center p-2">
-                <div className="flex mx-5 my-3 p-auto rounded-lg justify-between items-center w-full">
-                  <img className="w-10 h-10 rounded-full" src={DisplayImage.url} alt="Avatar" />
-                  <h3 className="mx-3 text-xl md:text-2xl">{DisplayName}</h3>
-                </div>
-              </div>
-  
-              {/* Contacts */}
-              <div className="bg-gray-300 h-full overflow-hidden">
-                <ContactList recieverIdChange={recieverIdChange} receiverId={receiverId} />
-              </div>
-            </div>
-            <div className="w-full h-full bg-gray-100 text-gray-800 overflow-y-hidden">
-              {receiverId ? (
-                <div className='h-full ' >
-                  <div className="flex flex-col w-full h-full bg-white shadow-xl rounded-lg ">
-                    <div className="flex flex-col p-4 h-[95%] overflow-y-auto">
-                      <div className='fixed right-2' >
-                        <button
-                          className="md:hidden bg-sky-100 rounded p-2"
-                          onClick={() => setShowSidebar(!showSidebar)}
-                        >
-                          <FontAwesomeIcon className='text-green-800' icon={faMessage} />
-                        </button>
-                      </div>
-                      {chat.map((message, index) => (
-                        <Message
-                          key={index}
-                          recieverId={message.sender === userId ? message.receiver : message.sender}
-                          uniqueId={index === chat.length - 1 ? 'theLatestMessage' : `${index}`}
-                          text={message.text}
-                          timestamp={message.date}
-                          type={message.type}
-                          isUser={message.sender === userId}
-                        />
-                      ))}
-                    </div>
-                    {onEmoji && (
-                      <div>
-                        <EmojiPicker onEmojiClick={handleEmojiClick} lazyLoadEmojis={true} />
-                      </div>
-                    )}
-                    {record &&
-                      <div>
-                        <AudioRecorder onSend={onAudioSubmit} />
-                      </div>}
-                    <div className="bg-gray-300  h-auto sticky w-full bottom-0  p-4 flex">
-                      <input
-                        value={message}
-                        className="flex-grow rounded-l px-2 text-sm border border-gray-300 focus:outline-none"
-                        type="text"
-                        placeholder="Type your message…"
-                        onChange={(e) => setMessage(e.target.value)}
-                      />
-                      <div
-                        className="h-auto flex items-center justify-center px-2 bg-white border border-transparent"
-                      // onClick={() => setOnEmoji(!onEmoji)}
-                      >
-                        <Dropzone onDrop={onDrop}>
-                          {({ getRootProps, getInputProps }) => (
-                            <section>
-                              <div {...getRootProps()}>
-                                <input {...getInputProps()} />
-                                <Upload className="bg-white text-gray-300" />
-                              </div>
-                            </section>
-                          )}
-                        </Dropzone>
-                        <h2>
-                        </h2>
-                      </div>
-                      <div
-                        className="h-auto flex items-center justify-center px-2 bg-white border border-transparent"
-                        onClick={toggleRecordOption}
-                      >
-                        <h2>
-                          <Mic className="bg-white text-gray-300" />
-                        </h2>
-                      </div>
-                      <div
-                        className="h-auto flex items-center justify-center px-2 bg-white border border-transparent"
-                        onClick={() => setOnEmoji(!onEmoji)}
-                      >
-                        <h2>
-                          <FontAwesomeIcon icon={faSmile} className="bg-white text-gray-300" />
-                        </h2>
-                      </div>
+          <div className="w-full h-full bg-gray-100 text-gray-800 overflow-y-hidden">
+            {receiverId ? (
+              <div className='h-full ' >
+                <div className="flex flex-col w-full h-full bg-white shadow-xl rounded-lg ">
+                  <div className="flex flex-col p-4 h-[95%] overflow-y-auto">
+                    <div className='fixed right-2' >
                       <button
-                        className="bg-emerald-800 h-auto flex items-center justify-center text-white rounded-r p-2 md:p-3"
-                        onClick={sendMessage}
+                        className="md:hidden bg-sky-100 rounded p-2"
+                        onClick={() => setShowSidebar(!showSidebar)}
                       >
-                        <FontAwesomeIcon icon={faPaperPlane} />
+                        <FontAwesomeIcon className='text-green-800' icon={faMessage} />
                       </button>
                     </div>
+                    {chat && chat.map((message, index) => (
+                      <Message
+                        key={index}
+                        recieverId={message.sender === userId ? message.receiver : message.sender}
+                        uniqueId={index === chat.length - 1 ? 'theLatestMessage' : `${index}`}
+                        text={message.text}
+                        timestamp={message.date}
+                        type={message.type}
+                        isUser={message.sender === userId}
+                      />
+                    ))}
+                  </div>
+                  {onEmoji && (
+                    <div className='w-full h-auto' >
+                      <EmojiPicker className='w-full h-auto' onEmojiClick={handleEmojiClick} lazyLoadEmojis={true} />
+                    </div>
+                  )}
+                  {record &&
+                    <div>
+                      <AudioRecorder onSend={onAudioSubmit} />
+                    </div>}
+                  {drop &&
+                    <div className='border rounded-t-sm border-gray-300' >
+                      <Dropzone className='w-full h-48'  onDrop={onDrop}>
+                        {({ getRootProps, getInputProps }) => (
+                          <section>
+                            <div {...getRootProps()}>
+                              <input {...getInputProps()} />
+                              <Upload className="bg-white w-full h-48  text-gray-300" />
+                            </div>
+                          </section>
+                        )}
+                      </Dropzone>
+                    </div>}
+                  <div className="bg-gray-300  h-auto sticky w-full bottom-0  p-4 flex">
+                    <input
+                      value={message}
+                      className="flex-grow rounded-l px-2 text-sm border border-gray-300 focus:outline-none"
+                      type="text"
+                      placeholder="Type your message…"
+                      onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <div
+                      className="h-auto flex items-center justify-center px-2 bg-white border border-transparent"
+                    onClick={() => setDrop(!drop)}
+                    >
+                      <Upload className="bg-white text-gray-300" />
+                      <h2>
+                      </h2>
+                    </div>
+                    <div
+                      className="h-auto flex items-center justify-center px-2 bg-white border border-transparent"
+                      onClick={toggleRecordOption}
+                    >
+                      <h2>
+                        <Mic className="bg-white text-gray-300" />
+                      </h2>
+                    </div>
+                    <div
+                      className="h-auto flex items-center justify-center px-2 bg-white border border-transparent"
+                      onClick={() => setOnEmoji(!onEmoji)}
+                    >
+                      <h2>
+                        <FontAwesomeIcon icon={faSmile} className="bg-white text-gray-300" />
+                      </h2>
+                    </div>
+                    <button
+                      className="bg-emerald-800 h-auto flex items-center justify-center text-white rounded-r p-2 md:p-3"
+                      onClick={sendMessage}
+                    >
+                      <FontAwesomeIcon icon={faPaperPlane} />
+                    </button>
                   </div>
                 </div>
-              ) : (
-                <div className="flex flex-col h-full flex-grow items-center justify-center w-full bg-white shadow-xl rounded-lg">
-                  <h2 className="text-2xl">Select A User To Chat</h2>
-                  <button
-                    className="md:hidden bg-sky-100 rounded p-2"
-                    onClick={() => setShowSidebar(!showSidebar)}
-                  >
-                    <FontAwesomeIcon className='text-green-800' icon={faMessage} />
-                  </button>
-                </div>
-              )}
-            </div>
-  
+              </div>
+            ) : (
+              <div className="flex flex-col h-full flex-grow items-center justify-center w-full bg-white shadow-xl rounded-lg">
+                <h2 className="text-2xl">Select A User To Chat</h2>
+                <button
+                  className="md:hidden bg-sky-100 rounded p-2"
+                  onClick={() => setShowSidebar(!showSidebar)}
+                >
+                  <FontAwesomeIcon className='text-green-800' icon={faMessage} />
+                </button>
+              </div>
+            )}
           </div>
+
         </div>
-        <ToastContainer />
       </div>
+      <ToastContainer />
+    </div>
     );
   }
 

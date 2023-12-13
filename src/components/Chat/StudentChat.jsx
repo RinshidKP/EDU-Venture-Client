@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import { chatApi } from '../../apiRoutes/studentAPI';
@@ -50,7 +51,7 @@ function StudentChat() {
   // });
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
+    const queryParams = queryString.parse(location.search);
     if (queryParams.get('_id')) {
       setReceiverId(queryParams.get('_id'));
       setReceiverName(queryParams.get('consultancy_name'));
@@ -108,7 +109,7 @@ function StudentChat() {
           console.error('Error fetching messages:', error);
         });
     }
-  }, [userId, receiverId, Role, Token]);
+  }, [userId, receiverId]);
 
   const handleEmojiClick = (emoji) => {
     setMessage(message + ' ' + emoji.emoji);
@@ -168,8 +169,7 @@ function StudentChat() {
   }
 
   const onAudioSubmit = (voice) => {
-    // const fileExtension = voice.name.split('.').pop().toLowerCase();
-    // console.log(fileExtension,voice);
+
     if (voice.size <= 0) {
       showErrorToast(`the voice size is low ${voice.size}`)
     }
@@ -245,7 +245,7 @@ function StudentChat() {
                         <FontAwesomeIcon className='text-green-800' icon={faMessage} />
                       </button>
                     </div>
-                    {chat.map((message, index) => (
+                    {chat && chat.map((message, index) => (
                       <Message
                         key={index}
                         recieverId={message.sender === userId ? message.receiver : message.sender}
