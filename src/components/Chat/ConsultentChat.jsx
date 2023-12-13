@@ -18,112 +18,102 @@ import { showErrorToast } from '../../helpers/toaster';
 
 function ConsultentChat() {
   const [showSidebar, setShowSidebar] = useState(false);
-    const [message, setMessage] = useState('');
-    const [chat, setChat] = useState([]);
-    const [receiverId, setReceiverId] = useState(null);
-    const [newMessage, setNewMessage] = useState(false);
-    const consultantAxios = useConsultantInterceptor();
-    const [onEmoji, setOnEmoji] = useState(false);
+  const [message, setMessage] = useState('');
+  const [chat, setChat] = useState([]);
+  const [receiverId, setReceiverId] = useState(null);
+  const [newMessage, setNewMessage] = useState(false);
+  const consultantAxios = useConsultantInterceptor();
+  const [onEmoji, setOnEmoji] = useState(false);
+  const [drop, setDrop] = useState(false);
+  const location = useLocation();
 
-    const location = useLocation();
+  const { Id, DisplayImage, DisplayName } = useSelector((state) => state.User);
+  const [userId, setUserId] = useState(Id);
+  const [record, setRecord] = useState(false);
 
-    const { Id,DisplayImage,DisplayName} = useSelector((state) => state.User);
-    const [userId, setUserId] = useState(Id);
-    const [record, setRecord] = useState(false);
-
-    const toggleRecordOption = () => {
-      setRecord(!record)
-    }
-
-
-    const socket = io('https://eduventure.live', {
-        transports: ['websocket'],
-        query: { userId },
-    });
-    // const socket = io('http://localhost:3000', {
-    //     transports: ['websocket'],
-    //     query: { userId },
-    // });
-    socket.on('message', (message) => {
-        // Handle incoming messages from the server
-        if(receiverId===message.message.sender){
-            console.log('Received message:', message);
-            // setNewMessage(!newMessage);
-            setChat((prevChat) => (prevChat ? [...prevChat, message.message] : [message.message]));
-        }
-    });
-
-    // socket.on('error', (error) => {
-    //     console.error('Socket.io connection error:', error);
-    // });
-
-
-    useEffect(() => {
-        const queryParams = queryString.parse(location.search);
-        if (queryParams._id) {
-            setReceiverId(queryParams._id);
-            setNewMessage(queryParams.full_name);
-        }
-    }, [location.search]);
-
-    useEffect(() => {
-        if (userId && receiverId) {
-            chatApi
-                .get(`/messages/${userId}/${receiverId}`)
-                .then((response) => {
-                    // console.log('loading... ', response.data);
-                    setChat(response.data.messages);
-                })
-                .catch((error) => {
-                    console.error("Error fetching messages:", error);
-                });
-        }
-    }, [userId, receiverId  ]);
-
-    const recieverIdChange = (id) => {
-      setReceiverId(id)
+  const toggleRecordOption = () => {
+    setRecord(!record)
   }
 
-    const sendMessage = () => {
-      setOnEmoji(false)
-        if (message.trim()) {
-            // Emit the message to the server using socket.io
-            // socket.emit('message', message);
-            chatApi.post('/messages', {
-                text: message,
-                sender: userId,
-                receiver: receiverId,
-                type: 0,
-            }).then((response) => {
-                console.log('response', response);
-                setChat((prevChat) => (prevChat ? [...prevChat, response.data] : [response.data]));
-        })  
-            setMessage('');
-        }
-    };
 
-    useEffect(() => {
-      if (userId && receiverId) {
-        consultantAxios
-          .post(`/mark_read`,
+  const socket = io('https://eduventure.live', {
+    transports: ['websocket'],
+    query: { userId },
+  });
+
+  socket.on('message', (message) => {
+    if (receiverId === message.message.sender) {
+      console.log('Received message:', message);
+      setChat((prevChat) => (prevChat ? [...prevChat, message.message] : [message.message]));
+    }
+  });
+
+  useEffect(() => {
+    const queryParams = queryString.parse(location.search);
+    if (queryParams._id) {
+      setReceiverId(queryParams._id);
+      setNewMessage(queryParams.full_name);
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    if (userId && receiverId) {
+      chatApi
+        .get(`/messages/${userId}/${receiverId}`)
+        .then((response) => {
+          console.log('loading... ', response.data);
+          setChat(response.data.messages);
+        })
+        .catch((error) => {
+          console.error("Error fetching messages:", error);
+        });
+    }
+  }, [userId, receiverId]);
+
+  const recieverIdChange = (id) => {
+    setReceiverId(id)
+  }
+
+  const sendMessage = () => {
+    setOnEmoji(false)
+    if (message.trim()) {
+      // Emit the message to the server using socket.io
+      // socket.emit('message', message);
+      chatApi.post('/messages', {
+        text: message,
+        sender: userId,
+        receiver: receiverId,
+        type: 0,
+      }).then((response) => {
+        console.log('response', response);
+        setChat((prevChat) => (prevChat ? [...prevChat, response.data] : [response.data]));
+      })
+      setMessage('');
+    }
+  };
+
+  useEffect(() => {
+    if (userId && receiverId) {
+      consultantAxios
+        .post(`/mark_read`,
           {
             reciever: userId,
             sender: receiverId,
           })
-          .then((response) => {
-            console.log('messages', response.data);
-          })
-          .catch((error) => {
-            console.error('Error fetching messages:', error);
-          });
-      }
-    }, [userId, receiverId]);
-
-    const handleEmojiClick = (emoji) => {
-      setMessage(message+' '+emoji.emoji)
+        .then((response) => {
+          console.log('messages', response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching messages:', error);
+        });
     }
+  }, [userId, receiverId]);
 
-    
+  const handleEmojiClick = (emoji) => {
+    setMessage(message + ' ' + emoji.emoji)
+  }
+
+
   const onDrop = (files) => {
     console.log(files[0])
     const fileName = files[0].name;
@@ -178,7 +168,7 @@ function ConsultentChat() {
 
   const onAudioSubmit = (voice) => {
 
-    if(voice.size<=0){
+    if (voice.size <= 0) {
       showErrorToast(`the voice size is low ${voice.size}`)
     }
     let formData = new FormData;
@@ -208,8 +198,8 @@ function ConsultentChat() {
     })
   }
 
-    return (
-      <div className="h-[87%] w-full overflow-hidden ">
+  return (
+    <div className="h-[87%] w-full overflow-hidden ">
       <div className="flex h-full  md:flex-row ">
         {/* Left Panel */}
         <div className="hidden md:block md:w-2/5 ">
@@ -277,7 +267,7 @@ function ConsultentChat() {
                     </div>}
                   {drop &&
                     <div className='border rounded-t-sm border-gray-300' >
-                      <Dropzone className='w-full h-48'  onDrop={onDrop}>
+                      <Dropzone className='w-full h-48' onDrop={onDrop}>
                         {({ getRootProps, getInputProps }) => (
                           <section>
                             <div {...getRootProps()}>
@@ -298,7 +288,7 @@ function ConsultentChat() {
                     />
                     <div
                       className="h-auto flex items-center justify-center px-2 bg-white border border-transparent"
-                    onClick={() => setDrop(!drop)}
+                      onClick={() => setDrop(!drop)}
                     >
                       <Upload className="bg-white text-gray-300" />
                       <h2>
@@ -346,7 +336,7 @@ function ConsultentChat() {
       </div>
       <ToastContainer />
     </div>
-    );
-  }
+  );
+}
 
 export default ConsultentChat;

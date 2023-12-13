@@ -23,7 +23,7 @@ function StudentChat() {
   const [receiverName, setReceiverName] = useState(false);
   const [onEmoji, setOnEmoji] = useState(false);
   const location = useLocation();
-  const { Id, Token, Role, DisplayImage, DisplayName } = useSelector((state) => state.User);
+  const { Id, DisplayImage, DisplayName } = useSelector((state) => state.User);
   const [userId, setUserId] = useState(Id);
   const [showSidebar, setShowSidebar] = useState(false);
   const [record, setRecord] = useState(false);
