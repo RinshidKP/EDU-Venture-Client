@@ -43,8 +43,8 @@ function ConsultentChat() {
 
   socket.on('message', (message) => {
     console.log('Received message:', message);
-    if (receiverId === message.sender) {
-      setChat((prevChat) => (prevChat ? [...prevChat, message.message] : [message.message]));
+    if (receiverId === message?.message?.sender) {
+      setChat((prevChat) => (prevChat ? [...prevChat, message?.message] : [message?.message]));
     }
   });
 
@@ -247,12 +247,12 @@ function ConsultentChat() {
                     {chat && chat.map((message, index) => (
                       <Message
                         key={index}
-                        recieverId={message.sender === userId ? message.receiver : message.sender}
+                        recieverId={message?.sender === userId ? message?.receiver : message?.sender}
                         uniqueId={index === chat.length - 1 ? 'theLatestMessage' : `${index}`}
-                        text={message.text}
-                        timestamp={message.date}
-                        type={message.type}
-                        isUser={message.sender === userId}
+                        text={message?.text}
+                        timestamp={message?.date}
+                        type={message?.type}
+                        isUser={message?.sender === userId}
                       />
                     ))}
                   </div>
