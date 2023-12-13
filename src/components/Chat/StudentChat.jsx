@@ -38,8 +38,8 @@ function StudentChat() {
   });
 
   socket.on('message', (message) => {
-    if (receiverId === message.message.sender) {
-      console.log('Received message:', message);
+    console.log('Received message:', message);
+    if (receiverId === message.sender) {
       // setReceiverName(!receiverName);
       setChat((prevChat) => (prevChat ? [...prevChat, message.message] : [message.message]));
     }
