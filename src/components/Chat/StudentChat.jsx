@@ -54,6 +54,7 @@ function StudentChat() {
   }, [location.search]);
 
   useEffect(() => {
+    console.log('new messages');
     if (userId && receiverId) {
       chatApi
         .get(`/messages/${userId}/${receiverId}`)

@@ -53,11 +53,11 @@ function ConsultentChat() {
     const queryParams = queryString.parse(location.search);
     if (queryParams._id) {
       setReceiverId(queryParams._id);
-      // setNewMessage(queryParams.full_name);
     }
   }, [location.search]);
 
   useEffect(() => {
+    console.log('new messages');
     if (userId && receiverId) {
       chatApi
         .get(`/messages/${userId}/${receiverId}`)
@@ -69,7 +69,7 @@ function ConsultentChat() {
           console.error("Error fetching messages:", error);
         });
     }
-  }, [userId, receiverId,newMessage]);
+  }, [userId, receiverId, newMessage]);
 
   const recieverIdChange = (id) => {
     setReceiverId(id)
