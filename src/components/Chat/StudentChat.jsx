@@ -50,7 +50,7 @@ function StudentChat() {
     const queryParams = new URLSearchParams(location.search);
     if (queryParams.get('_id')) {
       setReceiverId(queryParams.get('_id'));
-      setReceiverName(queryParams.get('consultancy_name'));
+      // setReceiverName(queryParams.get('consultancy_name'));
     }
   }, [location.search]);
 
