@@ -38,24 +38,20 @@ function StudentChat() {
   });
 
   socket.on('message', (message) => {
-    console.log('Received message:', message);
-    console.log('reciever id message:', userId);
     if (userId == message) {
       console.log('Received mail:');
+      setReceiverName(!receiverName);      
     }
-    setReceiverName(!receiverName);      
   });
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     if (queryParams.get('_id')) {
       setReceiverId(queryParams.get('_id'));
-      // setReceiverName(queryParams.get('consultancy_name'));
     }
   }, [location.search]);
 
   useEffect(() => {
-    console.log('new messages');
     if (userId && receiverId) {
       chatApi
         .get(`/messages/${userId}/${receiverId}`)

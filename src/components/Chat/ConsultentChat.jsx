@@ -42,12 +42,11 @@ function ConsultentChat() {
   });
 
   socket.on('message', (message) => {
-    console.log('Received message:', message);
-    console.log('user message:', userId);
+  
     if (userId == message) {
       console.log('Received mail:');
+      setNewMessage(!newMessage)
     }
-    setNewMessage(!newMessage)
   });
 
   useEffect(() => {
@@ -58,12 +57,11 @@ function ConsultentChat() {
   }, [location.search]);
 
   useEffect(() => {
-    console.log('new messages');
+  
     if (userId && receiverId) {
       chatApi
         .get(`/messages/${userId}/${receiverId}`)
         .then((response) => {
-          console.log('loading... ', response.data);
           setChat(response.data.messages);
           setNewMessage(!newMessage)
         })
@@ -80,8 +78,6 @@ function ConsultentChat() {
   const sendMessage = () => {
     setOnEmoji(false)
     if (message.trim()) {
-      // Emit the message to the server using socket.io
-      // socket.emit('message', message);
       chatApi.post('/messages', {
         text: message,
         sender: userId,
