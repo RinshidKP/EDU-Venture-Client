@@ -40,12 +40,12 @@ function StudentChat() {
   socket.on('message', (message) => {
     console.log('Received message:', message);
     setReceiverName(!receiverName);
-    if (receiverId === message.sender) {
-      console.log('Received mail:');
-      setChat((prevChat) => (prevChat ? [...prevChat, message] : [message]));
-    }else{
-      console.log('not reciever');
-    }
+    // if (receiverId === message?.sender) {
+    //   console.log('Received mail:');
+    //   setChat((prevChat) => (prevChat ? [...prevChat, message] : [message]));
+    // }else{
+    //   console.log('not reciever');
+    // }
   });
 
   useEffect(() => {
