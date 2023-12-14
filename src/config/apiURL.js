@@ -12,5 +12,5 @@ export const apiUrls = {
 //   chatUrl : 'http://localhost:3000/chat'
 //   };
 
-  export const baseImageUrl = 'https://eduventure.live';
+  export const baseImageUrl = 'https://eduventure.live/';
   
