@@ -39,7 +39,7 @@ function StudentChat() {
 
   socket.on('message', (message) => {
     console.log('Received message:', message);
-    if (userId === message) {
+    if (receiverId == message) {
       console.log('Received mail:');
       setReceiverName(!receiverName);      
     }
