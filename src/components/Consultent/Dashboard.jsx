@@ -100,7 +100,8 @@ const Dashboard = () => {
     </div>
   );
 
-  const formatDate = (date) => {
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
     const options = { day: '2-digit', month: '2-digit', year: '2-digit', timeZone: 'Asia/Kolkata' };
     return date.toLocaleDateString('en-IN', options);
   };
