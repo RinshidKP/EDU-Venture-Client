@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [coursesCount, setCoursesCount] = useState();
   const [totalRevenue, setTotalRevenue] = useState(2000);
   const [pendingApplications, setPendingApplications] = useState([])
+  const [transactions, setTransactions] = useState([])
   const { Id } = useSelector((state) => state.User);
 
   const [usersChartData, setUsersChartData] = useState({
@@ -57,8 +58,9 @@ const Dashboard = () => {
       setStudentsCount(response.data.acceptedStudents);
       setApplicationCount(response.data.applicationCount);
       setCoursesCount(response.data.courseCount);
-      setPendingApplications(response.data.pendingApplications)
-      setTotalRevenue(response.data.consultantFee)
+      setPendingApplications(response.data.pendingApplications);
+      setTotalRevenue(response.data.consultantFee);
+      setTransactions(response.data.transactions);
       setUsersChartData({
         labels: ['Accepted Students', 'Applications', 'Courses'],
         datasets: [{
@@ -97,7 +99,7 @@ const Dashboard = () => {
       <div className={`text-3xl font-bold ${color}`}>{count}</div>
     </div>
   );
-  
+
   return (
     <div className="flex flex-col h-full bg-gray-100 pb-10">
       <div className="mt-4 flex flex-wrap mx-5 space-x-4">
@@ -229,10 +231,19 @@ const Dashboard = () => {
                 </thead>
                 <tbody>
                   {/* Table content for Transactions */}
+                  {transactions && transactions.map((transaction, index) => (
+                    <tr key={index} className="hover:bg-grey-lighter">
+                      <td className="py-2 px-4 border-b border-grey-light text-center">
+                        <img src={transaction?.student.profile_picture?.url} alt="Profile" className="rounded-full h-10 w-10 mx-auto" />
+                      </td>
+                      <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.transactionDate.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: '2-digit', timeZone: 'Asia/Kolkata' })}</td>
+                      <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.course.fee}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
               <div className="text-right mt-4">
-                <button onClick={()=>navigate('/consultent_student')} className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
+                <button onClick={() => navigate('/consultent_student')} className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
                   View More
                 </button>
               </div>
