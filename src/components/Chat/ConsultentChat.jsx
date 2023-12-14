@@ -46,8 +46,8 @@ function ConsultentChat() {
     console.log('user message:', userId);
     if (userId == message) {
       console.log('Received mail:');
-      setNewMessage(!newMessage)
     }
+    setNewMessage(!newMessage)
   });
 
   useEffect(() => {

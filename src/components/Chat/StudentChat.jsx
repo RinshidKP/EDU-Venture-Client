@@ -42,8 +42,8 @@ function StudentChat() {
     console.log('reciever id message:', userId);
     if (userId == message) {
       console.log('Received mail:');
-      setReceiverName(!receiverName);      
     }
+    setReceiverName(!receiverName);      
   });
 
   useEffect(() => {
