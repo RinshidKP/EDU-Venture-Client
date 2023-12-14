@@ -233,9 +233,7 @@ const Dashboard = () => {
                   {/* Table content for Transactions */}
                   {transactions && transactions.map((transaction, index) => (
                     <tr key={index} className="hover:bg-grey-lighter">
-                      <td className="py-2 px-4 border-b border-grey-light text-center">
-                        <img src={transaction?.student.profile_picture?.url} alt="Profile" className="rounded-full h-10 w-10 mx-auto" />
-                      </td>
+                      <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.course.header}</td>
                       <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.transactionDate.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: '2-digit', timeZone: 'Asia/Kolkata' })}</td>
                       <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.course.fee}</td>
                     </tr>
