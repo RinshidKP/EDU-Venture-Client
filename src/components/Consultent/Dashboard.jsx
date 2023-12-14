@@ -58,6 +58,7 @@ const Dashboard = () => {
       setApplicationCount(response.data.applicationCount);
       setCoursesCount(response.data.courseCount);
       setPendingApplications(response.data.pendingApplications)
+      setTotalRevenue(response.data.consultantFee)
       setUsersChartData({
         labels: ['Accepted Students', 'Applications', 'Courses'],
         datasets: [{
