@@ -38,12 +38,13 @@ function StudentChat() {
   });
 
   socket.on('message', (message) => {
-    const receivedMessage = JSON.parse(message)
-    console.log('Received message:', receivedMessage);
+    console.log('Received message:', message);
     setReceiverName(!receiverName);
-    if (receiverId === receivedMessage.message.sender) {
+    if (receiverId === message.sender) {
       console.log('Received mail:');
-      setChat((prevChat) => (prevChat ? [...prevChat, receivedMessage.message] : [receivedMessage.message]));
+      setChat((prevChat) => (prevChat ? [...prevChat, message] : [message]));
+    }else{
+      console.log('not reciever');
     }
   });
 
@@ -56,7 +57,6 @@ function StudentChat() {
   }, [location.search]);
 
   useEffect(() => {
-    console.log(userId,receiverId);
     if (userId && receiverId) {
       chatApi
         .get(`/messages/${userId}/${receiverId}`)
@@ -106,7 +106,7 @@ function StudentChat() {
           console.error('Error fetching messages:', error);
         });
     }
-  }, [userId, receiverId,receiverName]);
+  }, [userId, receiverId]);
 
   const handleEmojiClick = (emoji) => {
     setMessage(message + ' ' + emoji.emoji);
