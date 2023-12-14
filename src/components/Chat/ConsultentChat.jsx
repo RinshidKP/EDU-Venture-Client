@@ -43,7 +43,7 @@ function ConsultentChat() {
 
   socket.on('message', (message) => {
     console.log('Received message:', message);
-    if (receiverId === message) {
+    if (userId === message) {
       console.log('Received mail:');
       setNewMessage(!newMessage)
     }
