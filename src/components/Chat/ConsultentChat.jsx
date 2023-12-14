@@ -58,7 +58,7 @@ function ConsultentChat() {
 
   useEffect(() => {
     console.log('new messages');
-    if (userId && receiverId) {
+
       chatApi
         .get(`/messages/${userId}/${receiverId}`)
         .then((response) => {
@@ -68,7 +68,7 @@ function ConsultentChat() {
         .catch((error) => {
           console.error("Error fetching messages:", error);
         });
-    }
+    
   }, [userId, receiverId, newMessage]);
 
   const recieverIdChange = (id) => {

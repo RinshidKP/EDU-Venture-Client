@@ -55,7 +55,7 @@ function StudentChat() {
 
   useEffect(() => {
     console.log('new messages');
-    if (userId && receiverId) {
+
       chatApi
         .get(`/messages/${userId}/${receiverId}`)
         .then((response) => {
@@ -64,7 +64,7 @@ function StudentChat() {
         .catch((error) => {
           console.error('Error fetching messages:', error);
         });
-    }
+    
   }, [userId, receiverId, receiverName]);
 
   const recieverIdChange = (id) => {
