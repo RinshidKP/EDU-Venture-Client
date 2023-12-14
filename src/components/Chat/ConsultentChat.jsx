@@ -65,6 +65,7 @@ function ConsultentChat() {
         .then((response) => {
           console.log('loading... ', response.data);
           setChat(response.data.messages);
+          setNewMessage(!newMessage)
         })
         .catch((error) => {
           console.error("Error fetching messages:", error);

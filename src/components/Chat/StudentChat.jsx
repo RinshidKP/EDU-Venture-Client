@@ -61,6 +61,7 @@ function StudentChat() {
         .get(`/messages/${userId}/${receiverId}`)
         .then((response) => {
           setChat(response.data.messages);
+          setReceiverName(!receiverName);
         })
         .catch((error) => {
           console.error('Error fetching messages:', error);
