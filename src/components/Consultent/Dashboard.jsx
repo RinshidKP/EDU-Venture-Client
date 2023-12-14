@@ -100,6 +100,11 @@ const Dashboard = () => {
     </div>
   );
 
+  const formatDate = (date) => {
+    const options = { day: '2-digit', month: '2-digit', year: '2-digit', timeZone: 'Asia/Kolkata' };
+    return date.toLocaleDateString('en-IN', options);
+  };
+
   return (
     <div className="flex flex-col h-full bg-gray-100 pb-10">
       <div className="mt-4 flex flex-wrap mx-5 space-x-4">
@@ -234,7 +239,7 @@ const Dashboard = () => {
                   {transactions && transactions.map((transaction, index) => (
                     <tr key={index} className="hover:bg-grey-lighter">
                       <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.course.header}</td>
-                      <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.transactionDate?.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: '2-digit', timeZone: 'Asia/Kolkata' }) ?? 'N/A'}</td>
+                      <td className="py-2 px-4 border-b border-grey-light text-center">{formatDate(transaction?.transactionDate)}</td>
                       <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.course.fee}</td>
                     </tr>
                   ))}
