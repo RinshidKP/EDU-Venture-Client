@@ -117,8 +117,8 @@ const Message = ({recieverId, uniqueId, text, timestamp,type, isUser }) => {
       </div>
     </div>}
     {type===1 &&
-    <div className="group/items my-1">
-        <div className=" h-28 w-52 max-h-32 " >
+    <div className="group/items my-5">
+        <div className="   " >
           <Player fluid={false} height={180} width={320} >
             <source src={`${baseImageUrl+text}`} />
           </Player >
