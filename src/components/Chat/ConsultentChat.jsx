@@ -43,12 +43,9 @@ function ConsultentChat() {
 
   socket.on('message', (message) => {
     console.log('Received message:', message);
-    setNewMessage(!newMessage)
-    if (receiverId === message?.message?.sender) {
+    if (receiverId === message) {
       console.log('Received mail:');
-      setChat((prevChat) => (prevChat ? [...prevChat, message?.message] : [message?.message]));
-    }else{
-      console.log('not reciever');
+      setNewMessage(!newMessage)
     }
   });
 
