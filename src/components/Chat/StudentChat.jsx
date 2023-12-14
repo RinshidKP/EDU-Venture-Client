@@ -41,7 +41,7 @@ function StudentChat() {
     console.log('Received mail:');
     console.log('Received message:', message);
     if (receiverId === message.message.sender) {
-      // setReceiverName(!receiverName);
+      setReceiverName(!receiverName);
       setChat((prevChat) => (prevChat ? [...prevChat, message.message] : [message.message]));
     }
   });
@@ -52,7 +52,7 @@ function StudentChat() {
       setReceiverId(queryParams.get('_id'));
       setReceiverName(queryParams.get('consultancy_name'));
     }
-  }, [location.search, receiverName]);
+  }, [location.search]);
 
   useEffect(() => {
     if (userId && receiverId) {
@@ -65,7 +65,7 @@ function StudentChat() {
           console.error('Error fetching messages:', error);
         });
     }
-  }, [userId, receiverId]);
+  }, [userId, receiverId, receiverName]);
 
   const recieverIdChange = (id) => {
     setReceiverId(id);

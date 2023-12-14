@@ -45,6 +45,7 @@ function ConsultentChat() {
     console.log('Received mail:');
     console.log('Received message:', message);
     if (receiverId === message?.message?.sender) {
+      setNewMessage(!newMessage)
       setChat((prevChat) => (prevChat ? [...prevChat, message?.message] : [message?.message]));
     }
   });
@@ -53,7 +54,7 @@ function ConsultentChat() {
     const queryParams = queryString.parse(location.search);
     if (queryParams._id) {
       setReceiverId(queryParams._id);
-      setNewMessage(queryParams.full_name);
+      // setNewMessage(queryParams.full_name);
     }
   }, [location.search]);
 
@@ -69,7 +70,7 @@ function ConsultentChat() {
           console.error("Error fetching messages:", error);
         });
     }
-  }, [userId, receiverId]);
+  }, [userId, receiverId,newMessage]);
 
   const recieverIdChange = (id) => {
     setReceiverId(id)
