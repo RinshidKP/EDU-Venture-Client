@@ -39,7 +39,8 @@ function StudentChat() {
 
   socket.on('message', (message) => {
     console.log('Received message:', message);
-    if (receiverId == message) {
+    console.log('reciever id message:', userId);
+    if (userId == message) {
       console.log('Received mail:');
       setReceiverName(!receiverName);      
     }
@@ -55,7 +56,7 @@ function StudentChat() {
 
   useEffect(() => {
     console.log('new messages');
-
+    if (userId && receiverId) {
       chatApi
         .get(`/messages/${userId}/${receiverId}`)
         .then((response) => {
@@ -64,8 +65,8 @@ function StudentChat() {
         .catch((error) => {
           console.error('Error fetching messages:', error);
         });
-    
-  }, [userId, receiverId, receiverName]);
+    }
+  }, [userId, receiverId,receiverName]);
 
   const recieverIdChange = (id) => {
     setReceiverId(id);
