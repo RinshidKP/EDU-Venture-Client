@@ -106,7 +106,7 @@ function StudentChat() {
           console.error('Error fetching messages:', error);
         });
     }
-  }, [userId, receiverId]);
+  }, [userId, receiverId,receiverName]);
 
   const handleEmojiClick = (emoji) => {
     setMessage(message + ' ' + emoji.emoji);
