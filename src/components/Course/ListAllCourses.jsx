@@ -87,7 +87,7 @@ const ListAllCourses = () => {
 
     return (
         <div className="container mx-auto ">
-            <div className="flex flex-col bg-gray-200 md:flex-row w-full my-4 justify-around items-center">
+            <div className="flex flex-col bg-gray-200 md:flex-row w-full py-4 justify-around items-center">
                 <div className=" w-1/3  md:mx-0 ">
                     <form className="w-full my-2">
                         <div className="relative">
@@ -124,7 +124,7 @@ const ListAllCourses = () => {
                 <div className="flex justify-around my-2" >
                     <div
                         onClick={handleFilterClick}
-                        className=" select-none border cursor-pointer bg-white px-5 mx-2 flex justify-evenly rounded items-center text-center py-1 border-black w-auto"
+                        className=" select-none border cursor-pointer bg-white px-3 mx-2 flex justify-evenly rounded items-center text-center border-black w-auto"
                     >
                         <Filter size={20} strokeWidth={1} />
                     </div>
