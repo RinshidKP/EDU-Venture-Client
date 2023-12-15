@@ -97,7 +97,7 @@ const Dashboard = () => {
       <div className="mt-8 flex flex-wrap my-2 mx-5 space-x-4">
         <DataBox title="Students" count={studentsCount} color="text-cyan-500" />
         <DataBox title="Consultants" count={consultantsCount} color="text-cyan-500" />
-        <DataBox title="Revenue" count={totalRevenue} color="text-cyan-500" />
+        <DataBox title="Total Transaction" count={totalTransaction} color="text-cyan-500" />
         <DataBox title="Courses" count={coursesCount} color="text-cyan-500" />
       </div>
 
