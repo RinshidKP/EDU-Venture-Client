@@ -32,7 +32,7 @@ const Blogs = () => {
 
   const handleCreateClick = () => {
     {console.log(courses);}
-    if(courses.length>0){
+    if(courses){
       () => navigate('/new_blog')
     }else{
       showErrorToast('You are not allowed')
