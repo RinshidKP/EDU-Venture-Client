@@ -77,6 +77,7 @@ function ConsultentChat() {
 
   const sendMessage = () => {
     setOnEmoji(false)
+    // socket.emit('message',message)
     if (message.trim()) {
       chatApi.post('/messages', {
         text: message,

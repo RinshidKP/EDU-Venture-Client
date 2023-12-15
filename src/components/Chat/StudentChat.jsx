@@ -72,7 +72,6 @@ function StudentChat() {
   const sendMessage = () => {
     setOnEmoji(false);
     if (message.trim()) {
-      // socket.emit('message', message);
       chatApi
         .post('/messages', {
           text: message,
