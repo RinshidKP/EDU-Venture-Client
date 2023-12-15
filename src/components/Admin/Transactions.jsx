@@ -7,7 +7,10 @@ const Transactions = () => {
     useEffect(()=>{
         adminAxios.get('/admin_transactions')
         .then((response)=>{
-            setTransactions(response.data.transaction)
+            console.log(response);
+            setTransactions(response.data.transactions)
+        }).catch((error)=>{
+            console.log(error)
         })
     })
     const formatDate = (timestamp) => {
