@@ -239,7 +239,7 @@ const Dashboard = () => {
                 </table>
               </div>
               <div className="text-right mt-4">
-                <button className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
+                <button onClick={() => navigate('/dashboard_transactions')} className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
                   View More
                 </button>
               </div>
