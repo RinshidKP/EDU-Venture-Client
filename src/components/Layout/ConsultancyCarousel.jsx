@@ -2,72 +2,70 @@ import React, { useEffect, useState } from 'react';
 import { studentAPI } from '../../apiRoutes/studentAPI';
 
 const ConsultancyCarousel = () => {
-    const [activeItem, setActiveItem] = useState(0);
-    const [countries, setCountries] = useState([]);
-  
-    const handlePrevClick = () => {
-      setActiveItem((prevItem) => (prevItem === 0 ? 3 : prevItem - 1));
-    };
-  
-    const handleNextClick = () => {
-      setActiveItem((prevItem) => (prevItem === 3 ? 0 : prevItem + 1));
-    };
-  
-    useEffect(() => {
-      studentAPI.get('/list_all_countries', {
-        params: {
-          page: 1,
-          limit: 4,
-        },
-      })
-        .then((response) => {
-          console.log(response.data);
-          setCountries(response.data.countries);
-        });
-    }, []);
-  
-  
-    return (
-      <div id="consultancy-carousel" className="relative w-full" data-carousel="static">
-        {/* Carousel wrapper */}
-        <div className="relative h-56 overflow-hidden md:h-96">
-          {countries.map((country, index) => (
-            <div
-              key={index}
-              className={`duration-200 ease-linear absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 ${
-                index === activeItem ? 'opacity-100' : 'opacity-0'
+  const [activeItem, setActiveItem] = useState(0);
+  const [countries, setCountries] = useState([]);
+
+  const handlePrevClick = () => {
+    setActiveItem((prevItem) => (prevItem === 0 ? 3 : prevItem - 1));
+  };
+
+  const handleNextClick = () => {
+    setActiveItem((prevItem) => (prevItem === 3 ? 0 : prevItem + 1));
+  };
+
+  useEffect(() => {
+    studentAPI.get('/list_all_countries', {
+      params: {
+        page: 1,
+        limit: 4,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        setCountries(response.data.countries);
+      });
+  }, []);
+
+
+  return (
+    <div id="consultancy-carousel" className="relative w-full" data-carousel="static">
+      {/* Carousel wrapper */}
+      <div className="relative h-56 overflow-hidden md:h-96">
+        {countries.map((country, index) => (
+          <div
+            key={index}
+            className={`duration-200 ease-linear absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 ${index === activeItem ? 'opacity-100' : 'opacity-0'
               }`}
-              data-carousel-item={index === activeItem ? 'active' : ''}
-            >
-              {country.image ? (
-                <img
+            data-carousel-item={index === activeItem ? 'active' : ''}
+          >
+            {country.image ? (
+              <img
                 src={country.image.url}
-                  alt={country.name}
-                  className="w-full h-[80%] md:h-[70%] lg:h-[60%] xl:h-[50%] rounded-md object-cover mb-4"
-                />
-              ) : (
-                <img
-                  src={`https://source.unsplash.com/800x400/?${
-                    index === 0
-                      ? 'nature,water,sky'
-                      : index === 1
-                      ? 'city,architecture,building'
-                      : index === 2
+                alt={country.name}
+                className="w-full h-[80%] md:h-[70%] lg:h-[60%] xl:h-[50%] rounded-md object-cover mb-4"
+              />
+            ) : (
+              <img
+                src={`https://source.unsplash.com/800x400/?${index === 0
+                  ? 'nature,water,sky'
+                  : index === 1
+                    ? 'city,architecture,building'
+                    : index === 2
                       ? 'mountain,landscape'
                       : 'technology,computer'
                   }`}
-                  alt="Placeholder"
-                  className="w-full h-full"
-                />
-              )}
-                <div className="text-white absolute top-0 left-0 p-4">
-                    <h2 className="text-2xl font-bold">{country.name}</h2>
-                    {/* Add more content as needed */}
-                </div>
+                alt="Placeholder"
+                className="w-full h-full"
+              />
+            )}
+            <div className="text-white absolute top-0 left-0 p-4">
+              <h2 className="text-2xl font-bold">{country.name}</h2>
+              {/* Add more content as needed */}
             </div>
-            
-          ))}
-        </div>
+          </div>
+
+        ))}
+      </div>
       {/* Slider controls */}
       <button
         type="button"

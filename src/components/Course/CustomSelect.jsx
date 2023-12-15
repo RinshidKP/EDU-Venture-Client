@@ -5,20 +5,20 @@ import { useSelector } from 'react-redux';
 
 
 const CustomSelect = ({ onOptionSelect }) => {
-    const [options,setOptions]= useState([])
-    const { Token, Role } = useSelector((state) => state.User);
-        useEffect(()=>{
-            consultentApi.get('/list_countries',{
-            headers: {
-                'Authorization': Token,
-                'userRole': Role,
-            }
-            }).then((response)=>{
-            setOptions(response.data.countries)
-            }).catch((error)=>{
-                showErrorToast(error.message)
-            })
-        })
+  const [options, setOptions] = useState([])
+  const { Token, Role } = useSelector((state) => state.User);
+  useEffect(() => {
+    consultentApi.get('/list_countries', {
+      headers: {
+        'Authorization': Token,
+        'userRole': Role,
+      }
+    }).then((response) => {
+      setOptions(response.data.countries)
+    }).catch((error) => {
+      showErrorToast(error.message)
+    })
+  })
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 

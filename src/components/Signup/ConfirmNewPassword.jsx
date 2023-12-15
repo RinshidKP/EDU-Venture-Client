@@ -13,7 +13,7 @@ const ConfirmNewPassword = () => {
     const navigate = useNavigate()
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
-    const [showPassword,setShowPassword] = useState(true);
+    const [showPassword, setShowPassword] = useState(true);
 
     const { Token, Role } = useSelector((state) => state.User);
 
@@ -95,17 +95,17 @@ const ConfirmNewPassword = () => {
                             // InputProps={{ style: { fontSize: "14px" } }}
                             placeholder="Password"
                             name="Password"
-                            type={showPassword?"password":"text"}
+                            type={showPassword ? "password" : "text"}
                             value={password}
                             onChange={handlePasswordChange}
                             InputProps={{
                                 style: { fontSize: '16px' },
                                 endAdornment: (
-                                  <InputAdornment position="end">
-                                    <FontAwesomeIcon onClick={()=>setShowPassword(!showPassword)} className='cursor-pointer' icon={showPassword ?faEyeSlash : faEye} style={{ fontSize: '24px' }} />
-                                  </InputAdornment>
+                                    <InputAdornment position="end">
+                                        <FontAwesomeIcon onClick={() => setShowPassword(!showPassword)} className='cursor-pointer' icon={showPassword ? faEyeSlash : faEye} style={{ fontSize: '24px' }} />
+                                    </InputAdornment>
                                 ),
-                              }}
+                            }}
                         />
                     </div>
                     <div className="mb-4">
@@ -120,17 +120,17 @@ const ConfirmNewPassword = () => {
                             // InputProps={{ style: { fontSize: "14px" } }}
                             placeholder="Repeat Password"
                             name="RepeatPassword"
-                            type={showPassword?"password":"text"}
+                            type={showPassword ? "password" : "text"}
                             value={repeatPassword}
                             onChange={handleRepeatPasswordChange}
                             InputProps={{
                                 style: { fontSize: '16px' },
                                 endAdornment: (
-                                  <InputAdornment position="end">
-                                    <FontAwesomeIcon onClick={()=>setShowPassword(!showPassword)} className='cursor-pointer' icon={showPassword ?faEyeSlash : faEye} style={{ fontSize: '24px' }} />
-                                  </InputAdornment>
+                                    <InputAdornment position="end">
+                                        <FontAwesomeIcon onClick={() => setShowPassword(!showPassword)} className='cursor-pointer' icon={showPassword ? faEyeSlash : faEye} style={{ fontSize: '24px' }} />
+                                    </InputAdornment>
                                 ),
-                              }}
+                            }}
                         />
                     </div>
 

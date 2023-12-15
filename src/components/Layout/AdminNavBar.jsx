@@ -31,7 +31,7 @@ function AdminNavBar() {
           Transactions
         </a>
         <a onClick={() => navigate('/dashboard_countries')} className={`w-full sm:w-auto ${pathname === '/dashboard_countries' ? highlight : normal}`}>
-            Countries
+          Countries
         </a>
       </div>
     </nav>

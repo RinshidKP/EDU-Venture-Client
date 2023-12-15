@@ -1,8 +1,8 @@
-import {useState} from 'react';
-import { showErrorToast ,showToast, ToastContainer } from '../../helpers/toaster';
+import { useState } from 'react';
+import { showErrorToast, showToast, ToastContainer } from '../../helpers/toaster';
 import { useNavigate } from 'react-router-dom';
 import Form from './Form';
-import {  studentAPI } from '../../apiRoutes/studentAPI';
+import { studentAPI } from '../../apiRoutes/studentAPI';
 import OtpValidation from './OtpValidation';
 
 function Create() {
@@ -15,9 +15,9 @@ function Create() {
 
   const handleCreate = (userData) => {
 
-      studentAPI.post('/signup', userData)
+    studentAPI.post('/signup', userData)
       .then((response) => {
-        if(response.data.error){
+        if (response.data.error) {
           showErrorToast(response.data.error)
           return
         }
@@ -33,12 +33,12 @@ function Create() {
         console.log(error);
         showErrorToast(error)
       });
-  
+
   };
 
   const resendOtp = () => {
-studentAPI
-      .post('/resend_otp', {email: user.email})
+    studentAPI
+      .post('/resend_otp', { email: user.email })
       .then((response) => {
         if (response.status === 200) {
           console.log(response);
@@ -56,11 +56,11 @@ studentAPI
         showErrorToast('An error occurred while processing your request.');
       });
   };
-  
+
 
   const handleSubmitOtp = (otp) => {
     console.log(otp);
-  
+
     studentAPI.post('/otpvalidate', { email: user.email, otp })
       .then((response) => {
         if (response.status === 200) {
@@ -81,7 +81,7 @@ studentAPI
         console.error(error.response.data.error);
       });
   };
-  
+
 
   return (
     <div>
@@ -89,14 +89,14 @@ studentAPI
       <div className="h-screen p-4 flex items-center justify-center bg-emerald-800">
         <div className=" p-5 mt-5 mb-5">
           {/* Form component with submit handler for creating */}
-          {formSubmitted ? ( 
-                  <OtpValidation buttonText="Enter OTP" handleSubmitOtp={handleSubmitOtp} user resendOtp={resendOtp} />
-                  ) : (
-                  <Form buttonText="Signup" handleSubmit={handleCreate}   />
+          {formSubmitted ? (
+            <OtpValidation buttonText="Enter OTP" handleSubmitOtp={handleSubmitOtp} user resendOtp={resendOtp} />
+          ) : (
+            <Form buttonText="Signup" handleSubmit={handleCreate} />
           )}
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

@@ -11,7 +11,7 @@ const CourseForm = () => {
   const { Token, Role } = useSelector((state) => state.User);
   const [img, setImg] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
-  const [openCropper,SetOpenCropper] = useState(false)
+  const [openCropper, SetOpenCropper] = useState(false)
   const [formData, setFormData] = useState({
     header: '',
     course_image: null,
@@ -20,7 +20,7 @@ const CourseForm = () => {
     qualification_description: '',
     requirements_header: '',
     requirements_blob: '',
-    country:'',
+    country: '',
     fee: 0,
   });
 
@@ -29,7 +29,7 @@ const CourseForm = () => {
   const handleSelectedOptionId = (optionId) => {
     setFormData({
       ...formData,
-      country:optionId,
+      country: optionId,
     });
   };
 
@@ -45,12 +45,12 @@ const CourseForm = () => {
 
   const handleCroppedImage = ({ image, imageUrl }) => {
     SetOpenCropper(false);
-    
+
     if (image) {
       setFormData({ ...formData, image: image });
       setImagePreview(imageUrl);
     }
-    
+
   }
 
   const handleInputChange = (e) => {
@@ -66,7 +66,7 @@ const CourseForm = () => {
       [name]: type === 'file' ? e.target.files[0] : value,
     });
   };
-  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -106,13 +106,13 @@ const CourseForm = () => {
   return (
     <div className="max-w-screen-xl mx-auto p-6 bg-white rounded-md shadow-md">
       <nav className="text-2xl font-semibold text-gray-800 mb-4 text-center">Create Course</nav>
-      {openCropper&&<CropperModal image={img} handleCroppedImage={handleCroppedImage} />}
+      {openCropper && <CropperModal image={img} handleCroppedImage={handleCroppedImage} />}
       <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="mb-4">
           {imagePreview ? (
             <img className="rounded-lg shadow-lg mx-auto w-full max-h-48 md:max-h-full" src={imagePreview} alt="User Profile" />
           ) : (
-            <img className="rounded-lg shadow-lg mx-auto w-full max-h-48 md:max-h-full" src={ defaultImage} alt="User Profile" />
+            <img className="rounded-lg shadow-lg mx-auto w-full max-h-48 md:max-h-full" src={defaultImage} alt="User Profile" />
           )}
         </div>
 
@@ -129,7 +129,7 @@ const CourseForm = () => {
             onChange={handleImageChange}
             className="form-input"
           />
-            <CustomSelect onOptionSelect={handleSelectedOptionId} />
+          <CustomSelect onOptionSelect={handleSelectedOptionId} />
         </div>
         <div className="mb-4">
           <label htmlFor="header" className="block text-sm font-medium text-gray-600">

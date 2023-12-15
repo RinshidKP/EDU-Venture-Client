@@ -7,9 +7,9 @@ import Footer from '../../components/Layout/Footer'
 const StudentChatPage = () => {
   return (
     <div className='h-screen bg-sky-950'>
-        <Header/>
-        <StudentChat/>
-        <Footer/>
+      <Header />
+      <StudentChat />
+      <Footer />
     </div>
   )
 }

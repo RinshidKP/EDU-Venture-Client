@@ -252,7 +252,7 @@ const Header = () => {
           </a>
         </div>
       </nav>
-         
+
     </div>
   );
 };

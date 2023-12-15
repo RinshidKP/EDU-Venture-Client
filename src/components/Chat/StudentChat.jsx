@@ -40,7 +40,7 @@ function StudentChat() {
   socket.on('message', (message) => {
     if (userId == message) {
       console.log('Received mail:');
-      setReceiverName(!receiverName);      
+      setReceiverName(!receiverName);
     }
   });
 
@@ -63,7 +63,7 @@ function StudentChat() {
           console.error('Error fetching messages:', error);
         });
     }
-  }, [userId, receiverId,receiverName]);
+  }, [userId, receiverId, receiverName]);
 
   const recieverIdChange = (id) => {
     setReceiverId(id);

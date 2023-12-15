@@ -28,12 +28,9 @@ const CourseList = () => {
       });
   }, [courses, Role, Token]);
 
-
-
-
   return (
     <div className="w-full flex flex-wrap justify-center mb-10">
-      
+
       {courses ? courses.map((course) => (
         <div key={course._id} className=" my-5 w-full max-w-sm px-5 py-5 mx-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
           <a>
@@ -96,7 +93,7 @@ const CourseList = () => {
           </div>
 
         </div>
-      )):(
+      )) : (
         <div>
           NO courses Listed
         </div>

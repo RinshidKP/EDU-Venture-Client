@@ -58,8 +58,8 @@ function OtpValidation({ buttonText, handleSubmitOtp, user, resendOtp }) {
             variant="outlined"
             size="small"
             sx={{ width: '100%' }}
-            InputLabelProps={{ style: { fontSize: '14px' }}}
-            InputProps={{ style: { fontSize: '14px' }}}
+            InputLabelProps={{ style: { fontSize: '14px' } }}
+            InputProps={{ style: { fontSize: '14px' } }}
             type="text"
             value={otp}
             onChange={handleOtpChange}

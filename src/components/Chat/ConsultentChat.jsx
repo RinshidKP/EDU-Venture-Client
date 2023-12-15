@@ -42,7 +42,7 @@ function ConsultentChat() {
   });
 
   socket.on('message', (message) => {
-  
+
     if (userId == message) {
       console.log('Received mail:');
       setNewMessage(!newMessage)
@@ -57,7 +57,7 @@ function ConsultentChat() {
   }, [location.search]);
 
   useEffect(() => {
-  
+
     if (userId && receiverId) {
       chatApi
         .get(`/messages/${userId}/${receiverId}`)

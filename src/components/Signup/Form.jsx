@@ -1,12 +1,12 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { TextField, Button } from "@mui/material";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
-import { showErrorToast , ToastContainer } from '../../helpers/toaster';
+import { showErrorToast, ToastContainer } from '../../helpers/toaster';
 import { useNavigate } from 'react-router-dom';
 
-function Form({ buttonText, handleSubmit ,isUserForm}) {
-  const navigate = useNavigate() 
+function Form({ buttonText, handleSubmit, isUserForm }) {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
@@ -46,7 +46,7 @@ function Form({ buttonText, handleSubmit ,isUserForm}) {
       password,
     };
 
-    handleSubmit(userData); 
+    handleSubmit(userData);
   };
 
   return (
@@ -55,7 +55,7 @@ function Form({ buttonText, handleSubmit ,isUserForm}) {
       <form className="bg-green-100 rounded shadow-md p-8" onSubmit={handleSubmitForm}>
         <div className="text-center ">
           <h1 className="text-3xl text-dark font-bold mb-5">
-            {buttonText }
+            {buttonText}
             {isUserForm ? (
               <FontAwesomeIcon icon={faUser} />
             ) : (
@@ -69,8 +69,8 @@ function Form({ buttonText, handleSubmit ,isUserForm}) {
             variant="outlined"
             size="small"
             sx={{ width: '100%' }}
-            InputLabelProps={{ style: { fontSize: '14px' }}}
-            InputProps={{ style: { fontSize: '14px' }}}
+            InputLabelProps={{ style: { fontSize: '14px' } }}
+            InputProps={{ style: { fontSize: '14px' } }}
             placeholder="Email"
             value={email}
             onChange={handleEmailChange}
@@ -83,8 +83,8 @@ function Form({ buttonText, handleSubmit ,isUserForm}) {
             variant="outlined"
             size="small"
             sx={{ width: '100%' }}
-            InputLabelProps={{ style: { fontSize: '14px' }}}
-            InputProps={{ style: { fontSize: '14px' }}}
+            InputLabelProps={{ style: { fontSize: '14px' } }}
+            InputProps={{ style: { fontSize: '14px' } }}
             placeholder="Username"
             value={username}
             onChange={handleUsernameChange}
@@ -98,8 +98,8 @@ function Form({ buttonText, handleSubmit ,isUserForm}) {
             variant="outlined"
             size="small"
             sx={{ width: '100%' }}
-            InputLabelProps={{ style: { fontSize: '14px' }}}
-            InputProps={{ style: { fontSize: '14px' }}}
+            InputLabelProps={{ style: { fontSize: '14px' } }}
+            InputProps={{ style: { fontSize: '14px' } }}
             placeholder="Password"
             value={password}
             onChange={handlePasswordChange}
@@ -113,15 +113,15 @@ function Form({ buttonText, handleSubmit ,isUserForm}) {
             variant="outlined"
             size="small"
             sx={{ width: '100%' }}
-            InputLabelProps={{ style: { fontSize: '14px' }}}
-            InputProps={{ style: { fontSize: '14px' }}}
+            InputLabelProps={{ style: { fontSize: '14px' } }}
+            InputProps={{ style: { fontSize: '14px' } }}
             placeholder="Repeat Password"
             value={repeatPassword}
             onChange={handleRepeatPasswordChange}
           />
         </div>
-          
-          <div className="flex justify-center mb-2" >Dont have an account<span style={{ cursor: 'pointer' }} onClick={()=>navigate('/login')} className='ml-2'> Sign In</span></div>
+
+        <div className="flex justify-center mb-2" >Dont have an account<span style={{ cursor: 'pointer' }} onClick={() => navigate('/login')} className='ml-2'> Sign In</span></div>
 
         <div className="flex justify-center">
           <Button
@@ -137,7 +137,7 @@ function Form({ buttonText, handleSubmit ,isUserForm}) {
           </Button>
         </div>
       </form>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

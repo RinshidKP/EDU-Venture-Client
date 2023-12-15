@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { studentAPI } from '../../apiRoutes/studentAPI';
 import { useNavigate } from 'react-router-dom';
 import { useStudentAxiosIntercepter } from '../../customHooks/useStudentAxiosIntercepter';
 
@@ -62,10 +61,10 @@ const CountriesList = () => {
                     </div>
 
                 </div>
-            )):
-            ( <div>
-                No countries Availbale
-            </div> )}
+            )) :
+                (<div>
+                    No countries Availbale
+                </div>)}
 
         </div>
 

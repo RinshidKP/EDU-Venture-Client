@@ -6,10 +6,10 @@ const Success = () => {
   const { applicationId } = useParams();
   const studentAxios = useStudentAxiosIntercepter();
 
-  const [transaction,setTransaction] = useState({})
-  const [application,setApplication] = useState({})
-  useEffect(()=>{
-    console.log('applicationId',applicationId);
+  const [transaction, setTransaction] = useState({})
+  const [application, setApplication] = useState({})
+  useEffect(() => {
+    console.log('applicationId', applicationId);
     studentAxios.get('/checkout_confirm', {
       params: {
         applicationId: applicationId,
@@ -23,8 +23,8 @@ const Success = () => {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-    
-  },[applicationId])
+
+  }, [applicationId])
 
   function formatDate(dateString) {
     const options = { day: 'numeric', month: 'long' };
@@ -45,8 +45,8 @@ const Success = () => {
           </div>
           <div className="ml-4 mr-4 mt-4">
             <p className="font-bold">Transaction reference: {transaction.transactionId}</p>
-            <p>Order date: {formatDate(transaction.transactionDate)}</p>           
-             <p className="font-bold">Payment Details:</p>
+            <p>Order date: {formatDate(transaction.transactionDate)}</p>
+            <p className="font-bold">Payment Details:</p>
             <p>
               Course: {application?.course?.header} <br />
             </p>
