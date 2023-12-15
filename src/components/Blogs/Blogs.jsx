@@ -54,7 +54,7 @@ const Blogs = () => {
 
         {/* Create Blog Button */}
         <button
-          onClick={handleCreateClick}
+          onClick={() => navigate('/new_blog')}
           className="px-3 py-3 text-gray-300 bg-teal-800 hover:bg-teal-500 hover:text-white transition-transform hover:scale-110 rounded-lg m-5"
         >
           Create A Blog
