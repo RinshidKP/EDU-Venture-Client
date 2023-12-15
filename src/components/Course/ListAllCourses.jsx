@@ -131,7 +131,7 @@ const ListAllCourses = () => {
                     <div className="w-full flex md:w-auto">
                         <div className="flex my-3" >
                             <button onClick={() => setSortCountryOptionOption((sortCountryOption) => !sortCountryOption)}
-                                className="flex bg-white border border-black px-2 rounded mx-1" >Countries
+                                className="flex bg-white px-3 border border-black py-3 rounded mx-1" >Countries
                                 {sortCountryOption ? (
                                     <SortAsc size={20} strokeWidth={1} />
                                 ) : (
