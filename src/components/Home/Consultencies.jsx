@@ -73,7 +73,7 @@ const Consultencies = () => {
               <h5 className="my-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 {consultent.consultancy_name}
               </h5>
-              <p className="my-2 group/items font-normal text-gray-700 dark:text-gray-400">
+              <p className="my-2 group/items font-normal text-gray-700 dark:text-gray-400 line-clamp-2">
                 {consultent.description||'Not Updated'}
               </p>
               <button
