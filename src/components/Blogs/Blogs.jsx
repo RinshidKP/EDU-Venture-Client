@@ -31,12 +31,8 @@ const Blogs = () => {
   },[])
 
   const handleCreateClick = () => {
+    courses ? () => navigate('/new_blog') : showErrorToast('You are not allowed')
     {console.log(courses);}
-    if(courses){
-      () => navigate('/new_blog')
-    }else{
-      showErrorToast('You are not allowed')
-    }
   }
   return (
     <div className="w-full flex flex-col justify-center items-center ">
