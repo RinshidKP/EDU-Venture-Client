@@ -131,7 +131,7 @@ const ListAllCourses = () => {
                     <div className="w-full flex md:w-auto">
                         <div className="flex my-3" >
                             <button onClick={() => setSortCountryOptionOption((sortCountryOption) => !sortCountryOption)}
-                                className="flex px-2 border rounded mx-1" >Countries
+                                className="flex bg-white border border-black px-2 rounded mx-1" >Countries
                                 {sortCountryOption ? (
                                     <SortAsc size={20} strokeWidth={1} />
                                 ) : (
@@ -139,7 +139,7 @@ const ListAllCourses = () => {
                                 )}
                             </button>
                         </div>
-                        <div className="flex my-3" >
+                        {/* <div className="flex my-3" >
                             <button onClick={() => setSortDateOptionOption((sortDateOption) => !sortDateOption)}
                                 className="flex px-2 border rounded mx-1" >Date
                                 {sortDateOption ? (
@@ -148,7 +148,7 @@ const ListAllCourses = () => {
                                     <SortDesc size={20} strokeWidth={1} />
                                 )}
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
