@@ -55,6 +55,7 @@ const Blogs = () => {
         {/* Create Blog Button */}
         <button
           onClick={() => navigate('/new_blog')}
+          disabled={courses.length === 0}
           className="px-3 py-3 text-gray-300 bg-teal-800 hover:bg-teal-500 hover:text-white transition-transform hover:scale-110 rounded-lg m-5"
         >
           Create A Blog
