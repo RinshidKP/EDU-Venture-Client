@@ -129,9 +129,9 @@ const ListAllCourses = () => {
                         <Filter size={20} strokeWidth={1} />
                     </div>
                     <div className="w-full flex md:w-auto">
-                        <div className="flex my-3" >
+                        <div className="flex my-2" >
                             <button onClick={() => setSortCountryOptionOption((sortCountryOption) => !sortCountryOption)}
-                                className="flex bg-white px-3 border border-black py-3 rounded mx-1" >Countries
+                                className="select-none border cursor-pointer bg-white px-3 mx-2 flex justify-evenly rounded items-center text-center border-black w-auto" >Countries
                                 {sortCountryOption ? (
                                     <SortAsc size={20} strokeWidth={1} />
                                 ) : (
