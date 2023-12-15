@@ -116,7 +116,7 @@ const EditCourses = () => {
                   {imagePreview ? (
                     <img className="rounded-lg shadow-lg max-h-48 md:max-h-96" src={imagePreview} alt="Course" />
                   ) : (
-                    <img className="rounded-lg shadow-lg max-h-48 md:max-h-96" src={(opened.course_image.url || 'defaultImage')} alt="Course" />
+                    <img className="rounded-lg shadow-lg max-h-48 md:max-h-96" src={(opened?.course_image?.url || 'defaultImage')} alt="Course" />
                   )}
                 </div>
                 <div className="w-1/2  md:w-auto">
