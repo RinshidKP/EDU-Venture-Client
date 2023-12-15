@@ -28,7 +28,7 @@ function AdminNavBar() {
           Consultencies
         </a>
         <a onClick={() => navigate('/dashboard_transactions')} className={`w-full sm:w-auto ${pathname === '/dashboard_transactions' ? highlight : normal}`}>
-          Courses
+          Transactions
         </a>
         <a onClick={() => navigate('/dashboard_countries')} className={`w-full sm:w-auto ${pathname === '/dashboard_countries' ? highlight : normal}`}>
             Countries

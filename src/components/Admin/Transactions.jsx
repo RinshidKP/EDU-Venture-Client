@@ -12,7 +12,7 @@ const Transactions = () => {
         }).catch((error)=>{
             console.log(error)
         })
-    })
+    },[])
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
         const options = { day: '2-digit', month: '2-digit', year: '2-digit', timeZone: 'Asia/Kolkata' };
@@ -25,15 +25,19 @@ const Transactions = () => {
         <thead>
           <tr className="text-sm leading-normal">
             <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Name</th>
+            <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Course</th>
             <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Date</th>
+            <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Transaction Id</th>
             <th className="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light text-right">Amount</th>
           </tr>
         </thead>
         <tbody>
           {transactions && transactions.map((transaction, index) => (
             <tr key={index} className="hover:bg-grey-lighter">
+              <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.payer.full_name}</td>
               <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.course.header}</td>
               <td className="py-2 px-4 border-b border-grey-light text-center">{formatDate(transaction?.transactionDate)}</td>
+              <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.transactionId}</td>
               <td className="py-2 px-4 border-b border-grey-light text-center">{transaction?.course.fee}</td>
             </tr>
           ))}
