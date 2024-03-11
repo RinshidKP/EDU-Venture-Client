@@ -47,6 +47,9 @@ const Login = () => {
       } else {
         navigate('/')
       }
+      if(response.data.role=='consultant'){
+        navigate('/consultent')
+      }
     }).catch((error) => {
       console.log(error.message, error)
       showErrorToast(error.response?.data?.message)
