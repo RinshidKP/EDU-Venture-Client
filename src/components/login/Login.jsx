@@ -48,6 +48,7 @@ const Login = () => {
         navigate('/')
       }
       if(response.data.role=='consultant'){
+        console.log('through here this is not right')
         navigate('/consultent')
       }
     }).catch((error) => {
@@ -79,6 +80,7 @@ const Login = () => {
           })
         )
       }
+      console.log('ok right path wrong route')
       navigate('/consultent')
     }).catch((error) => {
       console.log('not now', error)
